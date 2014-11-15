@@ -11,7 +11,7 @@
 if [ ! -e a.data ]
 then
         echo -n "creating master data file..."
-        cat seed.txt > a.data
+        cat sample.txt > a.data
         rm -f a1.data
         for i in {1..24}
         do

@@ -51,10 +51,10 @@ For ease of use, let's start spark-shell from spark-labs directory
   $    ~/spark/bin/spark-shell
 you should see the familiar   scala>  prompt
 
-Use test file :  data/twinkle/seed.txt
+Use test file :  data/twinkle/sample.txt
 
   scala>
-        val f = sc.textFile("data/twinkle/seed.txt")
+        val f = sc.textFile("data/twinkle/sample.txt")
 
 Q : what is the 'type' of f ?
 

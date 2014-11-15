@@ -1,5 +1,10 @@
+# java
 *.class
+
+# data
 *.log
+*.data
+out
 
 # sbt specific
 .cache/

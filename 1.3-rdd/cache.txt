@@ -67,7 +67,7 @@ What are the implications?
 ----
 Try to cache 1G.data file and do count()
 Is caching successful ?
-
+If not, try starting Spark shell with more memory
 
 
 Group discussion :
