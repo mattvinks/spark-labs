@@ -26,3 +26,5 @@ watch the output
 
 Need to extract 'domain' field
 Hint : lines.split(",")(???)  // what is the position of domain?
+
+

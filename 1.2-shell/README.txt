@@ -21,7 +21,7 @@ In browser go to :   http://your_machine_address:4040
 == STEP 2) Exploring Spark shell UI
 -------
 In a browser go to to :  http://your_spark_host:4040
-Explore stage, storge, environment and executor tabs
+Explore stage, storage, environment and executor tabs
 
 
 -------
