@@ -1,6 +1,8 @@
 spark-labs
 ==========
 
+our spark labs are in : https://github.com/elephantscale/spark-labs
+
 * Documentation : http://spark.apache.org/docs/latest/
 * Quickstart : http://spark.apache.org/docs/latest/quick-start.html
 * Programming guide : http://spark.apache.org/docs/latest/programming-guide.html
