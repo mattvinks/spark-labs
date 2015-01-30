@@ -22,15 +22,24 @@ Starting server:
   $  ~/spark/sbin/start-all.sh
 
 Starting Shell (with 4G memory)
+
+scala:
   $  ~/spark/bin/spark-shell  --master <spark master uri>  --executor-memory 4G
+
+python:
+  $   TODO
 
 
 -----
 == STEP 3) load RDD
 -----
 Load a big file (e.g 500M.data)
-  shell>
-    val f = sc.textFile("data/twinkle/500M.data")
+
+Scala
+    >  val f = sc.textFile("data/twinkle/500M.data")
+
+Python
+    > TODO
 
 count the number of lines in this file
 Hint : count()
@@ -44,7 +53,12 @@ Q : Can you explain the behavior of count() execution time ?
 == STEP 4)  Cache
 -----
 cache the file using  'cache()' action.
+
+Scala:
   >    f.cache()
+
+Python:
+  >    TODO
 
 run the count() again.
 Notice the time.   Can you explain this behavior ?  :-)
