@@ -1,25 +1,16 @@
-Spark Shell - Running Spark shell
-----
-
-Java / Scala users follow : Scala section
-Python users follow : Python section
-
+Spark Shell - Python
+-----------
 
 -------
-== STEP 1)  launch  shell
+== STEP 1) Launch the python shell
 -------
-
-*** Scala:
-  $   cd ~/spark
-  $   ./bin/spark-shell
-
-*** Python
   $   cd ~/spark
   $    ./bin/pyspark
 
-
 This will run the Spark shell application.  Watch the console output.
-Once running, you will be presented with a prompt
+Once running, you will be presented with >>> prompt.
+
+This is a python shell (you can try entering 2*3 :-)
 
 Spark shell UI is available on port 4040.
 In browser go to :   http://your_machine_address:4040
@@ -40,15 +31,15 @@ Within Spark  shell,  variable 'sc' is the SparkContext
 Type 'sc' and see what happens
   > sc
 
-Also type 'sc.'  and double-TAB
-This will show all the available methods on sc variable.
-(This only works on Scala shell for now)
+output will be similar to
+  <pyspark.context.SparkContext object at 0x7ff227cbbf50>
+
 
 Q : Print the name of application name
-        sc.appName
+      sc.appName
 
 Q : Find the 'Spark master' for the shell
-        sc.master
+      sc.master
 
 Quit Spark-shell using 'exit'  or pressing  Control+D
 
@@ -59,23 +50,19 @@ Quit Spark-shell using 'exit'  or pressing  Control+D
 We have data files under 'spark-labs/data'
 For ease of use, let's start spark-shell from spark-labs directory
 
-*** Scala:
-  $    cd  ~/spark-labs
-  $    ~/spark/bin/spark-shell
-
-*** Python
   $    cd  ~/spark-labs
   $    ~/spark/bin/pyspark
+you should see the familiar   >>>  prompt
 
 Use test file :  data/twinkle/sample.txt
 
-*** Scala
+  scala>
         val f = sc.textFile("data/twinkle/sample.txt")
 
-*** Python
-        f = sc.textFile("data/twinkle/sample.txt")
-
 Q : what is the 'type' of f ?
+
+
+===========
 
 
 Q : print the first line / record from RDD
@@ -83,6 +70,9 @@ hint : use 'f.first()' function
 
 Q : print first 3 lines of RDD
 hint : take
+hint : try appending the following at the end of take
+      ...().foreach(println)
+
 
 Q : print all the content from the file
 hint : collect()
@@ -93,12 +83,12 @@ hint : count()
 Q : Inspect the 'Stages' section in Shell UI (in browser)
 Explore what is happening
 
-Quit spark-shell session (Control + D)
-
 
 ----------
 == STEP 5 )  Connecting Shell and  Spark server
 ----------
+
+Quit spark-shell session (Control + D)
 
 If Spark server is not running, start it as
   $   ~/spark/sbin/start-all.sh
@@ -106,12 +96,7 @@ If Spark server is not running, start it as
 Inspect the UI at port 8080 to make sure Spark server is running
 
 Now start spark shell
-
-*** Scala:
   $    ~/spark/bin/spark-shell
-
-*** Python
-  $    ~/spark/bin/pyspark
 
 Once the shell starts, check the _server_ UI on port 8080.
 
@@ -123,8 +108,6 @@ Make a note of Spark server uri (e.g  spark://host_name:7077)
 Quit spark shell (Control+D)
 
 Restart spark shell as follows
-
-*** Scala
     $   ~/spark/bin/spark-shell   --master  spark-server-uri
                                             ^^^^^^^^^^^^^^^^
                                     update this to match your spark server
@@ -132,22 +115,13 @@ e.g.
    $   ~/spark/bin/spark-shell   --master  spark://localhost:7077
 
 
-
-*** Python
-    $   ~/spark/bin/pyspark   --master  spark-server-uri
-                                            ^^^^^^^^^^^^^^^^
-                                    update this to match your spark server
-
-   $   ~/spark/bin/pyspark   --master  spark://localhost:7077
-
 Once the shell started, check both UI
   spark server UI at port 8080
   spark shell UI at  port 4040
 
 Explore both UIs
 
+Redo step (4)  in this new environment
 
--------
-== STEP 6) Redo step(4) in the new shell
--------
+========
 

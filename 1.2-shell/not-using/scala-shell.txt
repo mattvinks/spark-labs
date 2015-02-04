@@ -2,7 +2,7 @@ Spark Shell - scala
 -----------
 
 -------
-== STEP 1)
+== STEP 1)  launch Scala shell
 -------
   $   cd ~/spark
   $   ./bin/spark-shell
@@ -28,7 +28,7 @@ Explore stage, storage, environment and executor tabs
 -------
 Within Spark  shell,  variable 'sc' is the SparkContext
 Type 'sc' and see what happens
-  scala > sc
+  > sc
 
 Also type 'sc.'  and double-TAB
 This will show all the available methods on sc variable
@@ -117,22 +117,4 @@ Explore both UIs
 Redo step (4)  in this new environment
 
 ========
-
---------
-== STEP 5) Searching RDDs
---------
-Let's find how many lines contain the word 'twinkle'
-We will use the 'filter' function
-
-  >  val filtered = f.filter(line => line.contains("twinkle"))
-
-After entering the above in Spark-shell, inspect the 'Stages' section in the UI.  How is the filter executed?
-Can you explain the behavior?
-
-Count how many lines contain the word 'twinkle'
-hint : filtered.count()
-
-Check the Stages in UI,  what do you see?
-
-Q : print out all the lines containing the word 'twinkle'
 
