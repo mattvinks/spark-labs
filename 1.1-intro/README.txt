@@ -8,10 +8,12 @@ Instructor will provide details
 == STEP 2) 'installing' Spark
 There is no 'install'.  Just unzip/untar and run :-)
 (copy paste the following commands on terminal,  do not include $ in your commands)
-TODO check versioning
+
   $   cd
-  $   tar xvf software/spark-1.2.0-bin-hadoop2.4.tgz
-  $   mv spark-1.1.0-bin-hadoop2.4 spark
+  $   rm -rf  spark   # cleanup existing spark installation (if any)
+  $   tar xvf files/spark-1.2.0-bin-hadoop2.4.tgz
+  $   mv spark-1.2.0-bin-hadoop2.4  spark
+
 Now we have spark installed in  ~/spark  directory
 
 
