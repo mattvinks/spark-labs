@@ -1,59 +1,49 @@
 Spark VM
 -----
 
-Ubuntu 14.04 LTS Server
+CentOS
 
 General notes:
-  AMI : spark-v4-ubuntu (AMI : ami-c86d2ea0)
-  login : ubuntu
-  $ ssh     ubuntu@host_ip_address
+  AMI : spark-v1  (ami-dad09db2)
+  login : ec2-user
+  $ ssh     ec2-user@host_ip_address
   password : bingobob123
   or ssh key : hi1.pem
 
 Pointers:
   - software is in /opt
-  - env variables are set : /home/ubuntu/.bashrc
-  - downloaded software in : ~ubuntu/files
-  - source code in ~ubuntu/src
+  - env variables are set : ~/.bashrc
+  - downloaded software in : ~/files
+  - source code in ~/src
 
-Starting AMI : ami-74e27e1c
+Starting AMI : es-clean-centos-vm-v6 (ami-9018abf8)
 
-v2  (ami-86fd91ee)
----
+----
+v1 : (ami-dad09db2)  @ 2015-02-05
+----
 - bring it up to date
-    $  sudo apt-get update
-    $  sudo apt-get upgrade
-    $  sudo reboot
+    $   sudo yum update -y
+    $   sudo reboot
 
-- essentials
-  $  sudo apt-get install -y git
-  $  sudo apt-get install -y s3cmd
-      RUn   s3cmd --configure to configure
+- other
+    $   sudo yum install -y s3cmd
+    $   s3cmd --configure
+
+- $   sudo chown ec2-user /opt
 
 - java
   installed in /opt/java (points to right java)
-  /etc/bash.bashrc
+  ~/.bashrc changes
       export JAVA_HOME=/opt/java
       export PATH=$JAVA_HOME/bin:$PATH
 
 - scala  in /opt/scala
   sbt  in /opt/sbt
-  PATH is set in  /etc/bash.bashrc
 
-- spark in ~ubuntu/spark
-- tachyon in  ~ubuntu/tachyon
+- edit ~/.bashrc
+    export AWS_SECRET_ACCESS_KEY="PFaUQ8rmt5teqZEBXmZW1t+x9yOanN5vH+5N4DSk"
+    export AWS_ACCESS_KEY_ID="AKIAIAKICCOIQVWUXT5A"
 
+    export PATH=$JAVA_HOME/bin:/opt/scala/bin:/opt/sbt/bin:/opt/maven/bin:$PATH
 
------
-V3 : spark-v3-ubuntu :  AMI : ami-f63a559e  (2014-12-22)
-----
-- installed atop
-- scripts to distribute files
-
-
------
-V4 : spark-v4-ubuntu :  AMI : ami-c86d2ea0
-----
-- fixed .bashrc issues so env variables can take effect
-- removed ~/spark dir
-- installed maven
+-
