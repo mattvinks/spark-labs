@@ -1,0 +1,33 @@
+RDD Operations
+========
+In this lab, we are going to do operations on two RDDs
+
+Problem:
+User1 attends meetups  m1, m2 and m3.
+User2 attends meetups  m2, m3, m4  and m5
+
+Q1 : find meetups common to both users
+
+Q2 : Find meetups attened by either user1 or user2
+
+Q3 : Recommending meetups to user.
+user1 and user2 has a couple of meetups in common.  Let's use to this to recommend meetups to both users.
+  meetups recommended for user1 : m4 & m5
+  meetups recommended for user2 : m1
+
+=============
+
+Hints :
+
+- start spark shell
+
+- create data sets using parallelize() method
+  scala :
+    val u1 = sc.parallelize(List("m1", "m2", "m3"))
+
+  python
+    u1 = sc.parallelize(["m1", "m2", "m3"])
+
+
+- use the following operations in RDDs
+    union, intersection,  distinct,  subtract
