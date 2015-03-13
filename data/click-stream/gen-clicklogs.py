@@ -26,10 +26,10 @@ actions = ['viewed', 'clicked', 'blocked']
 
 # overwrite this function to customize log generation
 def generate_log(timestamp):
-  user = random.randint(1,100000)
+  user = "user_%d" % random.randint(1,100000)
   action = random.choice(actions)
   domain = random.choice(domains)
-  campaign = random.randint(1,20)
+  campaign = "campaign_%d" % random.randint(1,20)
   session = "session_%s" % random.randint(1,100)
   #cost is in cents, could be zero
   cost = random.randint(1,200) - 20
