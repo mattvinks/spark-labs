@@ -2,6 +2,7 @@
 *.log
 *.data
 *.tgz
+.DS_Store
 
 
 *.class
