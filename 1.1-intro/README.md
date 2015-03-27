@@ -1,6 +1,14 @@
 Lab 1.1 : Up and Running With Spark
-===============================
+===================================
+### OverView
 We will be running Spark in a single node mode.
+
+### Depends On 
+None
+
+### Run time
+20 mins
+
 
 ## STEP 1: Login to your Spark node
 Instructor will provide details
