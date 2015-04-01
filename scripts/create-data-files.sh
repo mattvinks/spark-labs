@@ -10,6 +10,12 @@
 
 if [ ! -e a.data ]
 then
+        if [ ! -e seed.txt ]
+        then
+            echo "seed.txt not found.. exiting"
+            exit 1
+        fi
+
         cat seed.txt > a.data
         rm -f a1.data
         for i in {1..24}

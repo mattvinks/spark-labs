@@ -1,5 +1,5 @@
-Lab : Spark Shell
-=================
+Lab 2 : Spark Shell
+===================
 
 ### Objective
 Get familiar with Spark shell
@@ -71,7 +71,7 @@ In browser go to :   http://your_machine_address:4040
 (use 'public' ip of machine)
 
 Here is a sample screen shot:
- ![Spark Shell UI](../images/1.2a.png)
+ ![Spark Shell UI](../images/2a.png)
 
 Explore stage, storage, environment and executor tabs
 
@@ -165,10 +165,10 @@ hint : `collect()``
 hint : `count()`
 
 ** Q : Inspect the 'Stages' section in Shell UI (in browser)**  
-![Spark Shell UI](../images/1.2b.png)
+![Spark Shell UI](../images/2b.png)
 
 ** Q : Inspect the 'Execture' section in Shell UI (in browser)**  
-![Spark Shell UI](../images/1.2c.png)
+![Spark Shell UI](../images/2c.png)
 
 Quit spark-shell session `Control + D`
 
@@ -195,7 +195,7 @@ In browser go to :   http://your_machine_address:8080
 (use 'public' ip of machine)
 
 Here is a sample screen shot:
-![Spark Master UI](../images/1.2d.png)
+![Spark Master UI](../images/2d.png)
 
 ### 5.2 Now start spark shell
 
@@ -242,10 +242,10 @@ $   ~/spark/bin/pyspark   --master  spark://localhost:7077
 ** Once the shell started, check both UIs  **
 
 #### spark server UI at port 8080
-![Spark Master UI](../images/1.2e.png)
+![Spark Master UI](../images/2e.png)
 ---
 #### spark shell UI at  port 4040
-![Spark Shell UI](../images/1.2f.png)
+![Spark Shell UI](../images/2f.png)
 
 
 

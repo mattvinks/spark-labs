@@ -1,5 +1,6 @@
-Lab 1.1 : Up and Running With Spark
+Lab 1 : Up and Running With Spark
 ===================================
+
 ### OverView
 We will be running Spark in a single node mode.
 
@@ -59,7 +60,7 @@ bingo!  Now we have spark running.
 ## STEP 4: Exploring Spark UI
 You will see a similar screen shot like this
 
- ![Spark master UI](../images/1.1a.png)
+ ![Spark master UI](../images/1a.png)
 
 To explore:
 * Is Master and Worker running on the same node?

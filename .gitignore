@@ -3,6 +3,7 @@
 *.data
 *.tgz
 .DS_Store
+out*
 
 
 *.class
