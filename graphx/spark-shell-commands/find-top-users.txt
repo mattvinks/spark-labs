@@ -1,0 +1,3 @@
+// Load my user data and parse into tuples of user id and attribute list
+val users = (sc.textFile("graphx/data/users.txt")
+  .map(line => line.split(",")).map( parts => (parts.head.toLong, parts.tail) ))
