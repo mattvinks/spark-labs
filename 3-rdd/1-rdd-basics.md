@@ -1,47 +1,95 @@
-RDD Operations
-========
-In this lab, we are going to do RDD operations on 'large enough' RDDs
+Lab 1.3.1 : RDD Basics operations
+==================================
+### OverView
+* Learning basic operations like filter / map / count
+* Also we will work with larger sized RDDs
 
---------
-== STEP 1) Basic RDD Operations
---------
-*** Scala:
-  $   cd ~/spark
-  $   ./bin/spark-shell
+### Depends On 
+None
 
-*** Python
-  $   cd ~/spark
-  $    ./bin/pyspark
+### Run time
+20 mins
 
-Load a small file:
 
-*** Scala:
-        val f = sc.textFile("data/twinkle/sample.txt")
+----------------------------
+STEP 1: Basic RDD Operations
+----------------------------
+Change working directory to `spark-labs`.  This way, we can access data using relative paths (makes life simpler)
+```
+$  cd ~/spark-labs
+```
 
-*** Python
-        f = sc.textFile("data/twinkle/sample.txt")
+## 1.1: Fire up Spark shell
 
-Q : what is the 'type' of f ?
+#### == Scala:
+```
+$   ~/spark/bin/spark-shell
+```
 
+#### == Python
+```
+$    ~/spark/bin/pyspark
+```
+
+## 1.2: Load a small file:
+
+#### == Scala:
+```scala
+val f = sc.textFile("data/twinkle/sample.txt")
+```
+
+#### == Python
+```python
+f = sc.textFile("data/twinkle/sample.txt")
+```
+
+** Q : what is the 'type' of f ? **  
+Hint : just type `f` in the shell  
+Here is a possible output
+```
+scala> f
+res0: org.apache.spark.rdd.RDD[String] = data/twinkle/sample.txt MappedRDD[3] at textFile at <console>:12
+```
+
+## 1.3: Filter
 Let's find how many lines contain the word 'twinkle'
 We will use the 'filter' function
 
-*** Scala:
-  >  val filtered = f.filter(line => line.contains("twinkle"))
+#### == Scala:
+```scala
+val filtered = f.filter(line => line.contains("twinkle"))
+```
 
-*** Python
-  >  filtered = f.filter(lambda line: "twinkle" in line)
+#### == Python
+```python
+filtered = f.filter(lambda line: "twinkle" in line)
+```
 
-After entering the above in Spark-shell, inspect the 'Stages' section in the UI.  How is the filter executed?
-Can you explain the behavior?
+After entering the above in Spark-shell, 
+* Goto Spark shell UI (port number 4040)
+* inspect the 'Stages' section in the UI.  
+* How is the filter executed? Can you explain the behavior?
 
-Count how many lines contain the word 'twinkle'
-hint : count()
+** Count how many lines contain the word 'twinkle' **  
+hint : apply `count()` to `filtered` variable
 
-Check the Stages in UI,  what do you see?
+Here is a sample output
+```
+15/03/31 23:19:30 INFO DAGScheduler: Stage 0 (count at <console>:17) finished in 0.074 s
+15/03/31 23:19:30 INFO DAGScheduler: Job 0 finished: count at <console>:17, took 0.141676 s
+res1: Long = 2  <--- this is the result of count()
+```
 
-Q : print out all the lines containing the word 'twinkle'
-hint : collect()
+** Check the Stages in UI,  what do you see? **  
+** How long did the job take? **
+
+** Print out all the lines containing the word 'twinkle' **  
+hint : `collect()`
+
+Here is a sample output
+```
+res2: Array[String] = Array(twinkle twinkle little star, twinkle twinkle little star)
+```
 
 Quit Spark-shell using 'exit'  or pressing  Control+D
 
