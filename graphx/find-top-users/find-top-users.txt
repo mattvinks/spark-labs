@@ -1,3 +1,4 @@
 // Load my user data and parse into tuples of user id and attribute list
-val users = (sc.textFile("graphx/data/users.txt")
+val lab_home = "/home/mark/projects/ES/spark-labs/"
+val users = (sc.textFile("file:///" + lab_home + "graphx/data/users.txt")
   .map(line => line.split(",")).map( parts => (parts.head.toLong, parts.tail) ))
