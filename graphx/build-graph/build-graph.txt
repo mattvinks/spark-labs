@@ -1,3 +1,7 @@
+// this can be copied and pasted into Spark Scala shell
+
+// It also contains answers; it is advised to work through the lab on your own, and consult the answers afterwards
+
 import org.apache.spark.graphx._
 import org.apache.spark.rdd.RDD
 
