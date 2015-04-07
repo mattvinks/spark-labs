@@ -1,7 +1,7 @@
 ## Lab n.n : GraphX
 
 ### OverView
-We will be running solutions for graphs using GraphX 
+We will be constructing graphs and doing basic operations on them 
 
 ### Depends On 
 None
@@ -47,7 +47,7 @@ All of the following steps are performed by entering the commands in the Spark S
        Edge(5L, 6L, 3)
      )
  
-#### Prepare the data for Spark processing. What does ".parallelize" methos accomplish?
+#### Prepare the data for Spark processing. What do ".parallelize" methods below accomplish?
  
      val vertexRDD: RDD[(Long, (String, Int))] = sc.parallelize(vertexArray)
      val edgeRDD: RDD[Edge[Int]] = sc.parallelize(???)
@@ -60,7 +60,7 @@ All of the following steps are performed by entering the commands in the Spark S
 
     graph.vertices.filter { case (id, (name, age)) => age > 30 }
 
-#### Prepare the results for further processing
+#### Prepare the results for further processing. What does '.collect' method do? When can you use it, and when you cannot?
  
     graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.
       
