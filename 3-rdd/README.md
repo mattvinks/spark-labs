@@ -15,3 +15,5 @@ See each lab
 1. [Basic RDD Operations + Work with 'large' RDD](1-rdd-basics.md)
 2. [Operations on Multiple RDDs : Joins / Unions ](2-rdd-multi.md)
 3. [Key Value Pair RDDs](3-rdd-kv.md)
+4. [Caching RDDs](4-cache.md)
+

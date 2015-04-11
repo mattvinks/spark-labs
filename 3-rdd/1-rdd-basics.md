@@ -44,7 +44,7 @@ Change working directory to `spark-labs`.  This way, we can access data using re
 
 #### == Python
 ```python
-  f = sc.textFile("data/twinkle/sample.txt")
+f = sc.textFile("data/twinkle/sample.txt")
 ```
 
 ** Q : what is the 'type' of f ? **  
