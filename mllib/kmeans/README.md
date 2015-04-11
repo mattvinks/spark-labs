@@ -4,11 +4,14 @@ KMeans Lab
 In this lab we discuss how to use kmeans clustering in Spark.
 
 run this with:
+(You'll need to either have spark-shell in your path or give the 
+ FQ path for it).
 
+$ cd scala
 $ spark-shell -i kmeans_mtcars.scala
 
 Check out the final results of the groupedClusters.  Does the clustering make sense?  Perhaps
-we have too few clusters.
+we have too few clusters?
 
 Step 2
 ======
@@ -17,8 +20,9 @@ Keep trying new values of k until the results seem to make some sense.
 
 Step 3
 ======
-Perform a plot of WSSSE versus K.  Use the "elbow" method to pick what seems to be a
-good value of k.  Does that match your intuitive sense of what is the best?
+Perform a plot of WSSSE versus K.  (Use excel or whatever application you prefer). Use the 
+"elbow" method to pick what seems to be a good value of k.  Does that match your intuitive 
+sense of what is the best?
 
 Step 4
 ======
