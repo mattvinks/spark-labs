@@ -1,4 +1,5 @@
 A Dating Site Recommendations
+=============================
 
 This lab explores a well known dataset from the Czech dating website libimseti.cz.  We'll
 just call it the "dating" dataset. :)
@@ -19,6 +20,7 @@ users have no data.
 The example here will take the dating site.
 
 Running the data
+================
 
 spark-shell -i dating.scala
 
