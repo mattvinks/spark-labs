@@ -12,6 +12,7 @@ val parsedData = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble
 val NamesandData = data.map(s => (s.split(',')(0), Vectors.dense(s.split(',').drop(1).map(_.toDouble)))).cache()
 
 // Cluster the data into two classes using KMeans
+// TODO: Pick different values of K / numclusters
 val numClusters = 2 // Value of K in Kmeans
 val clusters = KMeans.train(parsedData, numClusters, 20)
 
