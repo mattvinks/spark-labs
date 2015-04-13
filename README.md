@@ -17,3 +17,6 @@ We use markdown and the following tools:
 * cheatcheet 2 : https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 * Use [Mark down preview plus](https://chrome.google.com/webstore/detail/markdown-preview-plus/) extension for Google Chrome to render the page as you are editing.  Works really well ! 
 Enable 'Allow File URLs'  and enable 'Live Reload' options  (Chrome menu 'Window --> Extensions  --> Mark down plus')
+* how do add a single line break (not a paragraph)?  
+  like this, end a line with two spaces like above :-)
+
