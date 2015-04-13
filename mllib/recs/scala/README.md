@@ -19,10 +19,19 @@ users have no data.
 
 The example here will take the dating site.
 
+Complete the TODO items
+======================
+
+There are two TODO items you should complete in the scala code before attempting to run the 
+code.
+
 Running the data
 ================
 
 spark-shell -i dating.scala
+
+Once you run this, the recommendations for all users will be put in an array
+called recsForEachUser()
 
 you can find recommendations for a particular user by typing the following:
 

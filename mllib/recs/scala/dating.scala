@@ -14,15 +14,18 @@ val ratings = data.map(_.split(',') match { case Array(user, item, rating) =>
 
 val model = ALS.train(ratings, rank = 10, iterations = 5, 0.01)
 
-// Get rid of data to test model's effectiveness
-val usersItems = ratings.map { case Rating(user, item, rating) =>
-  (user, item)
-}
+// Get rid of rating to test model's effectiveness
+// TODO: TRANSFORM Rating -> Tuple of (user, item)
+// (i.e., get rid of the rating.
+
+val usersItems = ???? // TODO complete this item
+
 // Do a test prediction
-val recs = 
-  model.predict(usersItems).map { case Rating(user, item, rating) => 
-    ((user, item), rating)
-  }
+// TODO call model.predict() on userItems, and then map the output of that 
+to (user, item), rating
+
+val recs = ??? // TODO:  COMPLETE THIS
+
 val ratingsAndRecs = ratings.map { case Rating(user, item, rating) => 
   ((user, item), rating)
 }.join(recs)
