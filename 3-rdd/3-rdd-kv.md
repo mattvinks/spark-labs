@@ -65,7 +65,7 @@ val meetups = sc.textFile("data/meetup/meetup.csv")
 meetups = sc.textFile("data/twinkle/meetup.csv")
 ```
 
-** TODO: print the content of variable `meetups`  **  
+**Print the content of variable `meetups`**  
 Hint : `collect`
 
 `meetups` is an RDD of ` Array[String]`
