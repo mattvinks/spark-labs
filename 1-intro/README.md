@@ -1,7 +1,7 @@
 Lab 1 : Up and Running With Spark
 ===================================
 
-### OverView
+### Overview
 We will be running Spark in a single node mode.
 
 ### Depends On 

@@ -82,29 +82,29 @@ val userMeetupsKV = meetups.map(line => {
                     })
 ```
 
-** TODO : print the contents of `userMeetups` **
+**Print the contents of `userMeetups`**
 
-** TODO: What is resulting RDD type from this? **
+**What is resulting RDD type from this?**
 ```scala
 val x = meetups.map(line => line.split(","))
 ```
 
 ## Step 4 : RDD Operations
 
-** TODO: find all meetups per user **  
+**Find all meetups per user**  
 Hint : `groupByKey`
 
-** TODO: find meetups for user 'u1' **  
+**Find meetups for user 'u1'**  
 Hint : `filter`  
 `rdd.filter{case (k,v) => k == "u1"}`
 
-** TODO: Find number of meetups per user **  
+**Find number of meetups per user**  
 Hint : `countByKey`
 
-** TODO: Find all unique meetups in the dataset **  
+**Find all unique meetups in the dataset**  
 Hint : `values` and `distinct`
 
-** TODO:  Sort the output of above **  
+**Sort the output of above**  
 Hint : `sorted`
 
 
@@ -130,12 +130,12 @@ val meetupUsersKV = meetups.map(line => {
 val meetupUsersKV = userMeetupsKV.map{case(k,v) => (v,k)}
 ```
 
-** TODO: Find all users for each meetup **
+**Find all users for each meetup**
 
-** TODO: Find number of users for each meetup **
+**Find number of users for each meetup**
 
-** TODO: Sort the meetup by most popular to least **  
-Hint : `sort` TODO2
+**Sort the meetup by most popular to least**  
+Hint : `sort` 
 
 ----------------
 Join Operations
@@ -158,7 +158,7 @@ u10,M,Java
 ```
 
 
-** TODO: Load the user data set**  
+**Load the user data set**  
 ```scala
 // ===== Scala =====
 val users = sc.textFile("data/meetup/users.csv")
@@ -184,7 +184,7 @@ joinedUsersMeetups.collect
 // ...
 ```
 
-** TODO : Inspect the RDD type for `joinedUsersMeetups`**
+**Inspect the RDD type for `joinedUsersMeetups`**
 
 
 ## Step 8 : Meetups and Gender
@@ -198,7 +198,7 @@ val genderMeetups = joinedUsersMeetups.map{
 genderMeetups.collect
 ```
 
-** TODO : Calculate how many Male / Females attend meetups (overall distribution) ** 
+**Calculate how many Male / Females attend meetups (overall distribution)** 
 
 ## Bonus Lab 
 Create an RDD with meetup as key and gender as value.  

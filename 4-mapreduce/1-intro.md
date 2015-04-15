@@ -1,0 +1,102 @@
+<< [back to main index](../README.md) / [MapReduce labs](./README.md)
+
+Lab 4.1: Map Reduce
+===================
+### Overview
+Learn MapReduce in Spark step by step
+
+### Depends On 
+None
+
+### Run time
+20 mins
+
+
+--------------------------
+STEP 1: Launch Spark Shell
+--------------------------
+``` 
+$   ~/spark/bin/spark-shell
+```
+
+**Make an RDD**
+```scala
+// scala
+val input = Array ("hello world", "good bye world", "ok bye")
+val r = sc.makeRDD(input)
+```
+
+
+------------
+STEP 2 : Map
+------------
+**Apply `map()` function to rdd**  
+Hint :  
+```scala
+// scala
+val r2 = r.map(line => line.split(" "))
+```
+
+**Print out the results by `collect()`**  
+**Notice the resulting RDD type**
+
+---------------
+STEP 3: flatMap
+---------------
+**Use flatmap to create another rdd**
+
+```scala
+// scala
+val r3 = r.flatMap( line => line.split(" "))
+```
+
+**print out the results, can you explain the data type**
+
+
+----------------------
+STEP 4: Create KV pair
+----------------------
+**create a key-value pair by using `flatmap` and `map`**  
+```scala
+// scala
+val r4 = r.flatmap(line => line.split(" ")).map(word => (word, 1))
+```
+
+
+-------------------
+STEP 5: reduceByKey
+-------------------
+**Add up the words and counts** 
+```scala
+// scala
+val r5 = r4.reduceByKey((a,b) => a+b)
+```
+
+
+------------------------
+STEP 6:  Generating data
+------------------------
+If you haven't done so yet,  generate some 'twinkle' data
+```
+$   cd  ~/spark-labs/data/twinkle
+$   ./create-data-files.sh
+```
+
+This script will generate a bunch of data files at various sizes (1M, 10M, 100M, 500M and 1G)
+Verify the data files and their sizes by doing a
+```
+$   ls -lh
+```
+We are going to use these files in spark
+
+
+------------------------
+STEP 7:  Do wordcount on larger file
+------------------------
+Load one of the larger files (100M + )
+```scala
+// scala
+val f = sc.textFile("file path")
+// do the wordcount
+```
+

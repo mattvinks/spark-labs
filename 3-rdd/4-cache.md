@@ -72,43 +72,43 @@ val f = sc.textFile("data/twinkle/500M.data")
 f = sc.textFile("data/twinkle/500M.data")
 ```
 
-** count the number of lines in this file**  
+**count the number of lines in this file**  
 Hint : `count()`  
 
-** Notice the time took**  
-** Do the same count() operation a few times until the execution time 'stablizes' **  
-** Can you explain the behavior of count() execution time ?**
+**Notice the time took**  
+**Do the same count() operation a few times until the execution time 'stablizes'**  
+**Can you explain the behavior of count() execution time ?**
 
 
 --------------
 STEP 4:  Cache
 --------------
-** cache the file using  `cache()` action. **
+**cache the file using  `cache()` action.**
 ```
 f.cache()
 ```
 
-** Run the `count()` again. Notice the time.   Can you explain this behavior ?  :-) ** 
+**Run the `count()` again. Notice the time.   Can you explain this behavior ?  :-)** 
 
-** Run count() a few more times and note the execution times. **  
-** Do the timings make sense? ** 
+**Run count() a few more times and note the execution times.**  
+**Do the timings make sense?** 
 
 
 ------------------------------------
 STEP 5:  Understanding Cache storage
 ------------------------------------
 Go to spark shell UI @ port 4040  
-** Inspect 'storage' tab **  
+**Inspect 'storage' tab**  
 
 ![caching](../images/3.4.png)
 
-** Can you see the cached RDD?  What is the memory size?  
-What are the implications?** 
+**Can you see the cached RDD?  What is the memory size?**  
+**What are the implications?** 
 
 ----------------------------
 STEP 5:  Cache a larger file
 ----------------------------
-**  Try to cache 1G.data file and do count() **  
+**Try to cache 1G.data file and do count()**  
 Is caching successful ?
 If not, try starting Spark shell with more memory
 
@@ -120,8 +120,7 @@ There are various levels of memory caching.  Here are a couple:
 * Raw caching (`rdd.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY)`)
 * Serialized Caching (`rdd.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY_SER)`)
 
-** Try both options `f.persist(....)`   
-Monitor memory consumption in storage tab **
+**Try both options `f.persist(....)` .  Monitor memory consumption in storage tab**
 
 
 -----------------
