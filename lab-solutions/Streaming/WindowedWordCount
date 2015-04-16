@@ -1,0 +1,19 @@
+//Lab 2 - WindowedWordCount - Word count over 50 seconds of data and repeat every 10 second 
+
+import org.apache.spark.streaming.{Seconds, StreamingContext} 
+import org.apache.spark.streaming.StreamingContext._
+import org.apache.spark.storage.StorageLevel
+
+object NetworkWordCount {
+def main(args: Array[String]) {
+val ssc = new StreamingContext("local[2]", "WindowedWordCount", Seconds(1)) 
+val lines = ssc.socketTextStream("127.0.0.1", 9999)
+val words = lines.flatMap(_.split(" "))
+val pairs = words.map(word => (word, 1))
+//word count over 50 seconds of data and repeat in 10 second intervals 
+
+val windowedWordCounts = pairs.window(Seconds(50), Seconds(10)).reduceByKey(_ + _) windowedWordCounts.print()
+ssc.start()
+ssc.awaitTermination()
+} 
+}
