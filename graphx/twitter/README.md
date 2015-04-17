@@ -75,6 +75,11 @@ val edgeArray = Array(
 #### Count those followers who do enough re-tweeets for me
 
     graph.edges.filter { case (edge) => edge.attr > 5 }.count
+    
+#### Count my male and female followers
+    
+    graph.vertices.filter { case (id, (name, nFollow, gender)) => gender == "M" }.count
+    graph.vertices.filter { case (id, (name, nFollow, gender)) => gender == "F" }.count
 
 ## Bonus: Fix broken links 
 

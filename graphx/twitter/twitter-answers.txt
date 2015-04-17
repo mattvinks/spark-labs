@@ -29,9 +29,9 @@ graph.edges.collect.foreach { case (edge) => println(s"$edge") }
 graph.vertices.filter { case (id, (name, followers, gender)) => gender != "M" }.collect.
     foreach { case (id, (name, followers, gender)) => println(s"$name should be a female with $followers followers") }
 
-graph.edges.collect.foreach { edge => println("Shalom " + edge.attr) }
-
 graph.edges.filter { case (edge) => edge.attr > 5 }.count
 
 graph.vertices.filter { case (id, (name, nFollow, gender)) => nFollow > 1000 }.count
+
+graph.vertices.filter { case (id, (name, nFollow, gender)) => gender == "M" }.count
 
