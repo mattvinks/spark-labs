@@ -1,0 +1,37 @@
+import org.apache.spark.graphx._
+import org.apache.spark.rdd.RDD
+
+val vertexArray = Array(
+    (1L, ("@markkerzner", 309, "M")),
+    (2L, ("@mjbrender", 3101, "M")),
+    (3L, ("@dridisahar1", 27, "F")),
+    (4L, ("@dez_blanchfield ", 38600, "M")),
+    (5L, ("@ch_doig ", 519, "F")),
+    (6L, ("@Sunitha_Packt", 332, "F")),
+    (7L, ("@WibiData", 2477, "M"))
+)
+val edgeArray = Array(
+    Edge(1L, 2L, 7),
+    Edge(1L, 3L, 2),
+    Edge(1L, 4L, 4),
+    Edge(1L, 5L, 3),
+    Edge(1L, 6L, 1),
+    Edge(1L, 7L, 2)
+)
+val vertexRDD: RDD[(Long, (String, Int, String))] = sc.parallelize(vertexArray)
+val edgeRDD: RDD[Edge[Int]] = sc.parallelize(edgeArray)
+val graph: Graph[(String, Int, String), Int] = Graph(vertexRDD, edgeRDD)
+
+graph.vertices.collect.foreach { case (id, (name, nFollow, gender)) => println(s"Tweeter $name has $nFollow followers and is $gender") }
+
+graph.edges.collect.foreach { case (edge) => println(s"$edge") }
+
+graph.vertices.filter { case (id, (name, followers, gender)) => gender != "M" }.collect.
+    foreach { case (id, (name, followers, gender)) => println(s"$name should be a female with $followers followers") }
+
+graph.edges.filter { case (edge) => edge.attr > 5 }.count
+
+graph.vertices.filter { case (id, (name, nFollow, gender)) => nFollow > 1000 }.count
+
+graph.vertices.filter { case (id, (name, nFollow, gender)) => gender == "M" }.count
+
