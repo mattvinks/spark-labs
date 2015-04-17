@@ -18,6 +18,8 @@ e.g:
     spark-submit --class x.ProcessFiles  --master spark://localhost:7077 --executor-memory 4g   --driver-class-path logging/   target/scala-2.10/testapp_2.10-1.0.jar   s3n:///elephantscale-public/data/twinkle/1G.data
 
 */
+
+
 object ProcessFiles {
   def main(args: Array[String]) {
     if (args.length < 1) {

@@ -34,3 +34,4 @@ graph.edges.collect.foreach { edge => println("Shalom " + edge.attr) }
 graph.edges.filter { case (edge) => edge.attr > 5 }.count
 
 graph.vertices.filter { case (id, (name, nFollow, gender)) => nFollow > 1000 }.count
+

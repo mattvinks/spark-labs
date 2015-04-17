@@ -75,4 +75,8 @@ val edgeArray = Array(
 #### Count those followers who do enough re-tweeets for me
 
     graph.edges.filter { case (edge) => edge.attr > 5 }.count
-    
+
+## Bonus: Fix broken links 
+
+#### Use the filtered graph and remove the broken links - those for which the vertices were filtered out
+
