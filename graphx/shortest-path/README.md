@@ -77,7 +77,7 @@ Pregel takes a generic approach of computing all shortest distances
 
 You will be copying and pasting this file into Spark Scala shell
 
-### Set the goal vertix in such a way that the code will through  an error. Explain why this happens
+### Set the goal vertex in such a way that the code will through  an error. Explain why this happens
 
 ### Run the code on a larger graph of your choice
 
