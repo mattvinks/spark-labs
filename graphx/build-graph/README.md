@@ -77,3 +77,7 @@ Note that in the last step you can enter one line at a time, so that the shell o
 ## Construct a graph by reading it from a file
 
 * TODO
+
+## Use the filtered graph and remove the broken links - those for which the vertices were filtered out
+
+* TODO

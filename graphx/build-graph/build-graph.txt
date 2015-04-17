@@ -29,5 +29,10 @@ graph.edges.collect.foreach { case (edge) => println(s"$edge") }
 graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.
     foreach { case (id, (name, age)) => println(s"$name is $age") }
 
-val filteredGraph = graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect
-filteredGraph.foreach { case (id, (name, age)) => println(s"$name is $age") }
+val filteredVertices = graph.vertices.filter { case (id, (name, age)) => age > 30 }
+
+filteredVertices.collect.foreach { case (id, (name, age)) => println(s"$name is $age") }
+
+val filteredGraph: Graph[(String, Int), Int] = Graph(filteredVertices, edgeRDD)
+
+filteredGraph.edges.collect.foreach { case (edge) => println(s"$edge") }
