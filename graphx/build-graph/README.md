@@ -73,3 +73,7 @@ Note that in the last step you can enter one line at a time, so that the shell o
 
     scala> graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.
      | foreach { case (id, (name, age)) => println(s"$name is $age") }
+
+## Construct a graph by reading it from a file
+
+* TODO
