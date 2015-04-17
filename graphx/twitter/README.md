@@ -85,5 +85,5 @@ On this step, these are all my followers, so they connect to me
 
 ## Bonus: Fix broken links 
 
-#### Use the filtered graph and remove the broken links - those for which the vertices were filtered out
+Use the filtered graph and remove the broken links - those for which the vertices were filtered out
 
