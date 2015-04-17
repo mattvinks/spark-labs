@@ -22,30 +22,32 @@ All of the following steps are performed by entering the commands in the Spark S
      import org.apache.spark.graphx._
      import org.apache.spark.rdd.RDD
  
-#### Construct the array of vertices. Can you explain the structure of the elements in this array?
+#### Construct the array of vertices
  
+ Data structure: twitter handle, number of followers, gender of the tweeter
+
      val vertexArray = Array(
-      (1L, ("Alice", 28)),
-      (2L, ("Bob", 27)),
-      (3L, ("Charlie", 65)),
-      (4L, ("David", 42)),
-      (5L, ("Ed", 55)),
-      (6L, ("Fran", 50))
+      (1L, ("@markkerzner", 309, "M")),
+      (2L, ("@mjbrender", 3101, "M")),
+      (3L, ("@dridisahar1", 27, "F")),
+      (4L, ("@dez_blanchfield ", 38600, "M")),
+      (5L, ("@ch_doig ", 519, "F")),
+      (6L, ("@Sunitha_Packt ", 332, "F")),
+      (7L, ("@WibiData ", 2477, "M"))
      )
+          
+####  Construct the array of edges
+
+On this step, these are all my followers, so they connect to me
      
-     
-####  Construct the array of edges. Explain how edges are referencing the vertices
-     
-     val edgeArray = Array(
-       Edge(2L, 1L, 7),
-       Edge(2L, 4L, 2),
-       Edge(3L, 2L, 4),
-       Edge(3L, 6L, 3),
-       Edge(4L, 1L, 1),
-       Edge(5L, 2L, 2),
-       Edge(5L, 3L, 8),
-       Edge(5L, 6L, 3)
-     )
+val edgeArray = Array(
+    Edge(1L, 2L, 7),
+    Edge(1L, 3L, 2),
+    Edge(1L, 4L, 4),
+    Edge(1L, 5L, 3),
+    Edge(1L, 6L, 1),
+    Edge(1L, 7L, 2)
+)
  
 #### Prepare the data for Spark processing. What do ".parallelize" methods below accomplish?
  
@@ -56,24 +58,21 @@ All of the following steps are performed by entering the commands in the Spark S
  
      val graph: Graph[(String, Int), Int] = Graph(???, ???)
  
-#### Filter by age > 30
+#### Print all my followers and their gender
 
-    graph.vertices.filter { case (id, (name, age)) => age > 30 }
+    graph.vertices.collect.foreach { case (id, (name, nFollow, gender)) => println(s"Tweeter $name has $nFollow followers and is $gender") }
 
-#### Prepare the results for further processing. What does '.collect' method do? When can you use it, and when you cannot?
+#### Filter out male followers
  
-    graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.
+    graph.vertices.filter { case (id, (name, followers, gender)) => gender != "M" }.collect.
+        foreach { case (id, (name, followers, gender)) => println(s"$name should be a female with $followers followers") }
+
       
-#### Print names and ages of each
+#### Count my significant followers
       
-      graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.
-        foreach { case (id, (name, age)) => println(s"$name is $age") }
+    graph.vertices.filter { case (id, (name, nFollow, gender)) => nFollow > 1000 }.count        
 
-Note that in the last step you can enter one line at a time, so that the shell output looks as follows
+#### Count those followers who do enough re-tweeets for me
 
-    scala> graph.vertices.filter { case (id, (name, age)) => age > 30 }.collect.
-     | foreach { case (id, (name, age)) => println(s"$name is $age") }
-
-## Construct a graph by reading it from a file
-
-* TODO
+    graph.edges.filter { case (edge) => edge.attr > 5 }.count
+    

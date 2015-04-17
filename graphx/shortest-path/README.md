@@ -4,7 +4,9 @@
 We will find the shortest path on the graph from one point to another. The lab is done by executing each step
 in the Spark shell. This allows the student to examine and understand each step, and to modify parameters as we go.
 After you have executed the code in each step individually, you will collect this code in script, 
-to simplify changing and expertimening
+to simplify changing and experimenting
+
+(LinkedIn)
 
 ### Depends On 
 None
