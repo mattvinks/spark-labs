@@ -19,16 +19,54 @@ users have no data.
 
 The example here will take the dating site.
 
+Here is what the file looks like:
+```
+1,133,8
+1,720,6
+1,971,10
+1,1095,7
+1,1616,10
+1,1978,7
+1,2145,8
+```
+
+
 Complete the TODO items
 ======================
 
 There are two TODO items you should complete in the scala code before attempting to run the 
 code.
 
+The first one is as follows:
+
+```scala
+// Get rid of rating to test model's effectiveness
+// TODO: TRANSFORM Rating -> Tuple of (user, item)
+// (i.e., get rid of the rating.
+
+val usersItems = ???? // TODO complete this item
+```
+
+The second one is as follows:
+```scala
+// Do a test prediction
+// TODO call model.predict() on userItems, and then map the output of that
+to (user, item), rating
+
+val recs = ??? // TODO:  COMPLETE THIS
+```
+
+`
+
+
+
+
 Running the data
 ================
 
-spark-shell -i dating.scala
+```bash
+~/spark/bin/spark-shell -i dating.scala
+```
 
 Once you run this, the recommendations for all users will be put in an array
 called recsForEachUser()
@@ -39,5 +77,17 @@ scala> recsForEachUser(4)
 res4: Array[Int] = Array(7964, 6499, 6269, 9287)
 
 Beware: some numbers aren't represented (e.g. 3)
+
+Running on some of your own data
+=======
+
+Create a file called personalratings.txt.  Include some test data as preferences.
+
+```scala
+val personaldata = sc.textFile("personalratings.txt")
+val personalratings = data.map(_.split(',') match { case Array(user, item, rating) =>
+    Rating(user.toInt, item.toInt, rating.toDouble)
+  })
+```
 
 

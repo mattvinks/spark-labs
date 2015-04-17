@@ -3,12 +3,39 @@ KMeans Lab
 
 In this lab we discuss how to use kmeans clustering in Spark.
 
+Step 1
+======
+
+Check out the dataset that we are going to cluster: MTCars. Those of you
+with experience in R should remember this as one of R's internal datasets.
+
+This dataset contains some statistics on 1974 Cars from Motor Trends
+
+Here are the columns:
+  mpg   Miles/(US) gallon                        
+  cyl   Number of cylinders                      
+  disp  Displacement (cu.in.)                    
+  hp    Gross horsepower                         
+  drat  Rear axle ratio            
+  mpg   Miles/(US) gallon                        
+  cyl   Number of cylinders                      
+  disp  Displacement (cu.in.)                    
+  hp    Gross horsepower                         
+  drat  Rear axle ratio            
+
+Are there any natural clusters you can identify from this data?
+
+Step 2
+===
+
 run this with:
 (You'll need to either have spark-shell in your path or give the 
  FQ path for it).
 
+```bash
 $ cd scala
-$ spark-shell -i kmeans_mtcars.scala
+$ ~/spark/bin/spark-shell -i kmeans_mtcars.scala
+```
 
 Check out the final results of the groupedClusters.  Does the clustering make sense?  Perhaps
 we have too few clusters?
