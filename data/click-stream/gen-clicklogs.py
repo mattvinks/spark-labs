@@ -23,14 +23,19 @@ import json
 domains = ['facebook.com',  'yahoo.com',   'google.com',   'zynga.com',    'wikipedia.org',   'sf.craigslist.org',   'twitter.com',    'amazon.com',    'flickr.com',    'cnn.com',      'usatoday.com',      'npr.org',    'foxnews.com',    'comedycentral.com',   'youtube.com',   'hulu.com',   'bbc.co.uk',  'nytimes.com',   'sfgate.com',   'funnyordie.com']
 
 actions = ['viewed', 'clicked', 'blocked']
+total_users = 100000
+total_ips = 1000
+total_sessions = 100
+total_campaigns = 20
 
 # overwrite this function to customize log generation
 def generate_log(timestamp):
-  user = "user_%d" % random.randint(1,100000)
+  user = "user_%d" % random.randint(1,total_users)
   action = random.choice(actions)
   domain = random.choice(domains)
-  campaign = "campaign_%d" % random.randint(1,20)
-  session = "session_%s" % random.randint(1,100)
+  ip_address = "ip_%d" % random.randint(1,total_ips)
+  campaign = "campaign_%d" % random.randint(1,total_campaigns)
+  session = "session_%s" % random.randint(1,total_sessions)
   #cost is in cents, could be zero
   cost = random.randint(1,200) - 20
   if (cost < 0):
@@ -38,11 +43,11 @@ def generate_log(timestamp):
 
   #csv
   if (log_format == 'csv'):
-    logline = "%s,%s,%s,%s,%s,%s,%s" % (timestamp, user, action, domain, campaign, cost, session)
+    logline = "%s,%s,%s,%s,%s,%s,%s,%s" % (timestamp, ip_address, user, action, domain, campaign, cost, session)
 
   # generate JSON format
   #if (log_format == 'json'):
-    #dict={'timestamp': timestamp, 'user': user, 'action': action, 'domain': domain,  'campaign':campaign, 'cost': cost,  'session': session}
+    #dict={'timestamp': timestamp, 'ip': ip_address, 'user': user, 'action': action, 'domain': domain,  'campaign':campaign, 'cost': cost,  'session': session}
     #logline = json.dumps(dict)
 
 
@@ -59,7 +64,7 @@ if __name__ == '__main__':
   #epoch = dt.datetime.fromtimestamp(0)
   epoch = dt.datetime(1970,1,1)
 
-  year_start = dt.datetime(2012, 1, 1)
+  year_start = dt.datetime(2015, 1, 1)
   for day in range(0, days):
     day_delta = dt.timedelta(days=day)
     start_ts = year_start + day_delta
