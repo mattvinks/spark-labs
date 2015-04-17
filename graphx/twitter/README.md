@@ -60,12 +60,14 @@ On this step, these are all my followers, so they connect to me
  
 #### Print all my followers and their gender
 
-    graph.vertices.collect.foreach { case (id, (name, nFollow, gender)) => println(s"Tweeter $name has $nFollow followers and is $gender") }
+    graph.vertices.collect.foreach { case (id, (name, nFollow, gender)) => 
+        println(s"Tweeter $name has $nFollow followers and is $gender") }
 
 #### Filter out male followers
  
     graph.vertices.filter { case (id, (name, followers, gender)) => gender != "M" }.collect.
-        foreach { case (id, (name, followers, gender)) => println(s"$name should be a female with $followers followers") }
+        foreach { case (id, (name, followers, gender)) => 
+        println(s"$name should be a female with $followers followers") }
 
       
 #### Count my significant followers
