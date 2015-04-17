@@ -48,6 +48,10 @@ On this step, these are all my followers, so they connect to me
         Edge(1L, 6L, 1),
         Edge(1L, 7L, 2)
 )
+
+We are using data from a real Twitter account, if you want, you can use yours
+
+![Mark's Twitter account](../../images/twitter.png)
  
 #### Prepare the data for Spark processing. What do ".parallelize" methods below accomplish?
  
