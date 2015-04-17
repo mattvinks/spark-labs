@@ -19,26 +19,26 @@ Note the outcome variable is simply called "churn".  If the customer leaves,
 churn is 1, if not, 0. The outcome variable happens to be the last variable in the dataset.
 
 The other variables are as follows:
-"state": what state (2 letter abberviation)
-2:"account_length":  Length of customer account
-3:"area_code" a string containing the area code 
-4:"international_plan", whether or not international plan
-5:"voice_mail_plan", whether or not voice mail plan
-6:"number_vmail_messages", an integer with the number of voice mails
-7:"total_day_minutes" an integer with total daytime minutes used
-8:"total_day_calls" an integer with the total number of daytime calls
-9:"total_day_charge": the charge for the daytime calls
-10:"total_eve_minutes: total number of evening minutes used
-11:"total_eve_calls": total numbe of evening calls
-12:"total_eve_charge": total charge for evening calls
-13:"total_night_minutes": total number of night minutes used
-14:"total_night_calls": total number of nigh calls
-15:"total_night_charge": total chage for nights
-16:"total_intl_minutes": total international minutes used
-17:"total_intl_calls", total number of international calls
-18:"total_intl_charge": total charge for international calls.
-19:"number_customer_service_calls" integer number of times called customer service 
-20:"churn" Outcome Variable  yes/no churn or did not churn
+* 1:"state": what state (2 letter abberviation)
+* 2:"account_length":  Length of customer account
+* 3:"area_code" a string containing the area code 
+* 4:"international_plan", whether or not international plan
+* 5:"voice_mail_plan", whether or not voice mail plan
+* 6:"number_vmail_messages", an integer with the number of voice mails
+* 7:"total_day_minutes" an integer with total daytime minutes used
+* 8:"total_day_calls" an integer with the total number of daytime calls
+* 9:"total_day_charge": the charge for the daytime calls
+* 10:"total_eve_minutes: total number of evening minutes used
+* 11:"total_eve_calls": total numbe of evening calls
+* 12:"total_eve_charge": total charge for evening calls
+* 13:"total_night_minutes": total number of night minutes used
+* 14:"total_night_calls": total number of nigh calls
+* 15:"total_night_charge": total chage for nights
+* 16:"total_intl_minutes": total international minutes used
+* 17:"total_intl_calls", total number of international calls
+* 18:"total_intl_charge": total charge for international calls.
+* 19:"number_customer_service_calls" integer number of times called customer service 
+* 20:"churn" Outcome Variable  yes/no churn or did not churn
 
 
 
@@ -68,7 +68,7 @@ les
 }
 ```
 
-## Step 5 : Run the trained model on the test set.
+## Step 5 : Complete the TODO items to generate score and labels.
 
 Use model.predict on the test data.  Calculate the score.  Then return a tuple of score and point.label
 
