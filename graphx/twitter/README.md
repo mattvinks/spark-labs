@@ -27,26 +27,26 @@ All of the following steps are performed by entering the commands in the Spark S
  Data structure: twitter handle, number of followers, gender of the tweeter
 
      val vertexArray = Array(
-      (1L, ("@markkerzner", 309, "M")),
-      (2L, ("@mjbrender", 3101, "M")),
-      (3L, ("@dridisahar1", 27, "F")),
-      (4L, ("@dez_blanchfield ", 38600, "M")),
-      (5L, ("@ch_doig ", 519, "F")),
-      (6L, ("@Sunitha_Packt ", 332, "F")),
-      (7L, ("@WibiData ", 2477, "M"))
+        (1L, ("@markkerzner", 309, "M")),
+        (2L, ("@mjbrender", 3101, "M")),
+        (3L, ("@dridisahar1", 27, "F")),
+        (4L, ("@dez_blanchfield ", 38600, "M")),
+        (5L, ("@ch_doig ", 519, "F")),
+        (6L, ("@Sunitha_Packt ", 332, "F")),
+        (7L, ("@WibiData ", 2477, "M"))
      )
           
 ####  Construct the array of edges
 
 On this step, these are all my followers, so they connect to me
      
-val edgeArray = Array(
-    Edge(1L, 2L, 7),
-    Edge(1L, 3L, 2),
-    Edge(1L, 4L, 4),
-    Edge(1L, 5L, 3),
-    Edge(1L, 6L, 1),
-    Edge(1L, 7L, 2)
+    val edgeArray = Array(
+        Edge(1L, 2L, 7),
+        Edge(1L, 3L, 2),
+        Edge(1L, 4L, 4),
+        Edge(1L, 5L, 3),
+        Edge(1L, 6L, 1),
+        Edge(1L, 7L, 2)
 )
  
 #### Prepare the data for Spark processing. What do ".parallelize" methods below accomplish?
