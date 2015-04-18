@@ -12,32 +12,52 @@ object Clicks {
       System.exit(1)
     }
 
-    val input = args(0) // can be wildcard 's3n://bucket/files'
+    val input = args(0) // can be wildcard  'dir/*.log'
 
-    val conf = new SparkConf().setAppName("Clicks")
+    val conf = new SparkConf().setAppName("Clickstream")
     //conf.setMaster("local[*]")
     val sc = new SparkContext(conf)
 
-    // now logic
+    println ("### Ahoy mate, fix TODO items!")
 
-    // ## TODO 1 : create an input rdd; hint : sc.textFiles(input)
-    val clickstream = sc.textFile(input)
-    val count = clickstream.count()
-    println("### total records " + count)
+    // ## TODO-1 : create an input rdd; hint : sc.textFiles(input)
+    /*
+    val clickstream = ???
 
-    // TODO 2 : count per domain
+    // TODO-2  : count how many records we have
+    val count =  ???  
+    println("### total clickstream records " + count)
+    */
+
+    // count per domain - uncomment this comment block once fixed
+    /*
     val groupedByDomain = clickstream.map{
       line => {
         val tokens = line.split(",")
-        val domain = tokens(3).trim // extract domain
-        (domain, line)
+        // TODO-3 : extract the domain by position ..tokens(???)
+        val domain = ???
+
+        // TODO-4 : return 'domain' as key and '1' as value
+        (???, ???)
       }
     }
-    val domainCount = groupedByDomain.countByKey
-    println ("### domain count : \n" + domainCount)
+    */
 
-    // TODO 3 : sort this by top domains first
-    val domainCountSorted = domainCount.map((domain,count) => (count,domain)).sort.map((count, domain) => (domain, count))
+
+    // count the number of domains
+    /* 
+    // TODO-5 :   from groupedByDomain, calculate domain count
+    val domainCount = ???
+    println ("### domain count : \n" + domainCount)
+    */
+
+
+    // top domains
+    /*
+    // TODO 6 : sort this by top domains first
+    val topDomains = domainCount.toList.sortBy{_._2}
+    println ("### top domains : \n" + topDomains)
+    */
 
   }
 }
