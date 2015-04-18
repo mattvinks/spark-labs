@@ -6,3 +6,5 @@
 * 4-mapreduce : [MapReduce](4-mapreduce/README.md)
 * 5-api : [Spark API](5-api/README.md)
 
+* MLlib: [MLlib Labs](mllib/README.md)
+
