@@ -11,7 +11,8 @@ In our example, we're going to ignore the gender and orientation of each user in
 the recommendations.   The dating dataset does include a file which identifies the 
 gender of each participant, but for simplicity we're not handling it here. This isn't
 as bad as it sounds, as most users likely will rate only one gender of dating site
-participants, and will no dobut receive recommendations from the same gender.
+participants, and will no doubt receive recommendations from the same gender. Naturally
+there are always exceptions.
 
 The checked in version is a tiny subset of the actual, as only the first 9999 users are
 included.  Furthermore, the ratings outside the subset are ignored, so a good portion of
@@ -34,6 +35,8 @@ Here is what the file looks like:
 Complete the TODO items
 ======================
 
+## Step 1:  Transform the Rating object of to a tuple of User, Item
+
 There are two TODO items you should complete in the scala code before attempting to run the 
 code.
 
@@ -47,6 +50,7 @@ The first one is as follows:
 val usersItems = ???? // TODO complete this item
 ```
 
+###Step 2:   Use the predict method to map the outpu to user,item
 The second one is as follows:
 ```scala
 // Do a test prediction
@@ -61,8 +65,7 @@ val recs = ??? // TODO:  COMPLETE THIS
 
 
 
-Running the data
-================
+### Step 3: Running the data
 
 ```bash
 ~/spark/bin/spark-shell -i dating.scala
@@ -78,8 +81,7 @@ res4: Array[Int] = Array(7964, 6499, 6269, 9287)
 
 Beware: some numbers aren't represented (e.g. 3)
 
-Running on some of your own data
-=======
+### Step 4: Running on some of your own data
 
 Create a file called personalratings.txt.  Include some test data as preferences.
 
