@@ -1,12 +1,15 @@
-# java
-*.class
-.DS_Store
-*.pdf
-
-# data
+# data files
 *.log
 *.data
-out
+*.tgz
+.DS_Store
+out*
+*.zip
+*.out
+
+
+*.class
+*.log
 
 # sbt specific
 .cache/
@@ -22,3 +25,6 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+
+# IntelliJ
+.idea/
