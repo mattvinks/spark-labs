@@ -1,5 +1,7 @@
-A Dating Site Recommendations
+MLlib Recommendations Lab
 =============================
+
+## Introduction
 
 This lab explores a well known dataset from the Czech dating website libimseti.cz.  We'll
 just call it the "dating" dataset. :)
@@ -35,7 +37,7 @@ Here is what the file looks like:
 Complete the TODO items
 ======================
 
-## Step 1:  Transform the Rating object of to a tuple of User, Item
+### Step 1:  Transform the Rating object of to a tuple of User, Item
 
 There are two TODO items you should complete in the scala code before attempting to run the 
 code.

@@ -25,7 +25,7 @@ Here are the columns:
 
 Are there any natural clusters you can identify from this data?
 
-## Step 2: Complete the TODOs in the parseData function
+### Step 2: Complete the TODOs in the parseData function
 
 In this function, we're going to go from the RDD input file
 to an output as a tuple of Vector Names and Vectors.  Vector 
@@ -57,7 +57,7 @@ Note: In scala we could re-write this whole function as the following one-liner:
 onlyVectors = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble)))
 ```
 
-## Step 3: Make an RDD of ONLY the vectors (not the names)
+### Step 3: Make an RDD of ONLY the vectors (not the names)
 
 Now that we have the names and vectors, we can go back
 and get only the vectors, as kmeans only works on an RDD 
@@ -131,21 +131,21 @@ Array((0,CompactBuffer(("Mazda RX4",[21.0,6.0,160.0,110.0,3.9,2.62,16.46,0.0,1.0
 ("Maserati Bora",[15.0,8.0,301.0,335.0,3.54,3.57,14.6,0.0,1.0,5.0,8.0])))
 ```
 
-### Step 3: Oprimize Script
+### Step 5: Optimize Script
 Even though the dataset is tiny, notice that the datasets are running on disk without 
 caching.  Could the cache() method help us at all?  Try changing the script to add some 
 .cache() statements. Then run again and note the wall clock time
 
-### Step 4: Run again with a different value f k
+### Step 6: Run again with a different value f k
 Try experimenting with 3 clusters instead of two.  Rerun the results and see what you get.
 Keep trying new values of k until the results seem to make some sense.
 
-### Step 5: Record and Plot WSSSE versus K
+### Step 7: Record and Plot WSSSE versus K
 Perform a plot of WSSSE versus K.  (Use excel or whatever application you prefer). Use the 
 "elbow" method to pick what seems to be a good value of k.  Does that match your intuitive 
 sense of what is the best?
 
-### Step 6: Add some new data, check and see if it changes the clusters.
+### Step 8: Add some new data, check and see if it changes the clusters.
 Copy the input file "../../../data/mtcars/mtcars.csv" to the present directory.
 Add some new rows to the mtcars dataset based on your favorite cars (or just
 make up some fictitious cars).

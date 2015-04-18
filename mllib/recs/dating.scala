@@ -1,16 +1,25 @@
 import org.apache.spark.mllib.recommendation.ALS
 import org.apache.spark.mllib.recommendation.Rating
+import org.apache.spark.rdd.RDD
 
+def parseData(vals : RDD[String]) : RDD[Rating] = {
+  vals.map(_.split(',') match { case Array(user, item, rating) =>
+    Rating(user.toInt, item.toInt, rating.toDouble)
+  })
+}
 
 // For the dating website 
 // Users = Users
 // Items = other users
 
 // ratings.dat is the dating website
-val data = sc.textFile("../../../data/dating/medium/ratings.dat")
-val ratings = data.map(_.split(',') match { case Array(user, item, rating) =>
-    Rating(user.toInt, item.toInt, rating.toDouble)
-  })
+val data = sc.textFile("../../data/dating/medium/ratings.dat")
+
+//val ratings = data.map(_.split(',') match { case Array(user, item, rating) =>
+//    Rating(user.toInt, item.toInt, rating.toDouble)
+//  })
+
+val ratings = parseData(data)
 
 val model = ALS.train(ratings, rank = 10, iterations = 5, 0.01)
 
