@@ -6,7 +6,10 @@
 out*
 *.zip
 *.out
+*.csv
+*.json
 
+metastore_db/
 
 *.class
 *.log

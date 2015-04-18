@@ -6,19 +6,30 @@
 
 ## timestamp converstions testing site : http://www.epochconverter.com/
 
+## By default it prints to console (stdout)
+## to redirect to a file:
+##    $   python clickstream-producer.py   |  tee output_file
+##
+## to redirect to a network socket
+##    $  python clickstream-producer.pyt   | nc localhost 10000
+#  Here netcat is intercepting the program output and feeding into port 10000
+## To listen to these events we can use netcat on another console like this
+##    $  nc   -lk   10000
+
 
 ## ----- config
-days=10
-entries_per_day=100000
+events_per_second=1
 log_format="csv"
 #log_format="json"
 ## --- end config
 
 
 import os
-import datetime as dt
+import datetime
+import time
 import random
 import json
+import sys
 
 domains = ['facebook.com',  'yahoo.com',   'google.com',   'zynga.com',    'wikipedia.org',   'sf.craigslist.org',   'twitter.com',    'amazon.com',    'flickr.com',    'cnn.com',      'usatoday.com',      'npr.org',    'foxnews.com',    'comedycentral.com',   'youtube.com',   'hulu.com',   'bbc.co.uk',  'nytimes.com',   'sfgate.com',   'funnyordie.com']
 
@@ -59,36 +70,16 @@ def generate_log(timestamp):
 #main
 ## --- script main
 if __name__ == '__main__':
-  time_inc_ms = int ((24.0*3600*1000)/entries_per_day)
-  #print "time inc ms", time_inc_ms
-  #epoch = dt.datetime.fromtimestamp(0)
-  epoch = dt.datetime(1970,1,1)
+  
+  events = 0
+  while True:
+    events = events + 1
+    timestamp_ms = int(time.time()*1000)
+    logline = generate_log(timestamp_ms)
+    print(logline)
+    if (events >= events_per_second):
+      sys.stdout.flush()
+      events = 0
+      time.sleep(1)
 
-  year_start = dt.datetime(2015, 1, 1)
-  for day in range(0, days):
-    day_delta = dt.timedelta(days=day)
-    start_ts = year_start + day_delta
-    #end_ts = dt.datetime(start_ts.year, start_ts.month, start_ts.day, 23, 59, 59)
-    end_ts = dt.datetime(start_ts.year, start_ts.month, start_ts.day+1, 0, 0, 0)
-    filename = start_ts.strftime("%Y-%m-%d") 
-    if (log_format == 'csv'):
-      filename = filename + ".csv"
-    if (log_format == 'json'):
-      filename = filename + ".json"
-
-    #print start_ts
-    #print end_ts
-    last_ts = start_ts
-
-    with open(filename, "w") as fout:
-      print "generating log ", filename
-      while (last_ts < end_ts):
-        delta_since_epoch = last_ts - epoch
-        millis = int((delta_since_epoch.microseconds + (delta_since_epoch.seconds + delta_since_epoch.days * 24 * 3600) * 10**6) / 1e3)
-        #print "last ts", last_ts
-        #print "millis",  millis
-        logline = generate_log(millis)
-        fout.write(logline + "\n")
-
-        last_ts = last_ts + dt.timedelta(milliseconds=time_inc_ms)
 
