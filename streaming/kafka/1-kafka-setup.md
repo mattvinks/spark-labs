@@ -109,4 +109,12 @@ You should have a setup like this screen shot.  (Right Click on Image and choose
 
 ![Kafka setup](../../images/kafka1.png)
 
+**Feed some data into Kafka producer terminal,  and see it will show up in consumer terminal**  
+Try pasting the following
+```
+hello world
+1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+```
+
 
