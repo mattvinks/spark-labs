@@ -10,15 +10,15 @@ import org.apache.spark.mllib.linalg.Vector
 def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
   vals.map { s =>
     // TODO: split the data by commas
-    val splitData = ???
-    //TODO: get rid of (drop) any non-numeric fields.
-    val numericFields = ????
+    val splitData = s.split(???)
+    // get rid of (drop) any non-numeric fields.
+    val numericFields = splitData.drop(1)
     //TODO: Get the name out of splitData (column 0)
-    val name = ????
-    //TODO: map all the fields to double from string
-    val doubles = ????
-    // TODO: Convert the doubles to a Vectors.dense
-    val vectors = >???
+    val name = splitData(???)
+    //TODO: map all the fields to double from string (use 'toDouble')
+    val doubles = numericFields.map(x => x.???)
+    // Convert the doubles to a Vectors.dense
+    val vectors = > Vectors.dense(doubles)
     // TODO: return a tuple of name, vectors
     (???, ???)
   }
