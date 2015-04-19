@@ -1,0 +1,64 @@
+Spark lab solutions
+======
+
+----
+Lab 1
+----
+
+Launch Spark Server
+  $  cd spark-install-dir
+  $  ./sbin/start-all.sh
+
+Launch Shell
+  $  ./bin/spark-shell
+
+Connect shell to server
+  $  ./bin/spark-shell  --master spark://localhost:7077
+Add more memory
+  $  ./bin/spark-shell   --executor-memory 2G
+
+
+-------
+Lab : RDD
+-------
+Count lines
+  shell>
+     val f  = sc.textFile("data/twinkle/seed.txt")
+     f.count()
+     f.first()
+     f.take(3)  // first 3 lines
+     f.take(3).foreach(println)
+
+Filter
+     f.filter(line => line.contains("diamond"))
+
+Collect the results
+     f.collect()
+
+doing grep -v pattern
+     f.filter(line => ! line.contains("diamond"))
+
+
+-----
+Lab) Map Reduce
+----
+
+wordcount
+  val input = Array ("hello world", "goodbye world", "bye bye")
+  val r = sc.makeRDD(input)
+  r.flatMap(lines => lines.split(" ")).map(word => (word, 1)).reduceByKey(_+_).
+        collect()
+
+
+Click stream analysis
+  val clicks  = sc.textFile("data/click-stream/sample.txt")
+
+  // finding domain count
+  clicks.map(line => (line.split(",")(3), 1)).reduceByKey(_+_).
+      collect()
+
+  // sorting by values
+  // need to swap k,v
+  clicks.map(line => (line.split(",")(3), 1)).reduceByKey(_+_).
+      map(item => item.swap).sortByKey().collect()
+

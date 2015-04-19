@@ -10,27 +10,22 @@ import org.apache.spark.mllib.linalg.Vector
 def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
   vals.map { s =>
     // TODO: split the data by commas
-    val splitData = s.split(???)
-    // get rid of (drop) any non-numeric fields.
+    val splitData = s.split(',')
+    //TODO:  
     val numericFields = splitData.drop(1)
-    //TODO: Get the name out of splitData (column 0)
-    val name = splitData(???)
-    //TODO: map all the fields to double from string (use 'toDouble')
-    val doubles = numericFields.map(x => x.???)
-    // Convert the doubles to a Vectors.dense
-    val vectors = > Vectors.dense(doubles)
-    // TODO: return a tuple of name, vectors
-    (???, ???)
+    val name = splitData(0)
+    val doubles = numericFields.map(_.toDouble)
+    val vectors = Vectors.dense(doubles)
+    (splitData(0), vectors)
   }
 }
+//one-liner: val onlyVectors = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble))).cache()
 
 
 // Load and parse the data
 val data = sc.textFile("../../data/mtcars/mtcars.csv")
 val NamesandData = parseData(data)
-
-//TODO: Get only the vector out of NamesandData (the second item in the tuple)
-val onlyVectors =  ???
+val onlyVectors = NamesandData.map { case (string, vector) => vector } 
 
 // Cluster the data into two classes using KMeans
 // TODO: Pick different values of K / numclusters
@@ -40,6 +35,8 @@ val clusters = KMeans.train(onlyVectors, numClusters, 20)
 // Evaluate clustering by computing Within Set Sum of Squared Errors
 val WSSSE = clusters.computeCost(onlyVectors)
 println("Within Set Sum of Squared Errors = " + WSSSE)
+
+val NamesandData = data.map(s => (s.split(',')(0), Vectors.dense(s.split(',').drop(1).map(_.toDouble)))).cache()
 
 // Print out a list of the clusters and each point of the clusters
 val groupedClusters = NamesandData.groupBy{rdd => clusters.predict(rdd._2)}.collect()

@@ -20,10 +20,14 @@ There is no 'install'.  Just unzip/untar and run :-)
 (copy paste the following commands on terminal,  do not include $ in your commands)
 
 ```bash
-  $   cd
-  $   rm -rf  spark   # cleanup existing spark installation (if any)
-  $   tar xvf files/spark-1.2.0-bin-hadoop2.4.tgz
-  $   mv spark-1.2.0-bin-hadoop2.4  spark
+$   cd
+$   rm -rf  spark   # cleanup existing spark installation (if any)
+$   tar xvf   files/spark-1.3.1-bin-hadoop2.6.tgz
+$   mv  spark-1.3.1-bin-hadoop2.6   spark
+
+# for 1.2
+##  $   tar xvf files/spark-1.2.0-bin-hadoop2.4.tgz
+##  $   mv spark-1.2.0-bin-hadoop2.4  spark
 ```
 
 Now we have spark installed in  `~/spark`  directory
@@ -31,13 +35,13 @@ Now we have spark installed in  `~/spark`  directory
 
 ## STEP 3: Running Spark
 ```bash
-  $   cd ~/spark
-  $   ./sbin/start-all.sh
+$   cd ~/spark
+$   ./sbin/start-all.sh
 ```
 
 Verify Spark is running by 'jps' command
 ```bash
-  $ jps
+$  jps
 ```
 
 Your output may look like this..

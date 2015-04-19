@@ -1,40 +1,28 @@
 import org.apache.spark.mllib.recommendation.ALS
 import org.apache.spark.mllib.recommendation.Rating
-import org.apache.spark.rdd.RDD
 
-def parseData(vals : RDD[String]) : RDD[Rating] = {
-  vals.map(_.split(',') match { case Array(user, item, rating) =>
-    Rating(user.toInt, item.toInt, rating.toDouble)
-  })
-}
 
 // For the dating website 
 // Users = Users
 // Items = other users
 
 // ratings.dat is the dating website
-val data = sc.textFile("../../data/dating/medium/ratings.dat")
-
-//val ratings = data.map(_.split(',') match { case Array(user, item, rating) =>
-//    Rating(user.toInt, item.toInt, rating.toDouble)
-//  })
-
-val ratings = parseData(data)
+val data = sc.textFile("../../../data/dating/medium/ratings.dat")
+val ratings = data.map(_.split(',') match { case Array(user, item, rating) =>
+    Rating(user.toInt, item.toInt, rating.toDouble)
+  })
 
 val model = ALS.train(ratings, rank = 10, iterations = 5, 0.01)
 
-// Get rid of rating to test model's effectiveness
-// TODO: TRANSFORM Rating -> Tuple of (user, item)
-// (i.e., get rid of the rating.
-
-val usersItems = ???? // TODO complete this item
-
+// Get rid of data to test model's effectiveness
+val usersItems = ratings.map { case Rating(user, item, rating) =>
+  (user, item)
+}
 // Do a test prediction
-// TODO call model.predict() on userItems, and then map the output of that 
-to (user, item), rating
-
-val recs = ??? // TODO:  COMPLETE THIS
-
+val recs = 
+  model.predict(usersItems).map { case Rating(user, item, rating) => 
+    ((user, item), rating)
+  }
 val ratingsAndRecs = ratings.map { case Rating(user, item, rating) => 
   ((user, item), rating)
 }.join(recs)
