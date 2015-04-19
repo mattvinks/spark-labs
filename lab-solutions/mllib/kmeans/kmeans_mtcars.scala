@@ -19,21 +19,21 @@ def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
     (splitData(0), vectors)
   }
 }
-//one-liner: val parsedData = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble))).cache()
+//one-liner: val onlyVectors = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble))).cache()
 
 
 // Load and parse the data
 val data = sc.textFile("../../data/mtcars/mtcars.csv")
 val NamesandData = parseData(data)
-val parsedData = NamesandData.map { case (string, vector) => vector } 
+val onlyVectors = NamesandData.map { case (string, vector) => vector } 
 
 // Cluster the data into two classes using KMeans
 // TODO: Pick different values of K / numclusters
 val numClusters = 2 // Value of K in Kmeans
-val clusters = KMeans.train(parsedData, numClusters, 20)
+val clusters = KMeans.train(onlyVectors, numClusters, 20)
 
 // Evaluate clustering by computing Within Set Sum of Squared Errors
-val WSSSE = clusters.computeCost(parsedData)
+val WSSSE = clusters.computeCost(onlyVectors)
 println("Within Set Sum of Squared Errors = " + WSSSE)
 
 val NamesandData = data.map(s => (s.split(',')(0), Vectors.dense(s.split(',').drop(1).map(_.toDouble)))).cache()
