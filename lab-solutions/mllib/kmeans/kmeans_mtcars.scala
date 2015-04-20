@@ -23,7 +23,7 @@ def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
 
 
 // Load and parse the data
-val data = sc.textFile("../../data/mtcars/mtcars.csv")
+val data = sc.textFile("../../../data/mtcars/mtcars.csv")
 val NamesandData = parseData(data)
 val onlyVectors = NamesandData.map { case (string, vector) => vector } 
 
@@ -36,12 +36,11 @@ val clusters = KMeans.train(onlyVectors, numClusters, 20)
 val WSSSE = clusters.computeCost(onlyVectors)
 println("Within Set Sum of Squared Errors = " + WSSSE)
 
-val NamesandData = data.map(s => (s.split(',')(0), Vectors.dense(s.split(',').drop(1).map(_.toDouble)))).cache()
-
 // Print out a list of the clusters and each point of the clusters
 val groupedClusters = NamesandData.groupBy{rdd => clusters.predict(rdd._2)}.collect()
 
-groupedClusters.foreach { println }
+val carsByCluster =NamesandData.map(s => (clusters.predict(s._2), s._1)).collect().sortby(_._2)
+carsByCluster.foreach { println }
 
 
 
