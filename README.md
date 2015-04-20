@@ -47,7 +47,8 @@ Labs
     - [3.5 Clickstream processing](3-rdd/3.5-clickstream.md)
     - [3.6 Caching](3-rdd/3.6-caching.md)
 
-* 5-api : [Spark API](5-api/README.md)
+4. **API** (4-api)
+    - [4.1 Submit first application](4-api/4.1-submit.md)
+    - [4.2 Mapreduce using API](4-api/4.2-mapreduce.md)
 
-* MLlib: [MLlib Labs](mllib/README.md)
-
+more coming...
