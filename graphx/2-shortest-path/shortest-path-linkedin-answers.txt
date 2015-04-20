@@ -1,0 +1,54 @@
+import org.apache.spark.graphx._
+import org.apache.spark.rdd.RDD
+import org.apache.spark.graphx.util.GraphGenerators
+
+val vertexArray = Array(
+    (1L, ("Mark Kerzner", 2500)),
+    (2L, ("Sujee Maniyam", 891)),
+    (3L, ("Yaakov Weintraub", 27),
+    (4L, ("Packt Publishing", 38600)),
+    (5L, ("Barry Kaufman ", 519)),
+    
+)
+val edgeArray = Array(
+    Edge(1L, 2L, 7),
+    Edge(1L, 3L, 2),
+    Edge(1L, 4L, 4),
+    Edge(1L, 5L, 3),
+    Edge(1L, 6L, 1),
+    Edge(1L, 7L, 2)
+)
+val vertexRDD: RDD[(Long, (String, Int, String))] = sc.parallelize(vertexArray)
+val edgeRDD: RDD[Edge[Int]] = sc.parallelize(edgeArray)
+val graph: Graph[(String, Int, String), Int] = Graph(vertexRDD, edgeRDD)
+
+graph.vertices.collect.foreach { case (id, (name, nFollow, gender)) => println(s"Tweeter $name has $nFollow followers and is $gender") }
+
+graph.edges.collect.foreach { case (edge) => println(s"$edge") }
+
+val graph: Graph[Int, String] =
+    GraphGenerators.logNormalGraph(sc, numVertices = 10).mapEdges(e => e.attr.toDouble)
+
+graph.vertices.collect.foreach { case (id) => println(s"VertexId: $id") }
+graph.edges.collect.foreach { case (edge) => println(s"$edge") }
+
+val sourceId: VertexId = 1
+
+val initialGraph = graph.mapVertices((id, _) => if (id == sourceId) 0.0 else Double.PositiveInfinity)
+
+initialGraph.vertices.collect.foreach { case (id) => println(s"VertexId: $id") }
+initialGraph.edges.collect.foreach { case (edge) => println(s"$edge") }
+
+
+val sssp = initialGraph.pregel(Double.PositiveInfinity)(
+    (id, dist, newDist) => math.min(dist, newDist), // Vertex Program
+        triplet => {  // Send Message
+        if (triplet.srcAttr + triplet.attr < triplet.dstAttr) {
+            Iterator((triplet.dstId, triplet.srcAttr + triplet.attr))
+        } else {
+            Iterator.empty
+        }
+    },
+    (a,b) => math.min(a,b) // Merge Message
+)
+println(sssp.vertices.collect.mkString("\n"))

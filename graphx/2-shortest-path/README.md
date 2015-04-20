@@ -20,10 +20,6 @@ Instructor will provide details
 ## Step 1: Import the general GraphX libraries, for classes like Graph
  
     import org.apache.spark.graphx._
-
-## Step 2: Import the specific GraphX libraries
- 
-    import org.apache.spark.graphx._
     
 ## Step 3: Import the library for random graph generation
 
