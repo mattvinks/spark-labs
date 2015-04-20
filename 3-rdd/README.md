@@ -2,7 +2,7 @@
 
 Lab 3 : RDD Operations
 ======================
-### OverView
+### Overview
 Get to know RDD transformations / functions.  This lab is split into multiple sections.
 
 ### Depends On 
