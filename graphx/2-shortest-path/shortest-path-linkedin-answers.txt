@@ -8,7 +8,7 @@ val vertexArray = Array(
     (3L, ("Yaakov Weintraub", 27),
     (4L, ("Packt Publishing", 38600)),
     (5L, ("Barry Kaufman ", 519)),
-    
+
 )
 val edgeArray = Array(
     Edge(1L, 2L, 7),
