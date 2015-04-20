@@ -33,13 +33,13 @@ We recommend using a 'programmer's editor to view these files. These editors hav
 ----
 Labs
 ----
-1. Scala Primer  (1-scala)
+1. **Scala Primer**  (1-scala)
 
-2. Spark Intro  (2-intro)
+2. **Spark Intro**  (2-intro)
     - [2.1 Install and run Spark](2-intro/2.1-install-spark.md)
     - [2.2 Spark Shell](2-intro/2.2-shell.md)
 
-3. RDDs  (3-rdd)
+3. **RDDs**  (3-rdd)
     - [3.1 RDD basics](3-rdd/3.1-rdd-basics.md)
     - [3.2 Working with multiple RDDs](3-rdd/3.2-rdd-multi.md)
     - [3.3 Key Value Pair RDDs](3-rdd/3.3-rdd-kv.md)

@@ -1,7 +1,8 @@
 [<< back to main index](../README.md)
 
-Lab 3 : RDD Operations
-======================
+Lab 3 : RDDs
+============
+
 ### Overview
 Get to know RDD transformations / functions.  This lab is split into multiple sections.
 
@@ -15,5 +16,7 @@ See each lab
 1. [Basic RDD Operations + Work with 'large' RDD](3.1-rdd-basics.md)
 2. [Operations on Multiple RDDs : Joins / Unions ](3.2-rdd-multi.md)
 3. [Key Value Pair RDDs](3.3-rdd-kv.md)
-4. [Caching RDDs](3.4-cache.md)
+4. [Map Reduce](3.4-mapreduce.md)
+5. [Clickstream processing](3.5-clickstream.md)
+6. [Caching](3.6-caching.md)
 
