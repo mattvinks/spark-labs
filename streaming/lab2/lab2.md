@@ -1,10 +1,10 @@
 [<< back to main index](../README.md) / [Streaming labs](./README.md)
 
-Lab 1 - Spark Streaming - Word Count Over TCP 
+Lab 2 - Spark Streaming - Filtering IP Addresses over TCP and storing them in files and folders using Window  
 ==================================
 
 ### Overview
-Submit a job for Spark
+Submit a job for Spark Streaming to find and filter  IP Addresses Over Socket/TCP
 
 ### Depends On 
 None
@@ -18,16 +18,16 @@ STEP 1: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/streaming/lab1
+$    cd ~/spark-labs/streaming/lab2
 ```
 
-**edit file : `src/main/scala/WordCountOverTCP.scala`**  
+**edit file : `src/main/scala/WindowedIP.scala`**  
 **And fix the TODO items**
 
 ```
-$    vi  src/main/scala/WordCountOverTCP.scala
+$    vi  src/main/scala/WindowedP.scala
 # or 
-$    nano  src/main/scala/WordCountOverTCP.scala
+$    nano  src/main/scala/WindowedIP.scala
 ```
 
 
@@ -45,15 +45,15 @@ The file will look follows:
 ```scala
 // blank lines are important!
 
-name := “Word Count Over TCP“
+name := “Filtering IP Addresses Using Window“
 
 version := "1.0"
 
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "1.2.0" % "provided",
-  "org.apache.spark" %% "spark-streaming" % "1.2.0" % "provided"
+  "org.apache.spark" %% "spark-core" % "1.3.1" % "provided",
+  "org.apache.spark" %% "spark-streaming" % "1.3.1" % "provided"
 )
 
 ```
@@ -71,16 +71,16 @@ $  ls -l   target/scala-2.10
 You should see output like follows
 ```
 drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
--rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 wordcountovertcp_2.10-1.0.jar
+-rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 windowedip_2.10-1.0.jar
 ```
 
-`wordcountovertcp_2.10-1.0.jar `  is our code compiled.
+`windowedip_2.10-1.0.jar `  is our code compiled.
  
 --------------------------
 STEP 3: Run The Application
 --------------------------
 ```
-$  ~/spark-labs/streaming/lab1/sbt run
+$  ~/spark-labs/streaming/lab2/sbt run
 ```
 Note - hope you have modified log4j.properties in conf folder to remove verbose. 
 
@@ -101,7 +101,14 @@ Lets call this Terminal #2
 STEP 5:  Test by typing text in the terminal
 -------------------------
 
-In the Terminal #2, type few words and see the application display the 
-word count in Terminal #1
+In the Terminal #2, copy and paste as many lines from sample-more.csv file and see the application display the 
+IPs in Terminal #1
+
+
+--------------------------
+STEP 6: Also can print to a file in your file system
+---------------------------
+
+Comment and uncomment respective lines to test this. 
 
 End. 
