@@ -3,5 +3,5 @@
 Spark Streaming Lab 1
 ======
 
-* [Word Count Over TCP Socket](lab1.md)
+* [Blocked IP Addresses Over TCP Socket](lab1.md)
 
