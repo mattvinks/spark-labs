@@ -12,6 +12,15 @@ For best viewing experience we recommend the following setup:
 * Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'
 * Open any *.md file using Chrome (File --> Open)
 
+Viewing files on Server
+------------------------
+* Login to the node (Instructor will provide details)
+* start simple http-server as follows
+```
+$  nohup http-server ~/spark-labs  -p 8000 -s  &
+```
+* goto http://your_machine_address:8000
+* open .md files.. enjoy!
 
 ----
 Labs
