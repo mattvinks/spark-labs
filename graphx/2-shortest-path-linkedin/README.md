@@ -5,7 +5,7 @@ We will find the shortest path on the graph from one point to another. The lab i
 in the Spark shell. This allows the student to examine and understand each step, and to modify parameters as we go.
 After you have executed the code in each step individually, you will collect this code in script, 
 
-(LinkedIn)
+For our data, we will use LinkedIn
 
 ### Depends On 
 None
@@ -29,24 +29,50 @@ Using random graphs will allow us to easily experiment with different graph size
     
 ## Step 4: Generate a graph
 
-Note that our graph will have integers for vertices. On the edges we will put the distance between the two vertices. 
-Later you will be able to add properties both to the vertices and edges. At first, we will use the graph size of 10. 
-Later we will be able to experiment with larger graph sizes.
-
-    val graph: Graph[Int, Double] =
-        GraphGenerators.logNormalGraph(sc, numVertices = 10).mapEdges(e => e.attr.toDouble)
+    val vertexArray = Array(
+        // direct connections
+        (1L, ("Mark Kerzner", 2757)),
+        (2L, ("Sujee Maniyam", 891)),
+        (3L, ("Yaakov Weintraub", 105)),
+        (4L, ("Packt Publishing", 2984)),
+        (5L, ("Barry Kaufman ", 500)),
+        // indirect connections
+        (6L, ("Ron Bodkin", 500)),
+        (7L, ("Ron's friend", 500))
         
-## Step 5: Fix the goal to reach. You can use any number, as long as it is within the graph size
+In this graph, we have the user name and the number of connections. The number of connections is a natural things to have; 
+we will store it, but not use it at this time.
+        
+## Step 5: Fix the goal to reach. Set to to calculate the shortest connection paths for Mark Kerzner
 
-    val sourceId: VertexId = 4
+    val sourceId: VertexId = ?
     
-## Step 6: Initialize distances on the graph
+## Step 6: Initialize connections on the graph
 
-Give the initial distance of infinity to all vertices other than the root
+    val edgeArray = Array(
+        Edge(1L, 2L, 1),
+        Edge(1L, 3L, 1),
+        Edge(1L, 4L, 1),
+        Edge(1L, 5L, 1),
+        Edge(2L, 6L, 1),
+        Edge(6L, 7L, 1)
+    )
+
+Which connections are direct for Mark and which are indirect?
+
+## Step 7: For the graph of LinkedIn connections
+
+    val vertexRDD: RDD[(Long, (String, Int))] = sc.parallelize(???)
+    val edgeRDD: RDD[Edge[Int]] = sc.parallelize(???)
+    val graph: Graph[(String, Int), Int] = Graph(???, ???)
+    
+## Step 8: Prepare the graph to be used for computations.
+
+Set the initial distance from Mark to Mark to 0, and all other distances to infinity
 
     val initialGraph = graph.mapVertices((id, _) => if (id == sourceId) 0.0 else Double.PositiveInfinity)
 
-## Step 7: Compute shortest distances
+## Step 9: Compute shortest distances
 
 Use Pregel to compute shortest distances between the root and every other vertix on the graph. 
 Please note that since computating the shortest distance between two vertices anyway involves computing many intermediate short distances,
@@ -58,17 +84,19 @@ Pregel takes a generic approach of computing all shortest distances
             if (triplet.srcAttr + triplet.attr < triplet.dstAttr) {
                 Iterator((triplet.dstId, triplet.srcAttr + triplet.attr))
             } else {
-                 Iterator.empty
+                Iterator.empty
             }
         },
         (a,b) => math.min(a,b) // Merge Message
     )
     
-## Step 8: Print out the results
+## Step 10: Collect and print out the results
  
     println(sssp.vertices.collect.mkString("\n"))
     
-## Step 9: Start experimenting
+Explain the results
+    
+## Bonus 1
  
 ### Collect all executed statement in a single text file.
 
@@ -76,11 +104,8 @@ You will be copying and pasting this file into Spark Scala shell
 
 ### Set the goal vertex in such a way that the code will through  an error. Explain why this happens
 
-### Run the code on a larger graph of your choice
-
-### Go back to a smaller size, then add vertix names to the graph, generating them randomly
-
-## Step 10: Bonus lab
+## Bonus 2
  
-Construct the graph from the city distances given in the data/cities.txt file. Then calculate shortest distances.
-    
+Construct a small graph of air flights between cities. Use 4-6 cities. Put the prices of flying
+between two cities into the edges above, replacing the number "1" with the actual price.
+Calculate the cheapest flights between cities.
