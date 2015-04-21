@@ -10,6 +10,9 @@ val vertexArray = Array(
     (6L, ("@Sunitha_Packt", 332, "F")),
     (7L, ("@WibiData", 2477, "M"))
 )
+
+vertexArray.foreach { case (id, (name, nConnection, gender)) => println(s"Linkedin ") }
+
 val edgeArray = Array(
     Edge(1L, 2L, 7),
     Edge(1L, 3L, 2),
