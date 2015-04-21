@@ -12,23 +12,6 @@ For best viewing experience we recommend the following setup:
 * Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'
 * Open any *.md file using Chrome (File --> Open)
 
-Viewing files on Server
------------------------
-* Login to the node (Instructor will provide details)
-* start simple http-server as follows
-```
-    $  http-server spark-labs  -p 8000 -s  &
-```
-* goto http://your_machine_address:8000
-* open .md files.. enjoy!
-
-Editors
--------
-We recommend using a 'programmer's editor to view these files. These editors have integrated file browser and allows navigating through files quickly.
-* For Windows : Sublime, NodePad++, Textpad
-* For Mac : Sublime,  TextWrangler
-* For Linux : Sublime, GEdit, Vim
-
 
 ----
 Labs
@@ -51,4 +34,6 @@ Labs
     - [4.1 Submit first application](4-api/4.1-submit.md)
     - [4.2 Mapreduce using API](4-api/4.2-mapreduce.md)
 
-more coming...
+5. **Streaming**
+    - [5.1 Streaming over TCP](streaming/1-over-tcp/README.md)
+    - [5.2 Windowed Count](streaming/2-window/README.md)
