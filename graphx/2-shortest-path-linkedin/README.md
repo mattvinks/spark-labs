@@ -5,7 +5,10 @@ We will find the shortest path on the graph from one point to another. The lab i
 in the Spark shell. This allows the student to examine and understand each step, and to modify parameters as we go.
 After you have executed the code in each step individually, you will collect this code in script, 
 
-For our data, we will use LinkedIn
+For our data, we will use LinkedIn. Therefore, the shortest path will tell us how to connect to the target person
+we want to connect with.
+
+![Mark's LinkedIn account](../../images/linkedin.png)
 
 ### Depends On 
 None
