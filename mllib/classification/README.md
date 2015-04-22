@@ -1,4 +1,4 @@
-Lab 1.1 : Classification with MLlib
+Lab : Classification with MLlib
 ===================================
 ### OverView
 We will be running a binary classifier using a Support Vector Machine (SVM)

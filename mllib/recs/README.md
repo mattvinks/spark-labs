@@ -21,8 +21,12 @@ included.  Furthermore, the ratings outside the subset are ignored, so a good po
 users have no data.
 
 The example here will take the dating site.
-
+file : [data/dating/medium/ratings.dat](../../data/dating/medium/ratings.dat)
 Here is what the file looks like:
+```
+user1, user2, rating (1-10)
+```
+
 ```
 1,133,8
 1,720,6
@@ -38,6 +42,15 @@ Complete the TODO items
 ======================
 
 ### Step 1:  Transform the Rating object of to a tuple of User, Item
+
+```bash
+$    cd  ~/spark-labs/mllib/recs
+
+## edit the file  dating.scala
+$  vi dating.scala
+# or 
+$ nano dating.scala
+```
 
 There are two TODO items you should complete in the scala code before attempting to run the 
 code.

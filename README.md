@@ -46,3 +46,8 @@ Labs
 5. **Streaming**
     - [5.1 Streaming over TCP](streaming/1-over-tcp/README.md)
     - [5.2 Windowed Count](streaming/2-window/README.md)
+
+6. **MLLib** 
+    - [6.1 Kmeans](mllib/kmeans/README.md)
+    - [6.2 Recommendations](mllib/recs/README.md)
+    - [6.3 Classification](mllib/classification/README.md)
