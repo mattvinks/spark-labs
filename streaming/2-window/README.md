@@ -117,7 +117,7 @@ Inspect the output from Spark streaming on terminal #1
 
 You should see something similar to this screen shot.
 (Right click on image and open it in a separate tab to see full size)
-![spark streaming 2](../../images/streaming-2.png)
+![spark streaming 2](../../images/streaming-2-small.png)
 
 
 --------------------------

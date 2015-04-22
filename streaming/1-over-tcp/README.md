@@ -78,17 +78,9 @@ drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
 
 `over-tcp_2.10-0.1.jar`  is our code compiled.
  
---------------------------
-STEP 3: Run The Application
---------------------------
-```
-$   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
-```
-
-Lets call this Terminal #1
 
 ----------------
-STEP 4: Run Netcat Server to send text through TCP connection.
+STEP 3: Run Netcat Server to simulate network traffic
 ----------------
 Open another terminal into Spark node (terminal #2)
 
@@ -98,6 +90,21 @@ Open an terminal and run this command at prompt
 ```bash
 $ nc -lk 9999
 ```
+
+--------------------------
+STEP 4: Run the streaming application
+--------------------------
+```
+$   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
+```
+
+Lets call this Terminal #1
+
+Also note --master url `local[2]`
+* We are using a local 'embedded' server  (quick for development)
+* And we need at least 2 cpu cores -- one for receiver (long running task) and another for our program.  
+If only allocated one core `local[1]`  the program will have run-time errors or won't run!
+
 
 -------------------------
 STEP 5:  Test by typing text in the terminal

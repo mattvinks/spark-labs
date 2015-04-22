@@ -29,13 +29,13 @@ object BlkIPOverTCP {
     linesWBlocked.print()
     blockedIPs.print()
 
-    // save the results
-    // TODO  4  : Save both RDDs
+    /*
+    // TODO  4  : Save both RDDs (and uncomment this block)
     // linesBlocked save to : "out/blocked-lines"
     // blockedIPs save to : "out/blocked-ips"
     linesWBlocked.saveAs_???___
     blockedIPs.saveAs_???___
-
+    */
 
     // kick off the processing
     ssc.start()
