@@ -55,3 +55,8 @@ Labs
 7. **GraphX**
     - [7.1  Shortest path](graphx/1-shortest-path/README.md)
     - [7.2  Influencers](graphx/2-influencer/README.md)
+
+8.  **Spark SQL**
+    - [8.1 Dataframes](8-sql/8.1-dataframe.md)
+    - [8.2 SQL](8-sql/8.2-sql.md)
+
