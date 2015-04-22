@@ -9,7 +9,7 @@ After you have executed the code in each step individually, you will collect thi
 For our data, we will use LinkedIn. Therefore, the shortest path will tell us how to connect to the target person
 we want to connect with.
 
-![Mark's LinkedIn account](../../images/linkedin.png)
+![LinkedIn Introductions](../../images/graphx-connections.png)
 
 ### Depends On 
 None
