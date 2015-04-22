@@ -22,6 +22,12 @@ $  nohup http-server ~/spark-labs  -p 8000 -s  &
 * goto http://your_machine_address:8000
 * open .md files.. enjoy!
 
+Editors
+-------
+We recommend using a 'programmer's editor to view these files. These editors have integrated file browser and allows navigating through files quickly.
+* For Windows : [Sublime](http://www.sublimetext.com/), [NodePad++](http://notepad-plus-plus.org/), [Textpad](http://www.textpad.com/)
+* For Mac : [Sublime](http://www.sublimetext.com/),  [TextWrangler](http://www.barebones.com/products/textwrangler/)
+* For Linux : [Sublime](http://www.sublimetext.com/), GEdit, Vim
 ----
 Labs
 ----
