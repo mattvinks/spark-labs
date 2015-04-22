@@ -26,6 +26,7 @@ $   ~/spark/bin/spark-shell
 ## Step 1: Import the general GraphX libraries, for classes like Graph
  
     import org.apache.spark.graphx._
+    import org.apache.spark.rdd.RDD
     
 ## Step 3: Import the library for random graph generation
 
@@ -43,8 +44,9 @@ Using random graphs will allow us to easily experiment with different graph size
         (4L, ("Packt Publishing", 2984)),
         (5L, ("Barry Kaufman ", 500)),
         // indirect connections
-        (6L, ("Ron Bodkin", 500)),
-        (7L, ("Ron's friend", 500))
+        (6L, ("Tony Piazza", 500)),
+        (7L, ("Tim Fox", 500))
+        )
         
 In this graph, we have the user name and the number of connections. The number of connections is a natural things to have; 
 we will store it, but not use it at this time.
@@ -61,6 +63,7 @@ we will store it, but not use it at this time.
         Edge(1L, 4L, 1),
         Edge(1L, 5L, 1),
         Edge(2L, 6L, 1),
+        Edge(3L, 7L, 1),
         Edge(6L, 7L, 1)
     )
 
@@ -68,20 +71,29 @@ Which connections are direct for Mark and which are indirect?
 
 ## Step 7: For the graph of LinkedIn connections
 
-    val vertexRDD: RDD[(Long, (String, Int))] = sc.parallelize(???)
-    val edgeRDD: RDD[Edge[Int]] = sc.parallelize(???)
-    val graph: Graph[(String, Int), Int] = Graph(???, ???)
+```scala
+val vertexRDD = sc.parallelize(???)
+// result => vertexArray: Array[(Long, (String, Int))]
+val edgeRDD = sc.parallelize(???)
+// result => edgeArray : Array[org.apache.spark.graphx.Edge[Int]]
+val graph = Graph(???, ???)
+// result => graph: org.apache.spark.graphx.Graph[(String, Int),Int]
+```
     
 ## Step 8: Prepare the graph to be used for computations.
 
 Set the initial distance from Mark to Mark to 0, and all other distances to infinity
 
-    val initialGraph = graph.mapVertices((id, _) => if (id == sourceId) 0.0 else Double.PositiveInfinity)
+```scala
+val sourceId = 1L // Mark
+
+val initialGraph = graph.mapVertices((id, _) => if (id == sourceId) 0.0 else Double.PositiveInfinity)
+```
 
 ## Step 9: Compute shortest distances
 
 Use Pregel to compute shortest distances between the root and every other vertix on the graph. 
-Please note that since computating the shortest distance between two vertices anyway involves computing many intermediate short distances,
+Please note that since computing the shortest distance between two vertices anyway involves computing many intermediate short distances,
 Pregel takes a generic approach of computing all shortest distances
 
     val sssp = initialGraph.pregel(Double.PositiveInfinity)(

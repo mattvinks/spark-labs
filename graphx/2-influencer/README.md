@@ -45,7 +45,7 @@ On this step, these are all my followers, so they connect to me
      
     val edgeArray = Array(
         Edge(1L, 2L, 7),
-        Edge(1L, 3L, 2),
+        Edge(1L, 3L, 2),    
         Edge(1L, 4L, 4),
         Edge(1L, 5L, 3),
         Edge(1L, 6L, 1),
