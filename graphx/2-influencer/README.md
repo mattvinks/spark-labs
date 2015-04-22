@@ -1,7 +1,8 @@
-## Lab n.n : GraphX
+GraphX Lab 2 : Find Influencers on Twitter
+================================
 
-### OverView
-We will be constructing graphs and doing basic operations on them 
+### Overview
+Find 'influencers' on Twitter graph
 
 ### Depends On 
 None
@@ -10,8 +11,10 @@ None
 20 mins
 
 
-## STEP 1: Login to your Spark node, start Spark shell
-Instructor will provide details
+## STEP 0: Start Spark Shell
+```bash
+$   ~/spark/bin/spark-shell
+```
 
 ## Step 2: Build the graph from vertices and edges, setting the data in the code
  

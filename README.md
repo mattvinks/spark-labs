@@ -51,3 +51,7 @@ Labs
     - [6.1 Kmeans](mllib/kmeans/README.md)
     - [6.2 Recommendations](mllib/recs/README.md)
     - [6.3 Classification](mllib/classification/README.md)
+
+7. **GraphX**
+    - [7.1  Shortest path](graphx/1-shortest-path/README.md)
+    - [7.2  Influencers](graphx/2-influencer/README.md)

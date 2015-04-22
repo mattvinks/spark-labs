@@ -1,4 +1,5 @@
-## Lab n.n : GraphX
+GraphX Lab 1 : Shortest Path
+============================
 
 ### OverView
 We will find the shortest path on the graph from one point to another. The lab is done by executing each step
@@ -17,8 +18,10 @@ None
 30 mins
 
 
-## STEP 0: Login to your Spark node, start Spark shell
-Instructor will provide details
+## STEP 0: Start Spark Shell
+```bash
+$   ~/spark/bin/spark-shell
+```
 
 ## Step 1: Import the general GraphX libraries, for classes like Graph
  
