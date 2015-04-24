@@ -5,7 +5,7 @@ import org.apache.spark._
 import org.apache.spark.streaming._
 
 /*
-spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
+$  spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
  */
 
 object BlkIPOverTCP {

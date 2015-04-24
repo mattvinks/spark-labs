@@ -1,0 +1,17 @@
+[<< back to main index](../../README.md) 
+
+Lab 5.3 - Spark Streaming With Kafka
+====================================
+
+### Overview
+Integrating Kafka and Spark streaming
+
+### Depends On 
+None
+
+### Run time
+20-30 mins
+
+
+* Step 1 : [Setup kafka](1-kafka-setup.md)
+* Step 2 : [Do streaming](2-streaming.md)

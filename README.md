@@ -50,8 +50,9 @@ Labs
     - [4.2 Mapreduce using API](4-api/4.2-mapreduce.md)
 
 5. **Streaming**
-    - [5.1 Streaming over TCP](streaming/1-over-tcp/README.md)
-    - [5.2 Windowed Count](streaming/2-window/README.md)
+    - [5.1 Streaming over TCP](5-streaming/1-over-tcp/README.md)
+    - [5.2 Windowed Count](5-streaming/2-window/README.md)
+    - [5.3 Kafka Streaming](5-streaming/3-kafka/README.md)
 
 6. **MLLib** 
     - [6.1 Kmeans](mllib/kmeans/README.md)
