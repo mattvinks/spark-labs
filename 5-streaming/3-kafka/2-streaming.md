@@ -192,3 +192,13 @@ STEP 6: Continue fixing the TODO items 1-4
 * Edit the file
 * build using `$   sbt assembly`
 * run
+
+Test with following lines
+```
+1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
+1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
+1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
+1420070404320,ip_9,user_5,clicked,foxnews.com,campaign_2,173,session_24
+```
