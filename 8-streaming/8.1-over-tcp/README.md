@@ -1,6 +1,6 @@
 [<< back to main index](../../README.md) 
 
-Lab 1 - Spark Streaming - Blocked IP Addresses TCP 
+Lab 8.1 - Spark Streaming - Blocked IP Addresses TCP 
 ==================================
 
 ### Overview

@@ -1,6 +1,6 @@
 [<< back to main index](../../README.md) 
 
-Lab 2 - Spark Streaming Windowed Calculations
+Lab 8.2 - Spark Streaming Windowed Calculations
 ==================================
 
 ### Overview

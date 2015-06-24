@@ -10,6 +10,12 @@
 ## ----- config
 days=10
 entries_per_day=100000
+# file size calculations
+#  format     entries_per_day     file_size in MB
+#  csv       10000000             830 M file
+#  json      1000000              169 M
+#  json      3200000              500 M
+
 log_format="csv"
 #log_format="json"
 ## --- end config

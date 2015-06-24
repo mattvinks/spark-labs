@@ -1,6 +1,6 @@
 [<< back to main index](../../README.md) 
 
-Lab 5.3 - Spark Streaming With Kafka
+Lab 8.3 - Spark Streaming With Kafka
 ====================================
 
 ### Overview
