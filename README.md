@@ -53,7 +53,10 @@ Labs
     - [7.1  Shortest path](7-graphx/7.1-shortest-path.md)
     - [7.2  Influencers](7-graphx/7.2-influencer.md)
 
-8. **Streaming**
+8. **Streaming** (8-streaming)
     - [8.1 Streaming over TCP](8-streaming/8.1-over-tcp/README.md)
     - [8.2 Windowed Count](8-streaming/8.2-window/README.md)
     - [8.3 Kafka Streaming](8-streaming/8.3-kafka/README.md)
+
+9. **Operations** (9-ops)
+    - [9.1 Cluster setup](9-ops/9.1-cluster-setup.md)
