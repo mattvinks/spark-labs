@@ -8,8 +8,11 @@ Markdown files are plain text files and can be viewed in any text editor.
 
 For best viewing experience we recommend the following setup:
 * Get Chrome browser from : https://www.google.com/chrome/browser/desktop/
+
 * Install Markdown preview plus plugin : https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl?hl=en-US
+
 * Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'
+
 * Open any *.md file using Chrome (File --> Open)
 
 
