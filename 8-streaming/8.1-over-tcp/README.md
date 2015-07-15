@@ -18,7 +18,7 @@ STEP 1: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/streaming/1-over-tcp
+$    cd ~/spark-labs/8-streaming/8.1-over-tcp
 ```
 
 **edit file : `src/main/scala/x/BlkIPOverTCP.scala`**  
@@ -95,6 +95,9 @@ $ nc -lk 9999
 STEP 4: Run the streaming application
 --------------------------
 ```
+# be in project root directory
+# $ cd  ~/spark-labs/8-streaming/8.1-over-tcp
+
 $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
 ```
 
@@ -140,6 +143,12 @@ $    vi  src/main/scala/x/BlkIPOverTCP.scala
 $    nano  src/main/scala/x/BlkIPOverTCP.scala
 ```
 
+```scala
+// TODO 4 : save the results
+linesWBlocked.saveAsTextFiles("out/blocked-lines")
+blockedIPs.saveAsTextFiles("out/blocked-IPs")
+```
+
 **=> Build and run the program**
 ```bash
 $   sbt package
@@ -156,3 +165,7 @@ $   find out/
 ```
 
 **=> Inspect some files, what do you see?**
+```bash
+# you may need to adjust the file name 
+$   cat out/blocked-IPs-*/part-00000
+```

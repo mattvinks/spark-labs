@@ -8,6 +8,7 @@ import org.apache.spark.streaming._
 $  spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
  */
 
+
 object BlkIPOverTCP {
   def main(args: Array[String]) {
 
@@ -20,10 +21,17 @@ object BlkIPOverTCP {
     val lines = ssc.socketTextStream("localhost", 9999)
 
     // TODO 2 : filter lines that contains 'blocked'
+    //      filter (line => line.contains("???"))
     val linesWBlocked = lines.filter(???)
 
     // TODO 3 : On those lines, extract just the IP address
-    val blockedIPs = linesWBlocked.map(???)
+     /* hint  : data  format: 
+     timestamp, ip, userid, action, domain, campaign, cost, sessionid
+     1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+    */
+    // hint : separator is comma
+    // hint : ip address is second element : index (1)
+    val blockedIPs = linesWBlocked.map(line => line.split("??? what is the sep ???")(??? index ???))
 
     // print the results
     linesWBlocked.print()
@@ -33,8 +41,8 @@ object BlkIPOverTCP {
     // TODO  4  : Save both RDDs (and uncomment this block)
     // linesBlocked save to : "out/blocked-lines"
     // blockedIPs save to : "out/blocked-ips"
-    linesWBlocked.saveAs_???___
-    blockedIPs.saveAs_???___
+    linesWBlocked.saveAsTextFiles("out dir1")
+    blockedIPs.saveAsTextFiles("out dir2")
     */
 
     // kick off the processing
