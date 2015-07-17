@@ -81,7 +81,7 @@ drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
 STEP 3: Run The Application
 --------------------------
 ```
-$  ~/spark-labs/streaming/lab3/sbt run
+$  ~/spark-labs/streaming/lab3/JoinD/sbt run
 ```
 Note - hope you have modified log4j.properties in conf folder to remove verbose. 
 
