@@ -47,10 +47,10 @@ Labs
     - [5.1 Dataframes](5-sql/5.1-dataframe.md)
     - [5.2 SQL](5-sql/5.2-sql.md)
 
-6. **MLLib** 
-    - [6.1 Kmeans](mllib/kmeans/README.md)
-    - [6.2 Recommendations](mllib/recs/README.md)
-    - [6.3 Classification](mllib/classification/README.md)
+6. **MLLib**  (6-mllib)
+    - [6.1 Kmeans](6-mllib/kmeans/README.md)
+    - [6.2 Recommendations](6-mllib/recs/README.md)
+    - [6.3 Classification](6-mllib/classification/README.md)
 
 7. **GraphX** (7-graphx)
     - [7.1  Shortest path](7-graphx/7.1-shortest-path.md)
