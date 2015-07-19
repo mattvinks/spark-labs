@@ -46,6 +46,7 @@ Labs
 5.  **Spark SQL** (5-sql)
     - [5.1 Dataframes](5-sql/5.1-dataframe.md)
     - [5.2 SQL](5-sql/5.2-sql.md)
+    - [5.3 Data formats](5-sql/5.3-data-formats.md)
 
 6. **MLLib**  (6-mllib)
     - [6.1 Kmeans](6-mllib/kmeans/README.md)
