@@ -107,7 +107,7 @@ $   ~/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic cli
 
 You should have a setup like this screen shot.  (Right Click on Image and choose 'Open Image in New Tab' to see the full size)
 
-![Kafka setup](../../images/kafka1.png)
+<img src="../images/kafka1.png" style="border: 5px solid grey; max-width:100%;"/>
 
 **Feed some data into Kafka producer terminal,  and see it will show up in consumer terminal**  
 Try pasting the following
