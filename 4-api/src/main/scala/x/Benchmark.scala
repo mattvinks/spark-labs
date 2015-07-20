@@ -9,12 +9,13 @@ object Benchmark {
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("Benchmark Application")
     val sc = new SparkContext(conf)
-    val files = List ("s3n://opr-spark/1M.data",
-      "s3n://opr-spark/10M.data",
-      "s3n://opr-spark/100M.data",
-      "s3n://opr-spark/500M.data",
-      "s3n://opr-spark/1G.data",
-      "s3n://opr-spark/5G.data")
+    val files = List ("s3n://elephantscale-public/data/twinkle/1M.data",
+      "s3n://elephantscale-public/data/twinkle/10M.data",
+      "s3n://elephantscale-public/data/twinkle/100M.data",
+      "s3n://elephantscale-public/data/twinkle/500M.data",
+      "s3n://elephantscale-public/data/twinkle/1G.data",
+      "s3n://elephantscale-public/data/twinkle/2G.data")
+
 
     for(f <- files) {
       println ("### processing file : " + f)

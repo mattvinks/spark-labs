@@ -18,7 +18,7 @@ STEP 1: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/streaming/2-window
+$    cd ~/spark-labs/8-streaming/8.2-window
 ```
 
 **edit file : `src/main/scala/x/WindowedCount.scala`**  
@@ -52,8 +52,8 @@ version := "0.1"
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
-"org.apache.spark" %% "spark-core" % "1.3.1" % "provided",
-"org.apache.spark" %% "spark-streaming" % "1.3.1" % "provided"
+"org.apache.spark" %% "spark-core" % "1.4.1" % "provided",
+"org.apache.spark" %% "spark-streaming" % "1.4.1" % "provided"
 )
 
 
