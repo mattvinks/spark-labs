@@ -1,3 +1,5 @@
+[<< back to main index](../../README.md) 
+
 MLlib Recommendations Lab
 =============================
 
@@ -44,7 +46,7 @@ Complete the TODO items
 ### Step 1:  Transform the Rating object of to a tuple of User, Item
 
 ```bash
-$    cd  ~/spark-labs/mllib/recs
+$    cd  ~/spark-labs/6-mllib/recs
 
 ## edit the file  dating.scala
 $  vi dating.scala

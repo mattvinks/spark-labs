@@ -51,3 +51,6 @@ val personalratings = data.map(_.split(',') match { case Array(user, item, ratin
 
 val recsForEachUser = recs.map { case ((user, item), rating) => (user, item, rating) 
   }.collect.groupBy(_._1).mapValues(_.sortBy(- _._3).take(4)).mapValues(_.map(_._2))
+
+
+exit // exit shell

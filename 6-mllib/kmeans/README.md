@@ -1,3 +1,5 @@
+[<< back to main index](../../README.md) 
+
 KMeans Lab
 ==========
 
@@ -36,18 +38,12 @@ a vector.dense
 ```scala
 def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
   vals.map { s =>
-    // TODO: split the data by commas
-    val splitData = ???
-    //TODO: get rid of (drop) any non-numeric fields.      
-    val numericFields = ????
-    //TODO: Get the name out of splitData (column 0)
-    val name = ????
-    //TODO: map all the fields to double from string
-    val doubles = ????
-    // TODO: Convert the doubles to a Vectors.dense
-    val vectors = >???
-    // TODO: return a tuple of name, vectors
-    (???, ???)
+    val splitData = s.split(',')
+    val numericFields = splitData.drop(1)
+    val name = splitData(0)
+    val doubles = numericFields.map(_.toDouble)
+    val vectors = Vectors.dense(doubles)
+    (name, vectors)
   }
 }
 ```
@@ -64,17 +60,15 @@ and get only the vectors, as kmeans only works on an RDD
 of vectors (no names attached).
 
 ```scala
-//TODO: Get only the vector out of NamesandData (the second item in the tuple)
-val onlyVectors =  ???
+val data = sc.textFile("../../data/mtcars/mtcars.csv")
+val NamesandData = parseData(data)
+val parsedData = NamesandData.map { case (string, vector) => vector } 
 ```
 
 
-### Step 4: Run the included script
+### Step 4: Run KMeans
 
-run this with:
-(You'll need to either have spark-shell in your path or give the 
- FQ path for it).
-
+Run your script with:
 ```bash
 $ ~/spark/bin/spark-shell -i kmeans_mtcars.scala
 ```
