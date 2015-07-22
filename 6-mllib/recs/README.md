@@ -101,6 +101,7 @@ Beware: some numbers aren't represented (e.g. 3)
 ### Step 4: Running on some of your own data
 
 Create a file called personalratings.txt.  Include some test data as preferences.
+We have included a samle personalratings.txt for you you can refer to it.
 
 ```scala
 val personaldata = sc.textFile("personalratings.txt")
