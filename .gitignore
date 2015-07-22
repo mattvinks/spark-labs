@@ -8,6 +8,7 @@ out*
 *.out
 *.csv
 *.json
+*solution*
 
 metastore_db/
 

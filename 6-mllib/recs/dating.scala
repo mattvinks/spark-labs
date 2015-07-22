@@ -45,9 +45,10 @@ val MSE = ratingsAndRecs.map { case ((user, item), (r1, r2)) =>
 println("Mean Squared Error = " + MSE)
 
 val personaldata = sc.textFile("personalratings.txt")
-val personalratings = data.map(_.split(',') match { case Array(user, item, rating) =>
-    Rating(user.toInt, item.toInt, rating.toDouble)
-  })
+//val personalratings = data.map(_.split(',') match { case Array(user, item, rating) =>
+    //Rating(user.toInt, item.toInt, rating.toDouble)
+  //})
+val personalratings = parseData(personaldata)
 
 val recsForEachUser = recs.map { case ((user, item), rating) => (user, item, rating) 
   }.collect.groupBy(_._1).mapValues(_.sortBy(- _._3).take(4)).mapValues(_.map(_._2))
