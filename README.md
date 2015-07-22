@@ -54,8 +54,8 @@ Labs
     - [6.3 Classification](6-mllib/classification/README.md)
 
 7. **GraphX** (7-graphx)
-    - [7.1  Shortest path](7-graphx/7.1-shortest-path.md)
-    - [7.2  Influencers](7-graphx/7.2-influencer.md)
+    - [7.1  Influencers (Twitter)](7-graphx/7.1-influencer.md)
+    - [7.2  Shortest path (in LinkedIn)](7-graphx/7.2-shortest-path.md)
 
 8. **Streaming** (8-streaming)
     - [8.1 Streaming over TCP](8-streaming/8.1-over-tcp/README.md)
