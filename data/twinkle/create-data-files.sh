@@ -23,18 +23,25 @@ then
         echo "done"
 fi
 
+## which block size to use?
+## bs = 1048576
+## bs = 1000000
+
 ## creates multiple sized files
 echo "creating 1M.data..."
-dd  if=a.data  of=1M.data  bs=1048576   count=1   #  1 M file
+dd  if=a.data  of=1M.data  bs=1000000   count=1   #  1 M file
 
 echo "creating 10M.data..."
-dd  if=a.data  of=10M.data  bs=1048576   count=10 #  10 M file
+dd  if=a.data  of=10M.data  bs=1000000   count=10 #  10 M file
 
 echo "creating 100M.data..."
-dd  if=a.data  of=100M.data  bs=1048576   count=100 #  100 M file
+dd  if=a.data  of=100M.data  bs=1000000   count=100 #  100 M file
+
+echo "creating 200M.data..."
+dd  if=a.data  of=200M.data  bs=1000000   count=200 #  200 M file
 
 echo "creating 500M.data..."
-dd  if=a.data  of=500M.data  bs=1048576   count=500 #  500 M file
+dd  if=a.data  of=500M.data  bs=1000000   count=500 #  500 M file
 
 echo "creating 1G.data..."
-dd  if=a.data  of=1G.data  bs=1048576   count=1000 #  1G file
+dd  if=a.data  of=1G.data  bs=1000000   count=1000 #  1G file
