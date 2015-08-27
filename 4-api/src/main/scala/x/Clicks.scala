@@ -20,7 +20,7 @@ object Clicks {
 
     println ("### Ahoy mate, fix TODO items!")
 
-    // ## TODO-1 : create an input rdd; hint : sc.textFiles(input)
+    // ## TODO-1 : create an input rdd; hint : sc.textFile(input)
     /*
     val clickstream = ???
 
