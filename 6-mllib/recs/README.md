@@ -1,9 +1,8 @@
 [<< back to main index](../../README.md) 
 
-MLlib Recommendations Lab
-=============================
+# MLlib Recommendations Lab
 
-## Introduction
+### Introduction
 
 This lab explores a well known dataset from the Czech dating website libimseti.cz.  We'll
 just call it the "dating" dataset. :)
@@ -25,62 +24,48 @@ users have no data.
 The example here will take the dating site.
 file : [data/dating/medium/ratings.dat](../../data/dating/medium/ratings.dat)
 Here is what the file looks like:
-```
-user1, user2, rating (1-10)
-```
 
-```
-1,133,8
-1,720,6
-1,971,10
-1,1095,7
-1,1616,10
-1,1978,7
-1,2145,8
-```
+    user1, user2, rating (1-10)
+
+    1,133,8
+    1,720,6
+    1,971,10
+    1,1095,7
+    1,1616,10
+    1,1978,7
+    1,2145,8
 
 
-Complete the TODO items
-======================
+### Complete the TODO items
 
 ### Step 1:  Transform the Rating object of to a tuple of User, Item
 
-```bash
-$    cd  ~/spark-labs/6-mllib/recs
-
-## edit the file  dating.scala
-$  vi dating.scala
-# or 
-$ nano dating.scala
-```
+    $    cd  ~/spark-labs/6-mllib/recs
+    
+    ## edit the file  dating.scala
+    $  vi dating.scala
+    # or 
+    $ nano dating.scala
 
 There are two TODO items you should complete in the scala code before attempting to run the 
 code.
 
 The first one is as follows:
 
-```scala
-// Get rid of rating to test model's effectiveness
-// TODO: TRANSFORM Rating -> Tuple of (user, item)
-// (i.e., get rid of the rating.
+    // Get rid of rating to test model's effectiveness
+    // TODO: TRANSFORM Rating -> Tuple of (user, item)
+    // (i.e., get rid of the rating.
 
 val usersItems = ???? // TODO complete this item
-```
 
 ###Step 2:   Use the predict method to map the outpu to user,item
 The second one is as follows:
-```scala
-// Do a test prediction
-// TODO call model.predict() on userItems, and then map the output of that
-to (user, item), rating
 
-val recs = ??? // TODO:  COMPLETE THIS
-```
-
-`
-
-
-
+    // Do a test prediction
+    // TODO call model.predict() on userItems, and then map the output of that
+    to (user, item), rating
+    
+    val recs = ??? // TODO:  COMPLETE THIS
 
 ### Step 3: Running the data
 
@@ -102,11 +87,9 @@ Beware: some numbers aren't represented (e.g. 3)
 Create a file called personalratings.txt.  Include some test data as preferences.
 We have included a samle personalratings.txt for you you can refer to it.
 
-```scala
-val personaldata = sc.textFile("personalratings.txt")
-val personalratings = data.map(_.split(',') match { case Array(user, item, rating) =>
-    Rating(user.toInt, item.toInt, rating.toDouble)
-  })
-```
+    val personaldata = sc.textFile("personalratings.txt")
+    val personalratings = data.map(_.split(',') match { case Array(user, item, rating) =>
+        Rating(user.toInt, item.toInt, rating.toDouble)
+      })
 
 
