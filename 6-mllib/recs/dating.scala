@@ -30,8 +30,7 @@ val model = ALS.train(ratings, rank = 10, iterations = 5, 0.01)
 val usersItems = ???? // TODO complete this item
 
 // Do a test prediction
-// TODO call model.predict() on userItems, and then map the output of that 
-to (user, item), rating
+// TODO call model.predict() on userItems, and then map the output of that to (user, item), rating
 
 val recs = ??? // TODO:  COMPLETE THIS
 
