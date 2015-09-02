@@ -156,7 +156,7 @@ See how adding this affects the way the data is clustered?
 Is there a way you could modify this to loop through values of K instead of 
 manually changing the values?  
 
-### BONUS 2; Programmatically Perform Elbow Method
+### BONUS 2: Programmatically Perform Elbow Method
 
 Using the principles of the "elbow" method, what is a way you could automatically
 select a k value?
