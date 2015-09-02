@@ -54,33 +54,30 @@ Create a function called parseData to parse the data. It should return
 type Labeledpoint. which should have the outcome variable churn,
 and a Vectors.Dense of all the other variables
 
-```scala
-// ===== Scala =====
-def parseData(vals : RDD[String]) : RDD[LabeledPoint] = {
-  vals.map { s =>
-    //TODO: drop the non-numeric fields, convert the rest to double.
-    val parts = ???
 
-    //TODO Return Labeldpoint:  Outcome variable, Vectors.Dense(all other variab
-les
-    LabeledPoint(???, ???)
-  }
-}
-```
+    // ===== Scala =====
+    def parseData(vals : RDD[String]) : RDD[LabeledPoint] = {
+      vals.map { s =>
+        //TODO: drop the non-numeric fields, convert the rest to double.
+        val parts = ???
+    
+        //TODO Return Labeldpoint:  Outcome variable, Vectors.Dense(all other variab
+    les
+        LabeledPoint(???, ???)
+      }
+    }
+
 
 ## Step 5 : Complete the TODO items to generate score and labels.
 
 Use model.predict on the test data.  Calculate the score.  Then return a tuple of score and point.label
 
-```scala
-// ===== Scala =====
-val scoreAndLabels = splitTestData.map { point =>
-  //TODO == use model.predict to get the score
-  //val score = ???
-  //(score, point.label)
-}
-
-```
+    // ===== Scala =====
+    val scoreAndLabels = splitTestData.map { point =>
+      //TODO == use model.predict to get the score
+      //val score = ???
+      //(score, point.label)
+    }
 
 
 ## STEP 6: execute the lab

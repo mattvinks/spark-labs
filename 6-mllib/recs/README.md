@@ -84,9 +84,8 @@ val recs = ??? // TODO:  COMPLETE THIS
 
 ### Step 3: Running the data
 
-```bash
-~/spark/bin/spark-shell -i dating.scala
-```
+    ~/spark/bin/spark-shell -i dating.scala
+
 
 Once you run this, the recommendations for all users will be put in an array
 called recsForEachUser()
