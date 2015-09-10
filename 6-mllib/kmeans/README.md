@@ -16,17 +16,17 @@ This dataset contains some statistics on 1974 Cars from Motor Trends
 You can also download and view the raw data in Excel : [cars.csv](../../data/mtcars/mtcars.csv)
 
 Here are the columns:
-* name   name of the car
-*  mpg   Miles/(US) gallon                        
-*  cyl   Number of cylinders                      
-*  disp  Displacement (cu.in.)                    
-*  hp    Gross horsepower                         
-*  drat  Rear axle ratio            
-*  mpg   Miles/(US) gallon                        
-*  cyl   Number of cylinders                      
-*  disp  Displacement (cu.in.)                    
-*  hp    Gross horsepower                         
-*  drat  Rear axle ratio            
+* name   - name of the car
+*  mpg   - Miles/(US) gallon                        
+*  cyl   - Number of cylinders                      
+*  disp  - Displacement (cu.in.)                    
+*  hp    - Gross horsepower                         
+*  drat  - Rear axle ratio            
+*  mpg   - Miles/(US) gallon                        
+*  cyl   - Number of cylinders                      
+*  disp  - Displacement (cu.in.)                    
+*  hp    - Gross horsepower                         
+*  drat  - Rear axle ratio            
 
 Are there any natural clusters you can identify from this data?
 
