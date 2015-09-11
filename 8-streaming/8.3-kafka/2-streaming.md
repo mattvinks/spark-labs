@@ -1,11 +1,14 @@
-Lab : Kafka Streaming
+[<< back to main index](../../README.md)  /  
+[<< back to kafka streaming index](README.md)  
+
+Lab 8.3b: Kafka Streaming
 =================
 
 ### Overview
 Setting up Kafka
 
 ### Depends On 
-[Kafka Streaming](1-kafka-setup.md)
+[Kafka setup](1-kafka-setup.md)
 
 ### Run time
 20-30 mins
@@ -143,7 +146,7 @@ Make sure you have Kafka up and running.  For reference
 
 Here is the screen shot (right click on image open in a new tab to see full size image)
 
-<img src="../images/streaming-3a-small.png" style="border: 5px solid grey; max-width:100%;"/>
+<img src="../../images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/>
 
 
 **=> Stop Kafka consumer by hitting `Ctrl + C` in Terminal #4**  
@@ -182,7 +185,7 @@ Time: 1429859630000 ms
 Your setup might look like the following picture
 (right click on image open in a new tab to see full size image)
 
-<img src="../images/streaming-3b-small.png" style="border: 5px solid grey; max-width:100%;"/>
+<img src="../../images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/>
 
 --------------------------
 STEP 6: Continue fixing the TODO items 1-4
