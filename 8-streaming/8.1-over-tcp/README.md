@@ -10,7 +10,7 @@ Submit a job for Spark Streaming to find all the Blocked IP Addresses Over Socke
 None
 
 ### Run time
-20-30 mins
+30-40 mins
 
 
 ---------------------

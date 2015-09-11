@@ -10,7 +10,7 @@ Submit a job for Spark Streaming and doing 'windowed count'
 None
 
 ### Run time
-20-30 mins
+30-40 mins
 
 
 ---------------------

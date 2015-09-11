@@ -11,7 +11,7 @@ Setting up Kafka
 None
 
 ### Run time
-20-30 mins
+30-40 mins
 
 
 -----------------------------

@@ -10,7 +10,7 @@ Integrating Kafka and Spark streaming
 None
 
 ### Run time
-20-30 mins
+2 hours
 
 
 * Step 1 : [Setup kafka](1-kafka-setup.md)

@@ -11,7 +11,7 @@ Setting up Kafka
 [Kafka setup](1-kafka-setup.md)
 
 ### Run time
-20-30 mins
+1hr - 1.5 hrs
 
 
 -----------------------------
