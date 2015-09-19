@@ -38,7 +38,7 @@ Here is what the file looks like:
 
 ### Complete the TODO items
 
-### Step 1:  Transform the Rating object of to a tuple of User, Item
+### Step 1:  Transform the Rating object to a tuple of User, Item
 
     $    cd  ~/spark-labs/6-mllib/recs
     

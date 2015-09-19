@@ -1,4 +1,7 @@
-Lab : Kafka Setup
+[<< back to main index](../../README.md)  /  
+[<< back to kafka streaming index](README.md)  
+
+Lab 8.3a: Kafka Setup
 =================
 
 ### Overview
@@ -8,7 +11,7 @@ Setting up Kafka
 None
 
 ### Run time
-20-30 mins
+30-40 mins
 
 
 -----------------------------
@@ -107,7 +110,7 @@ $   ~/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic cli
 
 You should have a setup like this screen shot.  (Right Click on Image and choose 'Open Image in New Tab' to see the full size)
 
-<img src="../images/kafka1.png" style="border: 5px solid grey; max-width:100%;"/>
+<img src="../../images/8.3-kafka1.png" style="border: 5px solid grey; max-width:100%;"/>
 
 **Feed some data into Kafka producer terminal,  and see it will show up in consumer terminal**  
 Try pasting the following

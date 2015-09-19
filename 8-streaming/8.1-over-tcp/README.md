@@ -10,7 +10,7 @@ Submit a job for Spark Streaming to find all the Blocked IP Addresses Over Socke
 None
 
 ### Run time
-20-30 mins
+30-40 mins
 
 
 ---------------------
@@ -127,7 +127,7 @@ Inspect the output from Spark streaming on terminal #1
 
 You should see something similar to this screen shot.
 (Right click on image and open it in a separate tab to see full size)
-<img src="../images/streaming-1a.png" style="border: 5px solid grey; max-width:100%;"/>
+<img src="../../images/8.1a-streaming.png" style="border: 5px solid grey; max-width:100%;"/>
 
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
 
