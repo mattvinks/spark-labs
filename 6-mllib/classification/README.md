@@ -1,3 +1,5 @@
+<link rel='stylesheet' href='../../assets/main.css'/>
+
 Lab : Classification with MLlib
 ===================================
 ### OverView

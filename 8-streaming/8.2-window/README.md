@@ -1,3 +1,5 @@
+<link rel='stylesheet' href='../../assets/main.css'/>
+
 [<< back to main index](../../README.md) 
 
 Lab 8.2 - Spark Streaming Windowed Calculations
