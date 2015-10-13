@@ -2,8 +2,9 @@ body {
 	font-family: "Avenir Next", Helvetica, Arial, sans-serif;
 	padding:1em;
 	margin:auto;
-	max-width:42em;
+	/*max-width:42em;*/
 	background:#fefefe;
+	line-height: 1em;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -75,10 +76,10 @@ button, #ws {
 
 code, pre, #ws, #message {
 	font-family: Monaco;
-	font-size: 10pt;
+	/*font-size: 10pt;*/
 	border-radius: 3px;
 	/*background-color: #F8F8F8;*/
-	background-color: #D9E5FA;
+	background-color: #EBF5FF;
 	color: inherit;
 }
 
@@ -98,7 +99,7 @@ pre > code {
 	border: 0;
 	margin: 0;
 	padding: 0;
-	background-color: #D9E5FA;
+	background-color: #EBF5FF;
 }
 
 #ws { background-color: #f8f8f8; }
