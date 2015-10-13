@@ -1,3 +1,5 @@
+<link rel='stylesheet' href='../../assets/main.css'/>
+
 [<< back to main index](../../README.md) 
 
 # KMeans Lab

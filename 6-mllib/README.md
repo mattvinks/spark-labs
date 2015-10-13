@@ -1,3 +1,5 @@
+<link rel='stylesheet' href='../assets/main.css'/>
+
 # MLlib Labs 
 
 * Recommendations : [Recommendatinos](recs/README.md)
