@@ -97,7 +97,10 @@ Use `nc` command to move text you type in terminal #2 to port 9999
 Open an terminal and run this command at prompt
 
 ```bash
-$ nc -lk 9999
+    $ nc -lk 9999
+
+    # if this gives an error like 'Protocol not available' use this
+    $  ~/bin/nc  -lk 9999
 ```
 
 

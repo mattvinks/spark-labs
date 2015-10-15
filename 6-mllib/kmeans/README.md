@@ -32,7 +32,10 @@ Here are the columns:
 
 Are there any natural clusters you can identify from this data?
 
-### Step 2: Complete the TODOs in the parseData function
+### Step 2: Execute the script
+Open file `kmeans_mtcars.scala` and examine it.  
+This is a fully functional K-means script.  
+We are going to run this **line-by-line** in Spark Shell to understand what is going on.
 
 In this function, we're going to go from the RDD input file
 to an output as a tuple of Vector Names and Vectors.  Vector 
