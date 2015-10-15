@@ -70,4 +70,4 @@ groupedClusters.collect
 val carsByCluster =namesAndData.map(s => (clusters.predict(s._2), (s._1,s._2))).sortByKey().collect()
 carsByCluster.foreach { println }
 
-
+exit
