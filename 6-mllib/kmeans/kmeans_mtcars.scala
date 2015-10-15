@@ -34,12 +34,12 @@ val data = sc.textFile("../../data/mtcars/mtcars.csv")
 data.collect
 
 // ## TODO-2 parse the data and print
-val NamesandData = parseData(data)
-NamesandData.collect
+val namesAndData = parseData(data)
+namesAndData.collect
 
 
-// ## TODO-3 : Get only the vector out of NamesandData (the second item in the tuple)
-val onlyVectors = NamesandData.map { case (name, vector) => vector } 
+// ## TODO-3 : Get only the vector out of namesAndData (the second item in the tuple)
+val onlyVectors = namesAndData.map { case (name, vector) => vector } 
 //one-liner: 
 //      val onlyVectors = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble)))
 
@@ -63,11 +63,11 @@ val WSSSE = clusters.computeCost(onlyVectors)
 println("Within Set Sum of Squared Errors = " + WSSSE)
 
 // ## TODO-6 Print out a list of the clusters and each point of the clusters
-val groupedClusters = NamesandData.groupBy{rdd => clusters.predict(rdd._2)}
+val groupedClusters = namesAndData.groupBy{rdd => clusters.predict(rdd._2)}
 groupedClusters.collect
 
 // ## TODO-7 : pretty print
-val carsByCluster =NamesandData.map(s => (clusters.predict(s._2), (s._1,s._2))).sortByKey().collect()
+val carsByCluster =namesAndData.map(s => (clusters.predict(s._2), (s._1,s._2))).sortByKey().collect()
 carsByCluster.foreach { println }
 
 
