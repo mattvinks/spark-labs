@@ -31,7 +31,7 @@ val usersItems = ???? // TODO complete this item
 
 // Do a test prediction
 // TODO call model.predict() on userItems, and then map the output of that 
-to (user, item), rating
+// to (user, item), rating
 
 val recs = ??? // TODO:  COMPLETE THIS
 
