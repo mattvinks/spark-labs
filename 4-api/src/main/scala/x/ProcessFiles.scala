@@ -35,7 +35,7 @@ object ProcessFiles {
     var file = ""
     for (file <- args) { // looping over files
       // ## TODO 2 : create an RDD out of file (hint :  sc.textFile)
-      // val rdd = ???
+      // val rdd = sc.???(file)
       val t1 = System.nanoTime()
       // ## TODO 2 : count # of elements in RDD
       val count =  0 //  rdd.???
@@ -43,5 +43,9 @@ object ProcessFiles {
 
        println("### %s: count:  %,d ,  time took:  %,f ms".format(file, count, (t2-t1)/1e6))
       }
+
+      // HACK : so the 4040 UI stays alive :-)
+      println("### Hit enter to terminate the program...:")
+      val line = Console.readLine
    }
 }

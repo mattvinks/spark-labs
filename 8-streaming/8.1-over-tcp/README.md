@@ -54,8 +54,8 @@ version := "1.0"
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "1.3.1" % "provided",
-  "org.apache.spark" %% "spark-streaming" % "1.3.1" % "provided"
+  "org.apache.spark" %% "spark-core" % "1.4.1" % "provided",
+  "org.apache.spark" %% "spark-streaming" % "1.4.1" % "provided"
 )
 
 ```
@@ -131,8 +131,8 @@ In the Terminal #2, copy and paste the following lines (these are lines from our
 Inspect the output from Spark streaming on terminal #1
 
 You should see something similar to this screen shot.
-(Right click on image and open it in a separate tab to see full size)
-<img src="../../images/8.1a-streaming.png" style="border: 5px solid grey; max-width:100%;"/>
+(Click on the image for larger version)   
+<a href="../../images/8.1a-streaming.png"><img src="../../images/8.1a-streaming.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
 

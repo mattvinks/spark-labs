@@ -121,8 +121,8 @@ In the Terminal #2, copy and paste the following lines (these are lines from our
 Inspect the output from Spark streaming on terminal #1
 
 You should see something similar to this screen shot.
-(Right click on image and open it in a separate tab to see full size)
-<img src="../../images/8.2-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/>
+(Click on image to see larger version)   
+<a href="../../images/8.2-streaming-small.png"><img src="../../images/8.2-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 
 --------------------------
