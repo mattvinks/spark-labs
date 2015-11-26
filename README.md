@@ -21,13 +21,13 @@ https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfno
 
 ### Firefox
 
-* Get Firefox pluging: https://addons.mozilla.org/en-us/firefox/addon/markdown-viewer/
+* Get Firefox add-on: https://addons.mozilla.org/en-us/firefox/addon/markdown-viewer/
 * Open any *.md file using Firefox (File --> Open)
 
 
 Editors
 -------
-We recommend using a 'programmer's editor to view these files. These editors have integrated file browser and allows navigating through files quickly.
+We recommend using a 'programmer's editor' to view these files. These editors have integrated file browser and allows navigating through files quickly.
 * For Windows : [Sublime](http://www.sublimetext.com/), [NodePad++](http://notepad-plus-plus.org/), [Textpad](http://www.textpad.com/)
 * For Mac : [Sublime](http://www.sublimetext.com/),  [TextWrangler](http://www.barebones.com/products/textwrangler/)
 * For Linux : [Sublime](http://www.sublimetext.com/), GEdit, Vim
