@@ -1,6 +1,7 @@
 # data files
 *.log
 *.data
+*.gz
 *.tgz
 .DS_Store
 out*
