@@ -67,7 +67,7 @@ def generate_log(timestamp):
 if __name__ == '__main__':
 
   # mkdir
-  dir="logs-json"
+  dir="json"
   os.mkdir(dir)
 
   time_inc_ms = int ((24.0*3600*1000)/entries_per_day)

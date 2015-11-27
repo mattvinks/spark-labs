@@ -2,11 +2,11 @@
 
 ## compresses json files
 
-mkdir -p 'logs-json-gz'
-for f in `ls logs-json`
+mkdir -p 'json-gz'
+for f in `ls json`
 do
-  input="logs-json/$f"
-  output="logs-json-gz/$f.gz"
+  input="json/$f"
+  output="json-gz/$f.gz"
   echo "compressing $input --> $output"
   gzip < $input > $output
 done
