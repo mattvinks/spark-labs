@@ -10,6 +10,7 @@ out*
 *.json
 *solution*
 ~*
+*~
 
 metastore_db/
 

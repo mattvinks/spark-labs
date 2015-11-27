@@ -8,7 +8,7 @@ Viewing the files:
 -----------------
 Markdown files are plain text files and can be viewed in any text editor.
 
-For best viewing experience we recommend the following setup (use either Chrome or Firefox)
+For best viewing experience we recommend the following setup
 
 ### Chrome
 
@@ -18,11 +18,6 @@ Go to this url in Chrome & click add to Chrome.
 https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl?hl=en-US
 * Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'
 * Open any *.md file using Chrome (File --> Open)
-
-### Firefox
-
-* Get Firefox add-on: https://addons.mozilla.org/en-us/firefox/addon/markdown-viewer/
-* Open any *.md file using Firefox (File --> Open)
 
 
 Editors
