@@ -79,7 +79,7 @@ called recsForEachUser()
 
 you can find recommendations for a particular user by typing the following:
 
-scala> recsForEachUser(4) 
+scala> recsForEachUser(4)  
 res4: Array[Int] = Array(7964, 6499, 6269, 9287)
 
 Beware: some numbers aren't represented (e.g. 3)
