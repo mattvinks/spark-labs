@@ -35,11 +35,13 @@ object ProcessFiles {
     var file = ""
     for (file <- args) { // looping over files
       // ## TODO 2 : create an RDD out of file (hint :  sc.textFile)
-      val rdd = sc.textFile(file)
+      val rdd = sc.???(file)
       val t1 = System.nanoTime()
-      // ## TODO 2 : count # of elements in RDD
-      val count =  0 //  rdd.???
-      count = rdd.count
+      // ## TODO 3 : count # of elements in RDD
+      val count = 0
+      count = rdd.???
+      // ## TODO 4 : there is an error in above lines
+      // ... please fix :-)
       val t2 = System.nanoTime()
 
        println("### %s: count:  %,d ,  time took:  %,f ms".format(file, count, (t2-t1)/1e6))

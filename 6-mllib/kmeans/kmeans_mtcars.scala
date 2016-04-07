@@ -61,6 +61,7 @@ val clusters = KMeans.train(onlyVectors, 2, 10)
 // ## TODO-5 : Evaluate clustering by computing Within Set Sum of Squared Errors
 val WSSSE = clusters.computeCost(onlyVectors)
 println("Within Set Sum of Squared Errors = " + WSSSE)
+// we will plot WSSSE vs k  and choose 'elbow'
 
 // ## TODO-6 Print out a list of the clusters and each point of the clusters
 val groupedClusters = namesAndData.groupBy{rdd => clusters.predict(rdd._2)}

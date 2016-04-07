@@ -43,6 +43,10 @@ We are going to run this **line-by-line** in Spark Shell to understand what is g
 Step 3 : Launch Spark Shell
 -----------
 ```
+    # go to the kmeans dir
+    $  cd   ~/spark-labs/6-mllib/kmeans
+
+    # start shell
     $  ~/spark/bin/spark-shell
 ```
 
@@ -209,6 +213,12 @@ Step 11: Record and Plot WSSSE versus K
 Perform a plot of WSSSE versus K.  (Use excel or whatever application you prefer).   
 Use the "elbow" method to pick what seems to be a good value of k.  Does that match your intuitive sense of what is the best?
 
+
+Here is a [sample spreadsheet](WSSSE-versus-k.xlsx) we did.
+
+And here is the 'elbow curve'.   
+
+<img src="../../images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
 
 Step 12: Add some new data, check and see if it changes the clusters.
 -------
