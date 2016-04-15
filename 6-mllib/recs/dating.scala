@@ -27,7 +27,7 @@ val model = ALS.train(ratings, rank = 10, iterations = 5, 0.01)
 // TODO: TRANSFORM Rating -> Tuple of (user, item)
 // (i.e., get rid of the rating.
 
-val usersItems = ???? // TODO complete this item
+val userItems = ???? // TODO complete this item
 
 // Do a test prediction
 // TODO call model.predict() on userItems, and then map the output of that 
