@@ -6,12 +6,14 @@ import scala.collection.mutable.{Map, HashMap}
 class MyVendingMachine extends VendingMachine {
 
   val store: mutable.Map[String, Stock] = Map()
-  val deposit = new Money(0)
+  var myStash = 0
   
   override def addStockItem(item: String, price: Int, qty: Int): Int = {
     if (store.contains(item)) {
-      // TODO should we be able to set the new price? 
-      store(item).add(qty).getQty
+      // TODO should we be able to set the new price?
+      val newStock = store(item).add(qty)
+      store.put(item, newStock)
+      newStock.getQty
     } else {
       store.put(item, new Stock(item, price, qty))
       return qty
@@ -38,11 +40,12 @@ class MyVendingMachine extends VendingMachine {
   }
 
   override def balance(): Int = {
-    0
+    myStash
   }
 
   override def deposit(amount: Int): Int = {
-    0
+    myStash += amount
+    myStash
   }
 }
 
@@ -58,11 +61,5 @@ class Stock(item: String, price: Int, qty: Int) {
   }
   def add(addQty: Int): Stock = {
     new Stock(item, price, qty + addQty)
-  }
-}
-
-class Money(amount: Int) {
-  def add(sum: Int): Money = {
-    new Money(amount + sum)
   }
 }
