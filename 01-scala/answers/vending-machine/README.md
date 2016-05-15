@@ -13,3 +13,7 @@ sbt compile
 
 sbt test
 
+### TODO
+
+is 'sys.error' the best way to through exceptions?
+add tests for throwing exceptions with 'must throwA'
