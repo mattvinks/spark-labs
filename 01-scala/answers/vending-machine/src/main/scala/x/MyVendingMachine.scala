@@ -10,8 +10,8 @@ class MyVendingMachine extends VendingMachine {
   
   override def addStockItem(item: String, price: Int, qty: Int): Int = {
     if (store.contains(item)) {
-      // TODO should we be able to set the new price?
-      val newStock = store(item).add(qty)
+      // adding an item with a new price automatically re-prices existing stock
+      val newStock = store(item).add(price, qty)
       store.put(item, newStock)
       newStock.getQty
     } else {
@@ -32,7 +32,7 @@ class MyVendingMachine extends VendingMachine {
   override def buy(item: String): ReturnCode = {
     if (store.contains(item)) {
       // TODO what happens when we are out of stock?
-      store(item).add(-1)
+      store.put(item, store(item).buy)
       Success
     } else {
       ItemNotInStock
@@ -59,7 +59,10 @@ class Stock(item: String, price: Int, qty: Int) {
   def getQty: Int = {
     qty
   }
-  def add(addQty: Int): Stock = {
-    new Stock(item, price, qty + addQty)
+  def buy(): Stock = {
+    new Stock(item, price, qty - 1)
+  }
+  def add(newPrice: Int, addQty: Int): Stock = {
+    new Stock(item, newPrice, qty + addQty)
   }
 }
