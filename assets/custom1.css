@@ -104,6 +104,14 @@ pre > code {
 	background-color: #EBF5FF;
 }
 
+.lang-console {
+	border: 1 ;
+	border-style: dashed;
+	margin: 0;
+	padding: 0;
+	background-color: #fff7e5;
+}
+
 #ws { background-color: #f8f8f8; }
 
 .send { color:#77bb77; }
