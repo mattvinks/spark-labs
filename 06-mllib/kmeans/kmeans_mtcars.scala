@@ -19,9 +19,13 @@ import org.apache.spark.mllib.linalg.Vector
 def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
   vals.map { s =>
     val splitData = s.split(',')
-    val numericFields = splitData.drop(1)
     val name = splitData(0)
-    val doubles = numericFields.map(_.toDouble)
+    val mpg = splitData(1)
+    val cyl = splitData(2)
+    val numericFields = splitData.drop(1)
+    //val doubles = numericFields.map(_.toDouble)
+    // let's just consider mpg and cylinders for clustering
+    val doubles = Array(mpg,cyl).map(_.toDouble)
     val vectors = Vectors.dense(doubles)
     (name, vectors) // (key , value) RDD
   }

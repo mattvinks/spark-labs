@@ -44,7 +44,6 @@ Labs
     - [1.5 - Vending Machine class](01-scala/vending-machine/1.5-README.md)
     - [1.6 - Unit testing with SPECS2](01-scala/vending-machine/1.6-SPECS-README.md)
 
-
 2. **Spark Intro**  (02-intro)
     - [2.1 - Install and run Spark](02-intro/2.1-install-spark.md)
     - [2.2 - Spark Shell](02-intro/2.2-shell.md)
