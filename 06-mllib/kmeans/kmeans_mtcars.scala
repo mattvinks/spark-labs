@@ -22,32 +22,33 @@ def parseData(vals : RDD[String]) : RDD[(String, Vector)] = {
     val name = splitData(0)
     val mpg = splitData(1)
     val cyl = splitData(2)
-    val numericFields = splitData.drop(1)
-    //val doubles = numericFields.map(_.toDouble)
     // let's just consider mpg and cylinders for clustering
     val doubles = Array(mpg,cyl).map(_.toDouble)
     val vectors = Vectors.dense(doubles)
     (name, vectors) // (key , value) RDD
+
+    // # If you want to consider all vectors, try this
+    //val numericFields = splitData.drop(1)
+    //val doubles = numericFields.map(_.toDouble)
+    // (name, doubles)
   }
 }
 
 
-// ## TODO-1 : load data
 // Load and parse the data
 val data = sc.textFile("../../data/mtcars/mtcars.csv")
-data.collect
+data.foreach (println)
 
-// ## TODO-2 parse the data and print
+// parse the data and print
 val namesAndData = parseData(data)
-namesAndData.collect
+namesAndData.foreach(println)
 
 
-// ## TODO-3 : Get only the vector out of namesAndData (the second item in the tuple)
+// Get only the vector out of mpg and cyl
 val onlyVectors = namesAndData.map { case (name, vector) => vector } 
 //one-liner: 
 //      val onlyVectors = data.map(s => Vectors.dense(s.split(',').drop(1).map(_.toDouble)))
-
-onlyVectors.collect
+onlyVectors.foreach(println)
 
 
 // ## TODO-last : Enable caching as a last step
@@ -56,23 +57,27 @@ onlyVectors.collect
 // onlyVectors.count  // force caching
 
 
-// ## TODO-4 : Run Kmeans
+//  Run Kmeans
 //  Kmeans (vectors,   number_of_clusters,  num_iterations)
 //      number_of_clusters : (2)  this is the 'K' in K-Means.  Start with 2
 //      number_if_iterations : (20) start with 10 , and try 20
 val clusters = KMeans.train(onlyVectors, 2, 10)
 
-// ## TODO-5 : Evaluate clustering by computing Within Set Sum of Squared Errors
+// Evaluate clustering by computing Within Set Sum of Squared Errors
 val WSSSE = clusters.computeCost(onlyVectors)
 println("Within Set Sum of Squared Errors = " + WSSSE)
 // we will plot WSSSE vs k  and choose 'elbow'
 
-// ## TODO-6 Print out a list of the clusters and each point of the clusters
-val groupedClusters = namesAndData.groupBy{rdd => clusters.predict(rdd._2)}
-groupedClusters.collect
+// Print out a list of the clusters and each point of the clusters
+// val groupedClusters = namesAndData.groupBy{rdd => clusters.predict(rdd._2)}
+// groupedClusters.collect
 
-// ## TODO-7 : pretty print
+// pretty print
 val carsByCluster =namesAndData.map(s => (clusters.predict(s._2), (s._1,s._2))).sortByKey().collect()
 carsByCluster.foreach { println }
+
+// TODO - evaluate : How are the cars clustering?
+// change the value of 'k' in line 61 and try it again
+
 
 exit

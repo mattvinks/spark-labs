@@ -20,7 +20,7 @@ STEP 1: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/8-streaming/8.1-over-tcp
+$    cd ~/spark-labs/08-streaming/8.1-over-tcp
 ```
 
 **edit file : `src/main/scala/x/BlkIPOverTCP.scala`**  

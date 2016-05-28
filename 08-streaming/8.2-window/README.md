@@ -20,7 +20,7 @@ STEP 1: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/8-streaming/8.2-window
+$    cd ~/spark-labs/08-streaming/8.2-window
 ```
 
 **edit file : `src/main/scala/x/WindowedCount.scala`**  

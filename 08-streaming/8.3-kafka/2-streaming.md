@@ -24,7 +24,7 @@ STEP 2: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/8-streaming/8.3-kafka
+$    cd ~/spark-labs/08-streaming/8.3-kafka
 ```
 
 **=> Inspect the file : `src/main/scala/x/KafkaStreaming.scala`**  
