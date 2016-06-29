@@ -47,15 +47,15 @@ object Clicks {
     // count the number of domains
     /* 
     // TODO-5 :   from groupedByDomain, calculate domain count
-    val domainCount = ???
-    println ("### domain count : \n" + domainCount)
+    val domainCountByKey = ???
+    println ("### domain count : \n" + domainCountByKey)
     */
 
 
     // top domains
     /*
     // TODO 6 : sort this by top domains first
-    val topDomains = domainCount.toList.sortBy{_._2}
+    val topDomains = domainCountByKey.toList.sortBy{_._2}
     println ("### top domains : \n" + topDomains)
     */
 
