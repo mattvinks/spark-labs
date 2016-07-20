@@ -46,7 +46,7 @@ Step 3 : Launch Spark Shell
 -----------
 ```
     # go to the kmeans dir
-    $  cd   ~/spark-labs/6-mllib/kmeans
+    $  cd   ~/spark-labs/06-mllib/kmeans
 
     # start shell
     $  ~/spark/bin/spark-shell

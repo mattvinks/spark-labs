@@ -38,8 +38,7 @@ object ProcessFiles {
       val rdd = sc.???(file)
       val t1 = System.nanoTime()
       // ## TODO 3 : count # of elements in RDD
-      val count = 0
-      count = rdd.???
+      val count = rdd.???
       // ## TODO 4 : there is an error in above lines
       // ... please fix :-)
       val t2 = System.nanoTime()
