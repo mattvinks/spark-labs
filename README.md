@@ -39,6 +39,7 @@ Labs
 1. **Scala Primer**  (01-scala)
     - [1.1 - Scala shell](01-scala/README.md)
     - [1.2 - Functions]
+    - [Setup 1](setup1.md) - Instructor to demo first
     - [1.3 - File IO](01-scala/1.3-file.md)
     - [1.4 - Higher Order Functions](01-scala/1.4-functions.md)
     - [1.5 - Vending Machine class](01-scala/vending-machine/1.5-README.md)
