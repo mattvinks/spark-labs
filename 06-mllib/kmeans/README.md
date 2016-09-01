@@ -167,6 +167,7 @@ Here we see **two clusters** (cluster 0 and cluster 1).
 **=> Does the clustering make sense?  Perhaps we have too few clusters?** 
 
 
+
 Step 8 : Run the whole script
 ------------
 **=> Exit spark shell, by pressing Ctrl+D**
@@ -193,6 +194,8 @@ Run the script again
 Inspect the output.   
 Does clustering of cars make sense?
 Try different values of `K` (4 or 5).
+
+What is the WSSSE value when K = 32?  Can you explain? :-)
 
 Make a note of the "wall clock time. " We will optimize this later.
 
