@@ -5,7 +5,7 @@
 *.tgz
 .DS_Store
 out*
-*.zip
+*.zip*
 *.out
 *.csv
 *.json
