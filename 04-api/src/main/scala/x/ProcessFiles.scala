@@ -29,7 +29,6 @@ object ProcessFiles {
 
     // ## TODO 1 : give a name
     val conf = new SparkConf().setAppName("Process Files -- Mark")
-    //conf.setMaster("local[*]")
     val sc = new SparkContext(conf)
 
     var file = ""

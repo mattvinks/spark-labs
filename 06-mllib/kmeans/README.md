@@ -25,11 +25,6 @@ Here are the columns:
 *  disp  - Displacement (cu.in.)                    
 *  hp    - Gross horsepower                         
 *  drat  - Rear axle ratio            
-*  mpg   - Miles/(US) gallon                        
-*  cyl   - Number of cylinders                      
-*  disp  - Displacement (cu.in.)                    
-*  hp    - Gross horsepower                         
-*  drat  - Rear axle ratio            
 
 Are there any natural clusters you can identify from this data?
 

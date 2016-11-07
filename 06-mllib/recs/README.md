@@ -6,27 +6,23 @@
 
 ### Introduction
 
-This lab explores a well known dataset from the Czech dating website libimseti.cz.  We'll
-just call it the "dating" dataset. :)
+This lab explores a well known dataset from the Czech dating website libimseti.cz.  We'll just call it the "dating" dataset. :)
 
-Normally we talk of users and items as different entities, but in dating websites we 
-relate users to one another.
+Normally we talk of users and items as different entities, but in dating websites we relate users to one another.
 
-In our example, we're going to ignore the gender and orientation of each user in doing
-the recommendations.   The dating dataset does include a file which identifies the 
-gender of each participant, but for simplicity we're not handling it here. This isn't
-as bad as it sounds, as most users likely will rate only one gender of dating site
-participants, and will no doubt receive recommendations from the same gender. Naturally
-there are always exceptions.
+In our example, we're going to ignore the gender and orientation of each user in doing the recommendations.   The dating dataset does include a file which identifies the gender of each participant, but for simplicity we're not handling it here. This isn't as bad as it sounds, as most users likely will rate only one gender of dating site participants, and will no doubt receive recommendations from the same gender. Naturally there are always exceptions.
 
-The checked in version is a tiny subset of the actual, as only the first 9999 users are
-included.  Furthermore, the ratings outside the subset are ignored, so a good portion of
-users have no data.
+The checked in version is a tiny subset of the actual, as only the first 9999 users are included.  Furthermore, the ratings outside the subset are ignored, so a good portion of users have no data.
 
-The example here will take the dating site.
-file : [data/dating/medium/ratings.dat](../../data/dating/medium/ratings.dat)
+### Step 1 : Inspect Data
+* Sample Data : [data/dating/sample.txt](../../data/dating/sample.txt)
+* Medium data file : [data/dating/ratings.txt](../../data/dating/ratings.txt)
+
+(browsers may not display the data properly, open the data in text editor)
+
 Here is what the file looks like:
 
+```
     user1, user2, rating (1-10)
 
     1,133,8
@@ -36,9 +32,19 @@ Here is what the file looks like:
     1,1616,10
     1,1978,7
     1,2145,8
+```
 
+### Step 2 : Start Spark Shell
 
-### Complete the TODO items
+```bash
+    $    cd  ~/spark-labs/6-mllib/recs
+    $    ~/spark/bin/spark-shell
+```
+
+### Step 3 : Execute the recommendation script
+We recommend you run the [dating_solution.scala](dating_solution.scala) file step by step to understand what is going on.  This is a complete solution file.
+
+[_Optional_] You may choose to edit the file [dating.scala](dating.scala) and complete TODO items and run it as well.
 
 ### Step 1:  Transform the Rating object to a tuple of User, Item
 

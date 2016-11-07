@@ -113,12 +113,12 @@ In the Terminal #2, copy and paste the following lines (these are lines from our
 
 ```console
 
-    1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
-    1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
-    1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
-    1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
-    1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
-    1420070405184,ip_4,user_9,blocked,bbc.co.uk,campaign_20,27,session_94
+1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
+1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
+1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
+1420070405184,ip_4,user_9,blocked,bbc.co.uk,campaign_20,27,session_94
 ```
 
 Inspect the output from Spark streaming on terminal #1
