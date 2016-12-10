@@ -1,3 +1,4 @@
+<head><title>Spark labs : 8.1 Streaming Over TCP</title></head>
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
 [<< back to main index](../../README.md) 
@@ -56,6 +57,8 @@ libraryDependencies ++= Seq(
 
 **=> Build the project**
 ```bash
+    # be in project root dir
+    $   cd ~/spark-labs/08-streaming/8.1-over-tcp  
     $   sbt package
     # to do a clean rebuild use
     #  sbt clean package
@@ -94,7 +97,7 @@ Open an terminal and run this command at prompt
 
 ```bash
     # be in project root directory
-    # $ cd  ~/spark-labs/8-streaming/8.1-over-tcp
+    $ cd  ~/spark-labs/8-streaming/8.1-over-tcp
 
     $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
 ```
