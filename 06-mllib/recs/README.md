@@ -16,7 +16,7 @@ The checked in version is a tiny subset of the actual, as only the first 9999 us
 
 ### Step 1 : Inspect Data
 * Sample Data : [data/dating/sample.txt](../../data/dating/sample.txt)
-* Medium data file : [data/dating/ratings.txt](../../data/dating/ratings.txt)
+* Rating data file : [data/dating/ratings.txt](../../data/dating/ratings.txt)
 
 (browsers may not display the data properly, open the data in text editor)
 

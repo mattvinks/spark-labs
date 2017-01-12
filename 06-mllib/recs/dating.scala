@@ -13,7 +13,7 @@ def parseData(vals : RDD[String]) : RDD[Rating] = {
 // Items = other users
 
 // ratings.dat is the dating website
-val data = sc.textFile("../../data/dating/medium/ratings.dat")
+val data = sc.textFile("../../data/dating/ratings.txt")
 
 //val ratings = data.map(_.split(',') match { case Array(user, item, rating) =>
 //    Rating(user.toInt, item.toInt, rating.toDouble)
