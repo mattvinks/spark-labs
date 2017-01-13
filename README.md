@@ -55,14 +55,14 @@ Labs
     - [3.5 - Clickstream processing](03-rdd/3.5-clickstream.md)
     - [3.6 - Caching](03-rdd/3.6-caching.md)
 
-4. **API** (04-api)
-    - [4.1 - Submit first application](04-api/4.1-submit.md)
-    - [4.2 - Mapreduce using API](04-api/4.2-mapreduce.md)
+4.  **Dataframes** (04-dataframe)
+    - [4.1 - Dataframes](04-dataframe/4.1-dataframe.md)
+    - [4.2 - SQL](04-dataframe/4.2-sql.md)
+    - [4.3 - Data formats](04-dataframe/4.3-data-formats.md)
 
-5.  **Spark SQL** (05-sql)
-    - [5.1 - Dataframes](05-sql/5.1-dataframe.md)
-    - [5.2 - SQL](05-sql/5.2-sql.md)
-    - [5.3 - Data formats](05-sql/5.3-data-formats.md)
+5. **API** (05-api)
+    - [5.1 - Submit first application](05-api/5.1-submit.md)
+    - [5.2 - Mapreduce using API](05-api/5.2-mapreduce.md)
 
 6. **MLLib**  (06-mllib)
     - [6.1 - Kmeans](06-mllib/kmeans/README.md)
