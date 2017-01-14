@@ -1,6 +1,7 @@
 # data files
 *.log
 logs-*
+logs*
 *.data
 *.gz
 *.tgz

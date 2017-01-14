@@ -1,11 +1,10 @@
 package x
 
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
 
 /*
 Usage:
-spark-submit --class 'x.ProcessFiles' --master spark://localhost:7077  target/scala-2.10/testapp_2.10-1.0.jar    <files to process>
+spark-submit --class 'x.ProcessFiles' --master spark://localhost:7077  target/scala-2.11/testapp_2.11-1.0.jar    <files to process>
 
 Multiple files can be specified
 file to process can be :  /etc/hosts
@@ -15,7 +14,7 @@ file to process can be :  /etc/hosts
 
 e.g:
 - with 4G executor memory and turning off verbose logging
-    spark-submit --class x.ProcessFiles  --master spark://localhost:7077 --executor-memory 4g   --driver-class-path logging/   target/scala-2.10/testapp_2.10-1.0.jar   s3n:///elephantscale-public/data/twinkle/1G.data
+    spark-submit --class x.ProcessFiles  --master spark://localhost:7077 --executor-memory 4g   --driver-class-path logging/   target/scala-2.11/testapp_2.11-1.0.jar   s3n:///elephantscale-public/data/twinkle/1G.data
 
 */
 
@@ -28,16 +27,17 @@ object ProcessFiles {
     }
 
     // ## TODO 1 : give a name
-    val conf = new SparkConf().setAppName("Process Files -- Mark")
-    val sc = new SparkContext(conf)
+    val spark = SparkSession.builder().
+                appName("Process Files -- MYNAME").
+                getOrCreate()
 
     var file = ""
     for (file <- args) { // looping over files
       // ## TODO 2 : create an RDD out of file (hint :  sc.textFile)
-      val rdd = sc.???(file)
+      val f = spark.read.textFile(file)
       val t1 = System.nanoTime()
       // ## TODO 3 : count # of elements in RDD
-      val count = rdd.???
+      val count = f.???
       val t2 = System.nanoTime()
 
        println("### %s: count:  %,d ,  time took:  %,f ms".format(file, count, (t2-t1)/1e6))
@@ -46,5 +46,6 @@ object ProcessFiles {
       // HACK : so the 4040 UI stays alive :-)
       println("### Hit enter to terminate the program...:")
       val line = Console.readLine
+      spark.stop()  // close the session
    }
 }

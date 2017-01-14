@@ -1,8 +1,8 @@
 package x
 
-import org.apache.spark.SparkContext
+
 import org.apache.spark.SparkContext._ // *** must have for rdd operations ***
-import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.rdd._
 
 object Clicks {
@@ -14,13 +14,13 @@ object Clicks {
 
     val input = args(0) // can be wildcard  'dir/*.log'
 
-    val conf = new SparkConf().setAppName("Clickstream")
-    //conf.setMaster("local[*]")
-    val sc = new SparkContext(conf)
+    val spark = SparkSession.builder().
+                appName("Process Files -- MYNAME").
+                getOrCreate()
 
     println ("### Ahoy mate, fix TODO items!")
 
-    // ## TODO-1 : create an input rdd; hint : sc.textFile(input)
+    // ## TODO-1 : create an input rdd; hint : spark.read.textFile(input)
     /*
     val clickstream = ???
 

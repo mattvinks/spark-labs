@@ -1,14 +1,15 @@
 package x
 
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.SparkSession
 
 /**
  * to invoke:
  */
 object Benchmark {
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("Benchmark Application")
-    val sc = new SparkContext(conf)
+    val spark = SparkSession.builder().
+                appName("Process Files -- MYNAME").
+                getOrCreate()
     val files = List ("s3n://elephantscale-public/data/twinkle/1M.data",
       "s3n://elephantscale-public/data/twinkle/10M.data",
       "s3n://elephantscale-public/data/twinkle/100M.data",
@@ -20,7 +21,7 @@ object Benchmark {
     for(f <- files) {
       println ("### processing file : " + f)
       // count without caching
-      val file = sc.textFile(f)
+      val file = spark.read.textFile(f)
       for (i <- 1 to 5) {
         val t1 = System.nanoTime()
         val count = file.count()
