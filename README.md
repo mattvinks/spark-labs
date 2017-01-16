@@ -77,6 +77,9 @@ Labs
     - [8.1 - Streaming over TCP](08-streaming/8.1-over-tcp/README.md)
     - [8.2 - Windowed Count](08-streaming/8.2-window/README.md)
     - [8.3 - Kafka Streaming](08-streaming/8.3-kafka/README.md)
+    - 8.4 - Structured Streaming
+        * [8.4a - Structured Streaming 1](08-streaming/8.4-structured/README.md)
+        * [8.4b - Structured Streaming 2 (JSON)](08-streaming/8.4-structured/README2.md)
 
 9. **Operations** (09-ops)
     - [9.1 - Cluster setup](09-ops/9.1-cluster-setup.md)
