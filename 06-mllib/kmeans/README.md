@@ -51,12 +51,16 @@ Step 3 : Launch Spark Shell
 
 **=> Copy paste snippets from text editor into Spark shell.  Watch the execution and the results**  
 Hint : When copying functions like `parseData` copy the entire function {} instead of line by line.
+ 
+And record the K vs.  WSSE values in the provided [excel sheet](WSSSE-versus-k.xlsx). 
 
 **=> Also keep an eye on Spark web UI (4040) **
+  
+  
+## ---- [Optional] Following is Explanation --- 
 
 
-
-Step 7 : Printing out the clusters
+Step 4 : Printing out the clusters
 ----------------------
 The following code prints out the clusters in a user-friendly way
 ```scala
@@ -99,10 +103,7 @@ Here we see **two clusters** (cluster 0 and cluster 1).
 
 **=> Does the clustering make sense?  Perhaps we have too few clusters?** 
 
-
-
-Step 8 : Run the whole script
-------------
+## Step 5 : Run the whole script
 **=> Exit spark shell, by pressing Ctrl+D**
 
 **=> Run the spark shell in terminal as follows**
@@ -114,8 +115,7 @@ Step 8 : Run the whole script
 This will run the entire script in one go!
 
 
-Step 9 : Adjust the cluster number (K)
-------
+## Step 6 : Adjust the cluster number (K)
 Edit file `kmeans_mtcars.scala`.   
 **=> Change the `number of clusters` argument supplied to `Kmeans.train()` from `2` to `3`  function (around line # 60).**  
 
@@ -132,8 +132,7 @@ What is the WSSSE value when K = 32?  Can you explain? :-)
 
 Make a note of the "wall clock time. " We will optimize this later.
 
-Step 10: Optimize Script
-----------
+##Step 7: Optimize Script
 
 Even though the dataset is tiny, notice that the datasets are running on disk without caching.  Could the cache() method help us at all?  
 
@@ -150,8 +149,7 @@ Then run again and note the wall clock time.
 ```
 
 
-
-Step 11: Record and Plot WSSSE versus K
+## Step 8: Record and Plot WSSSE versus K
 -----------
 Perform a plot of WSSSE versus K.  
 Use the provided [excel sheet](WSSSE-versus-k.xlsx).   
@@ -163,8 +161,7 @@ And here is the 'elbow curve'.
 
 <img src="../../images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
 
-Step 12: Add some new data, check and see if it changes the clusters.
--------
+## Step 9: Add some new data, check and see if it changes the clusters.
 Edit input data file `../../../data/mtcars/mtcars.csv`.  
 Add some new rows to the mtcars dataset based on your favorite cars (or just
 make up some fictitious cars).
@@ -177,13 +174,11 @@ Then run the script again.
 See how adding this affects the way the data is clustered?
 
 
-BONUS: Automatically iterate across k.
-------------
+## BONUS: Automatically iterate across k.
 Is there a way you could modify this to loop through values of K instead of 
 manually changing the values?  
 
-BONUS 2: Programmatically Perform Elbow Method
---------
+## BONUS 2: Programmatically Perform Elbow Method
 
 Using the principles of the "elbow" method, what is a way you could automatically
 select a k value?
