@@ -31,3 +31,7 @@ println(s"Within Set Sum of Squared Errors = $WSSSE")
 // Shows the result.
 println("Cluster Centers: ")
 model.clusterCenters.foreach(println)
+
+// Print results
+model.transform(featureVector).show
+
