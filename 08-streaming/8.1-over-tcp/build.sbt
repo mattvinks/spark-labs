@@ -1,4 +1,4 @@
-name := "Over TCP"
+name := "Over-TCP"
 
 version := "1.0"
 

@@ -2,10 +2,10 @@ name := "WindowedCount"
 
 version := "1.0"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
-"org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
-"org.apache.spark" %% "spark-streaming" % "1.6.1" % "provided"
+"org.apache.spark" %% "spark-core" % "2.1.0" % "provided",
+"org.apache.spark" %% "spark-streaming" % "2.1.0" % "provided"
 )
 

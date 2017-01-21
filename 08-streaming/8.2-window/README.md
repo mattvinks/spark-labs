@@ -26,64 +26,36 @@ $    cd ~/spark-labs/08-streaming/8.2-window
 **edit file : `src/main/scala/x/WindowedCount.scala`**  
 **And fix the TODO items 1 - 5**
 
-```
-$    vi  src/main/scala/x/WindowedCount.scala
-# or 
-$    nano  src/main/scala/x/WindowedCount.scala
-```
-
 
 --------------------------
 STEP 2: Compile the project
 --------------------------
-We will use `sbt` to build the project.  
-
-**Inspect the `build.sbt` file**
-```bash
-$  cat   build.sbt
-```
-
-The file will look follows:
-```scala
-// blank lines are important!
-
-name := "WindowedCount"
-
-version := "0.1"
-
-scalaVersion := "2.10.4"
-
-libraryDependencies ++= Seq(
-"org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
-"org.apache.spark" %% "spark-streaming" % "1.6.1" % "provided"
-)
-
-
-```
 
 ```bash
-$   sbt package
-# to do a clean rebuild use
-#  sbt clean package
+    $   sbt package
+    # to do a clean rebuild use
+    #  sbt clean package
 ```
 
 Make sure there are no errors and there is output in `target` dir.
 ```bash
-$  ls -l   target/scala-2.10
-```
-You should see output like follows
-```
-drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
--rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 windowedcount_2.10-0.1.jar
+    $  ls -l   target/scala-2.11
 ```
 
-`windowedcount_2.10-0.1.jar`  is our code compiled.
+You should see output like follows
+
+```console
+drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
+-rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 windowedcount_2.11-1.0.jar
+```
+
+`windowedcount_2.11-1.0.jar`  is our code compiled.
  
 --------------------------
 STEP 3: Run The Application
 --------------------------
 ```bash
-$   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.10/windowedcount_2.10-0.1.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
 ```
 
 Lets call this Terminal #1
@@ -100,7 +72,7 @@ Open an terminal and run this command at prompt
     $ nc -lk 9999
 
     # if this gives an error like 'Protocol not available' use this
-    $  ~/bin/nc  -lk 9999
+    # $  ~/bin/nc  -lk 9999
 ```
 
 
@@ -130,17 +102,12 @@ STEP 6: Save data into files
 ---------------------------
 Printing is fine for development & debugging,  but in production we'd want to save the results.
 
-Edit the file and complete TODO-5
-```
-$    vi  src/main/scala/x/WindowedCount.scala
-# or 
-$    nano  src/main/scala/x/WindowedCount.scala
-```
+Edit the file : `src/main/scala/x/WindowedCount.scala`
 
 **=> Build and run the program**
 ```bash
-$   sbt package
-$   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount  target/scala-2.10/over-tcp_2.10-0.1.jar
+    $   sbt package
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount  target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 **=> Paste some logs in netcat window (terminal #2)**
@@ -149,7 +116,7 @@ $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  
 
 **=> Inspect the `out` directory**
 ```bash
-$   find out/
+    $   find out/
 ```
 
 **=> Inspect some files, what do you see?**

@@ -1,4 +1,3 @@
-<head><title>Spark labs : 8.1 Streaming Over TCP</title></head>
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
 [<< back to main index](../../README.md) 
@@ -32,28 +31,7 @@ See [Edit Files](../../edit-files.md) section for help.
 ## Step 3: Compile the project
 We will use `sbt` to build the project.  
 
-**Inspect the `build.sbt` file**
-```bash
-    $  cat   build.sbt
-```
-
-The file will look follows:
-```scala
-// blank lines are important!
-
-name := "Over TCP"
-
-version := "1.0"
-
-scalaVersion := "2.10.4"
-
-libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
-  "org.apache.spark" %% "spark-streaming" % "1.6.1" % "provided"
-)
-
-```
-
+**==> Inspect the `build.sbt` file**
 
 **=> Build the project**
 ```bash
@@ -66,17 +44,17 @@ libraryDependencies ++= Seq(
 
 Make sure there are no errors and there is output in `target` dir.
 ```bash
-    $  ls -l   target/scala-2.10
+    $  ls -l   target/scala-2.11
 ```
 
 You should see output like follows
 
 ```console
 drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
--rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 over-tcp_2.10-0.1.jar
+-rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 over-tcp_2.11-1.0.jar
 ```
 
-`over-tcp_2.10-0.1.jar`  is our code compiled.
+`over-tcp_2.10-1.0.jar`  is our code compiled.
  
 
 ## Step 4: Run Netcat Server to simulate network traffic
@@ -90,7 +68,7 @@ Open an terminal and run this command at prompt
     $ nc -lk 9999
 
     # if this gives an error like 'Protocol not available' use this
-    $  ~/bin/nc  -lk 9999
+    # $  ~/bin/nc  -lk 9999
 ```
 
 ## Step 5: Run the streaming application
@@ -99,7 +77,7 @@ Open an terminal and run this command at prompt
     # be in project root directory
     $ cd  ~/spark-labs/8-streaming/8.1-over-tcp
 
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 Lets call this Terminal #1
@@ -114,8 +92,7 @@ If only allocated one core `local[1]`  the program will have run-time errors or 
 
 In the Terminal #2, copy and paste the following lines (these are lines from our clickstream data)
 
-```console
-
+```
 1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
 1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
 1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
@@ -147,7 +124,7 @@ Printing is fine for development & debugging,  but in production we'd want to sa
 **=> Build and run the program**
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 **=> Paste some logs in netcat window (terminal #2)**

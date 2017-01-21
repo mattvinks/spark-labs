@@ -1,16 +1,16 @@
 import AssemblyKeys._
 
-name := "kafka"
+name := "kafka-streaming"
 
 version := "1.0"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.7"
 
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
-  "org.apache.spark" %% "spark-streaming" % "1.6.1" % "provided",
-  "org.apache.spark" %% "spark-streaming-kafka" % "1.6.1"
+  "org.apache.spark" % "spark-core_2.11" % "2.1.0" % "provided",
+  "org.apache.spark" % "spark-streaming_2.11" % "2.1.0" % "provided",
+  "org.apache.spark" % "spark-streaming-kafka-0-8_2.11" % "2.1.0"
 )
 
 assemblySettings

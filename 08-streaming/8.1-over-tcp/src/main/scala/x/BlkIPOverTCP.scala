@@ -19,10 +19,15 @@ object BlkIPOverTCP {
 
     // listen on port 9999
     val lines = ssc.socketTextStream("localhost", 9999)
+    lines.print
 
     // TODO 2 : filter lines that contains 'blocked'
     //      filter (line => line.contains("???"))
-    val linesWBlocked = lines.filter(???)
+    val blocked = lines.filter(???)
+
+    // extract lines with more than one column
+    val blocked2 = blocked.filter(_.split(",").size > 1)
+    blocked2.print()
 
     // TODO 3 : On those lines, extract just the IP address
      /* hint  : data  format: 
@@ -31,10 +36,9 @@ object BlkIPOverTCP {
     */
     // hint : separator is comma
     // hint : ip address is second element : index (1)
-    val blockedIPs = linesWBlocked.map(line => line.split("??? what is the sep ???")(??? index ???))
+    val blockedIPs = blocked2.map(line => line.split("??? what is the sep ???")(??? index ???))
 
     // print the results
-    linesWBlocked.print()
     blockedIPs.print()
 
     /*

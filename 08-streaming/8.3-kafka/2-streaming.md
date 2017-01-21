@@ -1,3 +1,5 @@
+<link rel='stylesheet' href='../../assets/css/main.css'/>
+
 [<< back to main index](../../README.md)  /  
 [<< back to kafka streaming index](README.md)  
 
@@ -24,110 +26,35 @@ STEP 2: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/08-streaming/8.3-kafka
+    $    cd ~/spark-labs/08-streaming/8.3-kafka
 ```
 
-**=> Inspect the file : `src/main/scala/x/KafkaStreaming.scala`**  
+**=> Edit the file : `src/main/scala/x/KafkaDirectStreaming.scala`**  
 **There are no TODO items to fix at this point**
 
-```
-$    vi  src/main/scala/x/KafkaStreaming.scala
-# or 
-$    nano  src/main/scala/x/KafkaStreaming.scala
-```
-
-See how we are constructing the streaming context...
-```scala
-def main(args: Array[String]) {
-    if (args.length < 4) {
-      System.err.println("Usage: StreamingMain <zkQuorum> <group> <topics> <numThreads>")
-      System.exit(1)
-    }
-
-    val Array(zkQuorum, group, topics, numThreads) = args
-    val sparkConf = new SparkConf().setAppName("Kafka Streaming")
-    val ssc =  new StreamingContext(sparkConf, Seconds(5))
-    //ssc.checkpoint("checkpoint")
-    val topicMap = topics.split(",").map((_,numThreads.toInt)).toMap
-    val stream = KafkaUtils.createStream(ssc, zkQuorum, group, topicMap)
-
-    stream.print()
-    // ....
-
-```
-
---------------------------
-STEP 3: Build the project
---------------------------
+## STEP 3: Build the project
 We will use `sbt` to build the project.  
 
-**Inspect the `build.sbt` file**
+** ==> Inspect the `build.sbt` file**
 ```bash
-$  cat   build.sbt
-```
+    $   cd ~/spark-labs/08-streaming/8.3-kafka
 
-The file will look follows:
-```scala
-// blank lines are important!
+    #  compile
+    $   sbt clean compile
 
-import AssemblyKeys._
-
-name := "kafka"
-
-version := "1.0"
-
-scalaVersion := "2.10.4"
-
-
-libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
-  "org.apache.spark" %% "spark-streaming" % "1.6.1" % "provided",
-  "org.apache.spark" %% "spark-streaming-kafka" % "1.6.1"
-)
-
-assemblySettings
-
-mergeStrategy in assembly := {
-  case m if m.toLowerCase.endsWith("manifest.mf")          => MergeStrategy.discard
-  case m if m.toLowerCase.matches("meta-inf.*\\.sf$")      => MergeStrategy.discard
-  case "log4j.properties"                                  => MergeStrategy.discard
-  case m if m.toLowerCase.startsWith("meta-inf/services/") => MergeStrategy.filterDistinctLines
-  case "reference.conf"                                    => MergeStrategy.concat
-  case _                                                   => MergeStrategy.first
-}
-
-```
-
-**=> Things to observe**  
-* we are using assembly to build a 'fat.jar'
-* we need to add `spark-streaming-kafka` package
-* The `assembly` plugin depends on this file:  `project/plugins.sbt`
- 
-```
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.11.2")
-
-```
-
-Create a package using
-```
-$   sbt package
-```
-
-Also create an assembly (fat jar) using
-```
-$   sbt assembly
+    # Create an assembly (fat jar) using
+    $   sbt assembly
 ```
 
 **=> Inspect generated jar files**
-```
-$ ls -l   target/scala-2.10/
+```bash
+    $ ls -l   target/scala-2.11/
 ```
 
 output may look like...
-```
-drwxr-xr-x  3 sujee  staff   102B Apr 23 23:18 classes/
--rw-r--r--  1 sujee  staff    12M Apr 23 23:18 kafka-assembly-1.0.jar
--rw-r--r--  1 sujee  staff   4.6K Apr 23 22:59 kafka_2.10-1.0.jar
+```console
+drwxr-xr-x 3 sujee staff 102 Jan 20 22:31 classes/
+-rw-r--r-- 1 sujee staff 24M Jan 20 22:31 kafka-streaming-assembly-1.0.jar
 ```
 
 **=> Notice the size difference in both jars.  What accounts for the 'fat jar's size?**   
@@ -135,9 +62,7 @@ drwxr-xr-x  3 sujee  staff   102B Apr 23 23:18 classes/
 We are going to use the assembly jar to run Kafka streaming.
 
 
---------------------------
-STEP 4: Running Kafka streaming
---------------------------
+## STEP 4: Running Kafka streaming
 Make sure you have Kafka up and running.  For reference
 * Terminal #1  : zookeeper
 * Terminal #2  : Kafka broker
@@ -153,18 +78,14 @@ Here is the screen shot (click on image to see full size image)
 
 **=> Launch kafka streaming application as follows**  
 ```bash
-$    ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.KafkaStreaming  target/scala-2.10/kafka-assembly-1.0.jar   localhost:2181   my-group   clickstream    1    
+  $    ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.KafkaDirectStreaming  target/scala-2.11/kafka-streaming-assembly-1.0.jar  localhost:9092  clickstream
 ```
 
 Parameters explained:
-* **localhost:2181**    - zookeeper quorum
-* **my-group**  - my application 'name' to be used with Kafka
+* **localhost:9092**   - kafka broker
 * **clickstream** - topic
-* **1**  - number of threads
 
---------------------------
-STEP 5: Feed some data into producer window (Terminal #3)
---------------------------
+## STEP 5: Feed some data into producer window (Terminal #3)
 **=> Try typing / pasting the following text in terminal #3**  
 ```
 foo
@@ -173,7 +94,7 @@ baz
 ```
 
 **=> Notice the kafka streaming console**  
-```
+```console
 -------------------------------------------
 Time: 1429859630000 ms
 -------------------------------------------
@@ -187,9 +108,7 @@ Your setup might look like the following picture
 
 <a href="../../images/8.3b-streaming-small.png"><img src="../../images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
---------------------------
-STEP 6: Continue fixing the TODO items 1-4
---------------------------
+## STEP 6: Continue fixing the TODO items 1-4
 
 * Edit the file
 * build using `$   sbt assembly`
