@@ -22,8 +22,7 @@ None
 
 
 ## Step 2 : Edit files
-**edit file : `src/main/scala/x/BlkIPOverTCP.scala`**  
-**And fix the TODO items 1,2 and 3 (not 4, not yet)**
+**Inspect file : `src/main/scala/x/OverTCP.scala`**  
 
 See [Edit Files](../../edit-files.md) section for help.
 
@@ -75,9 +74,9 @@ Open an terminal and run this command at prompt
 
 ```bash
     # be in project root directory
-    $ cd  ~/spark-labs/8-streaming/8.1-over-tcp
+    $  cd  ~/spark-labs/08-streaming/8.1-over-tcp
 
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.11/over-tcp_2.11-1.0.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 Lets call this Terminal #1
@@ -90,15 +89,11 @@ If only allocated one core `local[1]`  the program will have run-time errors or 
 
 ## Step 6:  Test by typing text in the terminal
 
-In the Terminal #2, copy and paste the following lines (these are lines from our clickstream data)
+Enter some text in netcat terminal
 
 ```
-1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
-1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
-1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
-1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
-1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
-1420070405184,ip_4,user_9,blocked,bbc.co.uk,campaign_20,27,session_94
+a
+b
 ```
 
 Inspect the output from Spark streaming on terminal #1
@@ -106,40 +101,118 @@ Inspect the output from Spark streaming on terminal #1
 You should see something similar to this screen shot.
 (Click on the image for larger version)   
 
-<a href="../../images/8.1a-streaming.png"><img src="../../images/8.1a-streaming.png" style="border: 5px solid grey; max-width:100%;"/></a>
+<a href="../../images/8.1a"><img src="../../images/8.1a.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
 
-## Step 7: Save data into files
-Printing is fine for development & debugging,  but in production we'd want to save the results.
-
-[Edit the source file](../../edit-files.md) and complete TODO-4
+## Step 7 : Filter (TODO-2)
+**==>  Edit file :  `src/main/scala/x/OverTCP.scala`  **  
+** ==> Uncomment block around TODO-2, filter lines that has the word 'blocked'**
 
 ```scala
-    // TODO 4 : save the results
-    linesWBlocked.saveAsTextFiles("out/blocked-lines")
-    blockedIPs.saveAsTextFiles("out/blocked-IPs")
+    // TODO-2 : filter lines that contains 'blocked'
+    val blocked = lines.filter(line => line.contains("???"))
+    val blocked2 = blocked.map("BLOCKED:" + _) // better print
+    blocked2.print
+```
+**==> Compile and run the code **
+
+```bash
+    $   cd ~/spark-labs/08-streaming/8.1-over-tcp  
+    $   sbt package
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar    
+```
+
+Using 'netcat' program, send some data to streaming.  Make sure some data has 'blocked' text
+
+```
+a
+b blocked
+```
+
+Output may look like this:
+
+<a href="../../images/8.1b"><img src="../../images/8.1b.png" style="border: 5px solid grey; max-width:100%;"/></a>
+
+## Step 8: Save data into files (TODO-3)
+
+**==> Edit file : `` **
+** Uncomment TODO-3 code block so it looks like this**
+
+```scala
+    // TODO-3  : Save both RDDs (and uncomment this block)
+    blocked.saveAsTextFiles("out-blocked")
 ```
 
 **=> Build and run the program**
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.11/over-tcp_2.11-1.0.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar 
 ```
 
-**=> Paste some logs in netcat window (terminal #2)**
+**=> Send some data through netcat window (terminal #2)**
 
 **=> Hit Contrl+C in terminal #2 to terminate Spark streaming**
 
 **=> Inspect the `out` directory**
 
 ```bash
-        $   find out/
+        $   ls -l
+```
+
+Output may look like this:
+
+```console
+drwxr-xr-x 4 sujee staff 136 Jan 22 22:42 out-blocked-1485153750000/
+drwxr-xr-x 8 sujee staff 272 Jan 22 22:42 out-blocked-1485153760000/
+drwxr-xr-x 6 sujee staff 204 Jan 22 22:42 out-blocked-1485153770000/
+drwxr-xr-x 4 sujee staff 136 Jan 22 22:55 out-blocked-1485154510000/
+drwxr-xr-x 4 sujee staff 136 Jan 22 22:55 out-blocked-1485154520000/
 ```
 
 **=> Inspect some files, what do you see?**
 
 ```bash
     # you may need to adjust the file name 
-    $   cat out/blocked-IPs-*/part-00000
+    $   find out-blocked*
+```
+
+Output may look like this:
+
+```console
+out-blocked-1485153760000/_SUCCESS
+out-blocked-1485153760000/part-00000
+out-blocked-1485153760000/part-00001
+out-blocked-1485153770000
+out-blocked-1485153770000/._SUCCESS.crc
+out-blocked-1485153770000/.part-00000.crc
+out-blocked-1485153770000/_SUCCESS
+out-blocked-1485153770000/part-00000
+```
+
+Files
+* part-0000 : this is data
+* _SUCCESS : indicates that direcory is complete
+* crc : Checksum files
+
+## Bonus Lab : Clickstream Processing
+**==> Edit file :  `src/main/scala/x/BlockedIPs.scala`  **  
+
+**==> Fix TODO-1 to extract blocked IPs **
+
+**==> Compile and run a program like this**
+
+```bash
+    $   sbt package
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlockedIPs target/scala-2.11/over-tcp_2.11-1.0.jar 
+```
+
+**==> Test with this clickstream data, using netcat window**
+
+```
+1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
+1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
+1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
 ```
