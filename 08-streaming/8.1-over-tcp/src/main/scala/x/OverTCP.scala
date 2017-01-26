@@ -35,6 +35,20 @@ object OverTCP {
     blocked.saveAsTextFiles("out-blocked")
     */
 
+    // BONUS LAB : On those blocked lines, extract just the IP address
+    // hint  : data  format: 
+    // timestamp, ip, userid, action, domain, campaign, cost, sessionid
+    // 1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+    // hint : separator is comma
+    // hint : ip address is second element : index (1)
+    /*
+    // extract lines with more than one column
+    val blocked2 = blocked.filter(_.split(",").size > 1)
+    val blockedIPs = blocked2.map(line => line.split("???")(???))
+    blockedIPs.print()
+    */
+
+
     // kick off the processing
     ssc.start()
     ssc.awaitTermination()

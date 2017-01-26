@@ -195,16 +195,16 @@ Files
 * _SUCCESS : indicates that direcory is complete
 * crc : Checksum files
 
-## Bonus Lab : Clickstream Processing
-**==> Edit file :  `src/main/scala/x/BlockedIPs.scala`  **  
+## Bonus Lab : Extract BLOCKED IPs
+**==> Edit file :  `src/main/scala/x/OverTCP.scala`  **  
 
-**==> Fix TODO-1 to extract blocked IPs **
+**==> Fix BONUS-LAB to extract blocked IPs **
 
 **==> Compile and run a program like this**
 
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlockedIPs target/scala-2.11/over-tcp_2.11-1.0.jar 
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar 
 ```
 
 **==> Test with this clickstream data, using netcat window**
