@@ -1,16 +1,13 @@
 package x
 
-import org.apache.spark._
-import org.apache.spark.streaming._
-import org.apache.spark.streaming.StreamingContext._
+import org.apache.spark.SparkConf
+import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.Seconds
+import org.apache.spark.storage.StorageLevel
 
-/* convention
-    /// instructions  (don't uncomment these)
-    // commented out lines, to be uncommented when fixing TODO items
-*/
 
 /*
-$  spark-submit  --master local[2]   --driver-class-path logging/  --class x.BlkIPOverTCP  target/scala-2.10/over-tcp_2.10-0.1.jar
+$  ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
  */
 
 
@@ -19,29 +16,31 @@ object WindowedCount {
 
     val sparkConf = new SparkConf().setAppName("WindowedCount")
 
-    //TODO-1: Try batch interval 5 secs
-    val ssc = new StreamingContext(sparkConf, Seconds(???))
+    val ssc = new StreamingContext(sparkConf, Seconds(5))
 
-    val lines = ssc.socketTextStream("localhost", 9999)
+    val lines = ssc.socketTextStream("localhost", 9999, StorageLevel.MEMORY_ONLY)
     val actionsKVPairs = lines.map{
       line => {
         val tokens = line.split(",")
-        val action = tokens(3) // either blocked / viewed / clicked
-        // TODO-2  : return action and 1
-        (???, ???)
+        if (tokens.length >= 3) {
+          val action = tokens(3) // either blocked / viewed / clicked
+          (action, 1)
+        }
+        else
+          ("Unknown", 1)
+      }
     }
+    actionsKVPairs.print()
 
-    /// TODO-3: Try 10 seconds for both both the values for window intervals
-    /// reduceByKeyAndWindow (reduce func,  window duration, sliding window)
-    /// window duration (last 10 seconds)
-    /// sliding window (10 seconds)
-    //val windowedActionCounts = actionsKVPairs.reduceByKeyAndWindow((a:Int, b:Int) => (a+b), Seconds(???), Seconds(???))
+    /// TODO-1: Try 10 seconds for both both the values for window intervals
+    // reduceByKeyAndWindow (reduce func,  window duration, sliding window)
+    // window duration (last 10 seconds)
+    // sliding window (10 seconds)
+    /*
+    val windowedActionCounts = actionsKVPairs.reduceByKeyAndWindow((a:Int, b:Int) => (a+b), Seconds(???), Seconds(???))
+    windowedActionCounts.print()
+    */
 
-    /// TODO-4 : print out counts
-    windowedActionCounts.???
-
-    //TODO-5: Save the count to a dir 'out/actions'
-    windowedActionCounts.???
 
     ssc.start()
     ssc.awaitTermination()

@@ -43,9 +43,10 @@ object OverTCP {
     // hint : ip address is second element : index (1)
     /*
     // extract lines with more than one column
-    val blocked2 = blocked.filter(_.split(",").size > 1)
-    val blockedIPs = blocked2.map(line => line.split("???")(???))
-    blockedIPs.print()
+    val blocked3 = blocked.filter(_.split(",").size > 1)
+    val blockedIPs = blocked3.map(line => line.split("???")(???))
+    val blockedIPs2 = blockedIPs.map("BLOCKED-IP:" + _) // better print
+    blockedIPs2.print()
     */
 
 

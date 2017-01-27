@@ -20,11 +20,10 @@ STEP 1: Edit source file
 ---------------------
 Go to the project root directory
 ```bash
-$    cd ~/spark-labs/08-streaming/8.2-window
+    $    cd ~/spark-labs/08-streaming/8.2-window
 ```
 
-**edit file : `src/main/scala/x/WindowedCount.scala`**  
-**And fix the TODO items 1 - 5**
+**Inspect file : `src/main/scala/x/WindowedCount.scala`**  
 
 
 --------------------------
@@ -46,22 +45,13 @@ You should see output like follows
 
 ```console
 drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
--rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 windowedcount_2.11-1.0.jar
+-rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 window-count_2.11-1.0.jar
 ```
 
-`windowedcount_2.11-1.0.jar`  is our code compiled.
- 
---------------------------
-STEP 3: Run The Application
---------------------------
-```bash
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
-```
-
-Lets call this Terminal #1
+`window-count_2.11-1.0.jar`  is our code compiled.
 
 ----------------
-STEP 4: Run Netcat Server to send text through TCP connection.
+STEP 3: Run Netcat Server (Terminal #2)
 ----------------
 Open another terminal into Spark node (terminal #2)
 
@@ -76,8 +66,17 @@ Open an terminal and run this command at prompt
 ```
 
 
+--------------------------
+STEP 4: Run The Application  (Terminal #1)
+--------------------------
+```bash
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
+```
+
+
+
 -------------------------
-STEP 5:  Test by typing text in the terminal
+STEP 5:  Test by typing text Netcat Terminal #2
 -------------------------
 
 In the Terminal #2, copy and paste the following lines (these are lines from our clickstream data)
@@ -98,38 +97,20 @@ You should see something similar to this screen shot.
 
 
 --------------------------
-STEP 6: Save data into files
+STEP 6: Enable Window Count
 ---------------------------
-Printing is fine for development & debugging,  but in production we'd want to save the results.
+** ==> Edit the file : `src/main/scala/x/WindowedCount.scala` **  
 
-Edit the file : `src/main/scala/x/WindowedCount.scala`
+** ==> fix TODO-1 to enable Window count**
 
-**=> Build and run the program**
+** ==> Build and run the program**
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount  target/scala-2.11/over-tcp_2.11-1.0.jar
+    $    ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
 ```
 
 **=> Paste some logs in netcat window (terminal #2)**
 
 **=> Hit Contrl+C in terminal #2 to terminate Spark streaming**
 
-**=> Inspect the `out` directory**
-```bash
-    $   find out/
-```
-
 **=> Inspect some files, what do you see?**
-
---------------------------
-Bonus Lab: Fool proofing the code
----------------------------
-Try typing the following into netcat window
-```
-# blankline
-
-hello world
-```
-
-Notice the exceptions thrown in Spark streaming.  
-**=> Fix the code to handle malformed input**
