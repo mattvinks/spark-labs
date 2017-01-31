@@ -22,7 +22,7 @@ None
 
 
 ## Step 2 : Edit files
-**Inspect file : `src/main/scala/x/OverTCP.scala`**  
+**Inspect file : [src/main/scala/x/OverTCP.scala](src/main/scala/x/OverTCP.scala)**  
 
 See [Edit Files](../../edit-files.md) section for help.
 
@@ -195,7 +195,7 @@ Files
 * _SUCCESS : indicates that direcory is complete
 * crc : Checksum files
 
-## Bonus Lab : Extract BLOCKED IPs
+## Bonus Lab  1 : Extract BLOCKED IPs
 **==> Edit file :  `src/main/scala/x/OverTCP.scala`  **  
 
 **==> Fix BONUS-LAB to extract blocked IPs **
@@ -215,4 +215,22 @@ Files
 1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
 1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
 1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
+```
+
+## Bonus Lab  2 : Network Word Count
+** ==> Inspect file : [src/main/scala/x/NetworkWordCount.scala](src/main/scala/x/NetworkWordCount.scala)  ** 
+
+** ==> Compile and run it **
+```bash
+    $   sbt package
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.NetworkWordCount target/scala-2.11/over-tcp_2.11-1.0.jar 
+```
+
+** ==> Test with data using NC **
+```bash
+    $  nc -lk 9999
+        a b c
+        a
+        b c 
+        d
 ```
