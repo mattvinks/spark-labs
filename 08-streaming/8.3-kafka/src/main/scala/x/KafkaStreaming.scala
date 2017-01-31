@@ -1,3 +1,5 @@
+// uses old style Receivers
+
 package x
 
 import org.apache.spark.SparkConf

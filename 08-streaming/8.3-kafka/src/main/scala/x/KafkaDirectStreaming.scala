@@ -1,3 +1,5 @@
+// uses new style Direct Streaming
+
 package x
 
 import kafka.serializer.StringDecoder
