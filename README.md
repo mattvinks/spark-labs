@@ -83,3 +83,9 @@ Labs
 
 9. **Operations** (09-ops)
     - [9.1 - Cluster setup](09-ops/9.1-cluster-setup.md)
+
+10. **Spark and Hadoop**
+    - [10.1 - Spark Shell](10-hadoop/10.1-spark-shell.md)
+    - [10.2 - Loading Data from HDFS](10-hadoop/10.2-RDD.md)
+    - [10.3 - Spark SQL on Hadoop](10-hadoop/10.3-spark-sql.md)
+    - [10.4 - Spark and Hive](10-hadoop/10.4-spark-and-hive.md)
