@@ -45,10 +45,10 @@ Labs
 
 2. **Spark Intro**  (02-intro)
     - [2.1 - Install and run Spark](02-intro/2.1-install-spark.md)
-    - [2.2 - Spark Shell](02-intro/2.2-shell.md)  | [Hadoop version](02-intro/2.2-spark-shell-hadoop.md)
+    - [2.2 - Spark Shell](02-intro/2.2-shell.md)  | [Hadoop version](02-intro/2.2H-spark-shell-hadoop.md)
 
 3. **RDDs**  (03-rdd)
-    - [3.1 - RDD basics](03-rdd/3.1-rdd-basics.md)  | [Hadoop version](03-rdd/3.1-rdd-hadoop.md)
+    - [3.1 - RDD basics](03-rdd/3.1-rdd-basics.md)  | [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
     - [3.2 - Working with multiple RDDs](03-rdd/3.2-rdd-multi.md)
     - [3.3 - Key Value Pair RDDs](03-rdd/3.3-rdd-kv.md)
     - [3.4 - Map Reduce](03-rdd/3.4-mapreduce.md)
@@ -86,7 +86,7 @@ Labs
     - [9.1 - Cluster setup](09-ops/9.1-cluster-setup.md)
 
 10. **Spark and Hadoop** (all the Hadoop labs are grouped here)
-    - [2.2H - Spark Shell on Hadoop](02-intro/2.2-spark-shell-hadoop.md)
-    - [3.1H - Loading RDDs from HDFS](03-rdd/3.1-rdd-hadoop.md)
-    - [4.2H - Spark SQL on Hadoop](04-dataframe/4.2-spark-sql-hadoop.md)
+    - [2.2H - Spark Shell on Hadoop](02-intro/2.2H-spark-shell-hadoop.md)
+    - [3.1H - Loading RDDs from HDFS](03-rdd/3.1H-rdd-hadoop.md)
+    - [4.2H - Spark SQL on Hadoop](04-dataframe/4.2H-spark-sql-hadoop.md)
     - [4.4H - Spark & Hive](04-dataframe/4.4-spark-and-hive.md)
