@@ -45,10 +45,10 @@ Labs
 
 2. **Spark Intro**  (02-intro)
     - [2.1 - Install and run Spark](02-intro/2.1-install-spark.md)
-    - [2.2 - Spark Shell](02-intro/2.2-shell.md)
+    - [2.2 - Spark Shell](02-intro/2.2-shell.md)  / [(Hadoop version)](02-intro/2.2-spark-shell-hadoop.md)
 
 3. **RDDs**  (03-rdd)
-    - [3.1 - RDD basics](03-rdd/3.1-rdd-basics.md)
+    - [3.1 - RDD basics](03-rdd/3.1-rdd-basics.md)  ([Hadoop version](03-rdd/3.1-rdd-hadoop.md))
     - [3.2 - Working with multiple RDDs](03-rdd/3.2-rdd-multi.md)
     - [3.3 - Key Value Pair RDDs](03-rdd/3.3-rdd-kv.md)
     - [3.4 - Map Reduce](03-rdd/3.4-mapreduce.md)
@@ -57,8 +57,9 @@ Labs
 
 4.  **Dataframes** (04-dataframe)
     - [4.1 - Dataframes](04-dataframe/4.1-dataframe.md)
-    - [4.2 - SQL](04-dataframe/4.2-sql.md)
+    - [4.2 - SQL](04-dataframe/4.2-sql.md) ([Hadoop version](04-dataframe/4.2-spark-sql-hadoop.md))
     - [4.3 - Data formats](04-dataframe/4.3-data-formats.md)
+    - [4.4 - Spark & Hive (Hadoop)](04-dataframe/4.4-spark-and-hive.md)
 
 5. **API** (05-api)
     - [5.1 - Submit first application](05-api/5.1-submit.md)
