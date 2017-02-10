@@ -33,8 +33,9 @@ object ProcessFiles {
 
     var file = ""
     for (file <- args) { // looping over files
-      // ## TODO 2 : create an RDD out of file (hint :  sc.textFile)
-      val f = spark.read.textFile(file)
+      // ## TODO 2 : create an RDD out of file 
+      //    hint :  spark.read.textFile(file)
+      val f = ???
       val t1 = System.nanoTime()
       // ## TODO 3 : count # of elements in RDD
       val count = f.???

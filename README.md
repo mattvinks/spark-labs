@@ -57,7 +57,7 @@ Labs
 
 4.  **Dataframes** (04-dataframe)
     - [4.1 - Dataframes](04-dataframe/4.1-dataframe.md)
-    - [4.2 - SQL](04-dataframe/4.2-sql.md) | [Hadoop version](04-dataframe/4.2-spark-sql-hadoop.md)
+    - [4.2 - SQL](04-dataframe/4.2-sql.md) | [Hadoop version](04-dataframe/4.2H-spark-sql-hadoop.md)
     - [4.3 - Data formats](04-dataframe/4.3-data-formats.md)
     - [4.4 - Spark & Hive (Hadoop)](04-dataframe/4.4-spark-and-hive.md)
 
