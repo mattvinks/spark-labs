@@ -31,7 +31,7 @@ object Benchmark {
 
       // caching
       file.cache()
-      println ("### cached rdd : " + file.toDebugString)
+      //println ("### cached rdd : " + file.toDebugString)  // This no longer works in 2.1 
 
       for (i <- 1 to 5) {
         val t1 = System.nanoTime()
