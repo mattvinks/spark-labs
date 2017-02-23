@@ -131,6 +131,7 @@ Try different values of `K` (4 or 5).
 What is the WSSSE value when K = 32?  Can you explain? :-)
 
 Make a note of the "wall clock time. " We will optimize this later.
+This can be done by setting sc.setLogLevel("INFO") and measuring the time. 
 
 ##Step 7: Optimize Script
 
