@@ -137,10 +137,10 @@ Make a note of the "wall clock time. " We will optimize this later.
 Even though the dataset is tiny, notice that the datasets are running on disk without caching.  Could the cache() method help us at all?  
 
 Edit file `kmeans_mtcars.scala`.  
-Cache RDD `onlyVectors` , around line number 50, as follows
+Cache dataframe `featureVectors` 
 ```scala
-    onlyVectors.cache
-    onlyVectors.count  // force caching
+    featureVectors.cache
+    featureVectors.count  // force caching
 ```
 
 Then run again and note the wall clock time.
