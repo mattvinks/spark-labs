@@ -3,22 +3,12 @@ import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 
 
-// Conversion function for string --> float
-def convertColumn(df: org.apache.spark.sql.DataFrame, name:String, newType:String) = {
-  val df_1 = df.withColumnRenamed(name, "swap")
-  df_1.withColumn(name, df_1.col("swap").cast(newType)).drop("swap")
-}
-
-
 // Loads data.
-val dataset = spark.read.option("header", "true").csv("../../data/mtcars/mtcars_header.csv")
-
-val dataset1 = convertColumn(dataset, "mpg", "float")
-val dataset2 = convertColumn(dataset1, "cyl", "float")
+val dataset = spark.read.option("header", "true").option("inferschema", "true").csv("../../data/mtcars/mtcars_header.csv")
 
 val assembler = new VectorAssembler().setInputCols(Array("mpg", "cyl")).setOutputCol("features")
 
-val featureVector = assembler.transform(dataset2)
+val featureVector = assembler.transform(dataset)
 
 // Trains a k-means model.
 val kmeans = new KMeans().setK(2).setSeed(1L)
