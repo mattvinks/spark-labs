@@ -34,8 +34,8 @@ We are going to use **MPG and CYL** attributes to cluster.
 Step 2: Inspect the script
 --------------
 Open file `kmeans_mtcars.scala` and examine it.  
-This is a fully functional K-means script.  
-We are going to run this **line-by-line** in Spark Shell to understand what is going on.
+This script has some *TODO* items in it.  
+We are going to fix these TODO items and run the script **line-by-line** in Spark Shell to understand what is going on.
 
 Step 3 : Launch Spark Shell
 -----------
@@ -50,9 +50,8 @@ Step 3 : Launch Spark Shell
 **=> Open the script `kmeans_mtcaras.scala` in a favorite editor.**  
 
 **=> Copy paste snippets from text editor into Spark shell.  Watch the execution and the results**  
-Hint : When copying functions like `parseData` copy the entire function {} instead of line by line.
  
-And record the K vs.  WSSE values in the provided [excel sheet](WSSSE-versus-k.xlsx). 
+**==> And record the K vs.  WSSE values in the provided [excel sheet](WSSSE-versus-k.xlsx). **  
 
 **=> Also keep an eye on Spark web UI (4040) **
   
