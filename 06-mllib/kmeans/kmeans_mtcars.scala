@@ -18,15 +18,18 @@ val dataset2 = dataset.select("model", "???", "???")
 // ## TODO-3 : display dataset2
 dataset2.???
 
-val assembler = new VectorAssembler().setInputCols(Array("mpg", "cyl")).setOutputCol("features")
+val assembler = new VectorAssembler().
+                    setInputCols(Array("mpg", "cyl")).
+                    setOutputCol("features")
 val featureVector = assembler.transform(dataset2)
 
 // ## TODO-4 : display featureVector, what attributes do you see?
 featureVector.???
+// if you only getting partial data use `featureVector.show(40)`
 
 // Trains a k-means model.
-// ## TODO-5 : set K = 2
-val kmeans = new KMeans().setK(???).setSeed(1L)
+// ## TODO-5 : set K = 2, maxIterations to 10
+val kmeans = new KMeans().setK(???).setMaxIter(???)
 val model = kmeans.fit(featureVector)
 
 // Evaluate clustering by computing Within Set Sum of Squared Errors.
@@ -39,6 +42,7 @@ model.clusterCenters.foreach(println)
 
 // predict clusters
 val predicted = model.transform(featureVector)
+predicted.show
 
 // print sorted by 'prediction'
 predicted.sort("prediction").show

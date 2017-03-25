@@ -45,11 +45,11 @@ Labs
 
 2. **Spark Intro**  (02-intro)
     - [2.1 - Install and run Spark](02-intro/2.1-install-spark.md)
-    - [2.2 - Spark Shell](02-intro/2.2-shell.md)  | [Hadoop version](02-intro/2.2H-spark-shell-hadoop.md)
+    - 2.2 - Spark Shell - [Standalone](02-intro/2.2-shell.md)  || [Hadoop version](02-intro/2.2H-spark-shell-hadoop.md)
 
 3. **RDDs**  (03-rdd)
-    - [3.1 - RDD basics](03-rdd/3.1-rdd-basics.md)  | [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
-    - [3.1b - Dataset basics](03-rdd/3.1b-dataset-basics.md)  | [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
+    - 3.1 - RDD basics - [Standalone](03-rdd/3.1-rdd-basics.md)  || [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
+    - 3.1b - Dataset basics - [Standalone](03-rdd/3.1b-dataset-basics.md)  || [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
     - [3.2 - Working with multiple RDDs](03-rdd/3.2-rdd-multi.md)
     - [3.3 - Key Value Pairs](03-rdd/3.3-key-value.md)
     - [3.6 - Caching](03-rdd/3.6-caching.md)
@@ -57,9 +57,9 @@ Labs
         - [3.4 - Map Reduce](03-rdd/3.4-mapreduce.md)
         - [3.5 - Clickstream processing](03-rdd/3.5-clickstream.md)
 
-4.  **Dataframes** (04-dataframe)
+4.  **Dataframes and Datasets** (04-dataframe)
     - [4.1 - Dataframes](04-dataframe/4.1-dataframe.md)
-    - [4.2 - SQL](04-dataframe/4.2-sql.md) | [Hadoop version](04-dataframe/4.2H-spark-sql-hadoop.md)
+    - 4.2 - Spark SQL - [Standalone](04-dataframe/4.2-sql.md) || [Hadoop version](04-dataframe/4.2H-spark-sql-hadoop.md)
     - [4.3 - Dataset](04-dataframe/4.3-dataset.md)
     - [4.4 - Spark & Hive (Hadoop)](04-dataframe/4.4-spark-and-hive.md)
     - [4.5 - Data formats](04-dataframe/4.5-data-formats.md)
