@@ -1,14 +1,14 @@
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
-[<< back to main index](../../README.md) 
+[<< back to main index](../../README.md)
 
-Lab 8.1 - Spark Streaming - Blocked IP Addresses TCP 
+Lab 8.1 - Spark Streaming - Blocked IP Addresses TCP
 ==================================
 
 ### Overview
 Submit a job for Spark Streaming to find all the Blocked IP Addresses Over Socket/TCP
 
-### Depends On 
+### Depends On
 None
 
 ### Run time
@@ -21,10 +21,8 @@ None
 ```
 
 
-## Step 2 : Edit files
-**Inspect file : [src/main/scala/x/OverTCP.scala](src/main/scala/x/OverTCP.scala)**  
-
-**==> Fix TODO-1 (and only TODO-1) **
+## Step 2 : Edit files  / Fix TODO-1
+**Edit file : [src/main/scala/x/OverTCP.scala](src/main/scala/x/OverTCP.scala)**  
 
 See [Edit Files](../../edit-files.md) section for help.
 
@@ -56,7 +54,7 @@ drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
 ```
 
 `over-tcp_2.10-1.0.jar`  is our code compiled.
- 
+
 
 ## Step 4: Run Netcat Server to simulate network traffic
 
@@ -149,7 +147,7 @@ Output may look like this:
 **=> Build and run the program**
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar 
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 **=> Send some data through netcat window (terminal #2)**
@@ -175,7 +173,7 @@ drwxr-xr-x 4 sujee staff 136 Jan 22 22:55 out-blocked-1485154520000/
 **=> Inspect some files, what do you see?**
 
 ```bash
-    # you may need to adjust the file name 
+    # you may need to adjust the file name
     $   find out-blocked*
 ```
 
@@ -206,7 +204,7 @@ Files
 
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar 
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.OverTCP target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 **==> Test with this clickstream data, using netcat window**
@@ -220,12 +218,12 @@ Files
 ```
 
 ## Bonus Lab  2 : Network Word Count
-** ==> Inspect file : [src/main/scala/x/NetworkWordCount.scala](src/main/scala/x/NetworkWordCount.scala)  ** 
+** ==> Inspect file : [src/main/scala/x/NetworkWordCount.scala](src/main/scala/x/NetworkWordCount.scala)  **
 
 ** ==> Compile and run it **
 ```bash
     $   sbt package
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.NetworkWordCount target/scala-2.11/over-tcp_2.11-1.0.jar 
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.NetworkWordCount target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
 ** ==> Test with data using NC **
@@ -233,6 +231,6 @@ Files
     $  nc -lk 9999
         a b c
         a
-        b c 
+        b c
         d
 ```
