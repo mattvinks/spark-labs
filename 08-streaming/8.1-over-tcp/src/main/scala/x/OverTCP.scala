@@ -26,7 +26,7 @@ object OverTCP {
     // TODO-2 : filter lines that contains 'blocked'
     /*
     val blocked = lines.filter(line => line.contains("???"))
-    val blocked2 = blocked.map("BLOCKED:" + _) // better print
+    val blocked2 = blocked.map("##BLOCKED:" + _) // better print
     blocked2.print
     */
 
@@ -36,7 +36,7 @@ object OverTCP {
     */
 
     // BONUS LAB : On those blocked lines, extract just the IP address
-    // hint  : data  format: 
+    // hint  : data  format:
     // timestamp, ip, userid, action, domain, campaign, cost, sessionid
     // 1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
     // hint : separator is comma
@@ -45,7 +45,7 @@ object OverTCP {
     // extract lines with more than one column
     val blocked3 = blocked.filter(_.split(",").size > 1)
     val blockedIPs = blocked3.map(line => line.split("???")(???))
-    val blockedIPs2 = blockedIPs.map("BLOCKED-IP:" + _) // better print
+    val blockedIPs2 = blockedIPs.map("##BLOCKED-IP:" + _) // better print
     blockedIPs2.print()
     */
 
@@ -55,4 +55,3 @@ object OverTCP {
     ssc.awaitTermination()
   }
 }
-
