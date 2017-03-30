@@ -71,7 +71,7 @@ Make sure you have Kafka up and running.  For reference
 
 Here is the screen shot (click on image to see full size image)
 
-<a href="../../images/8.3a-streaming-small.png"><img src="../../images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
+<a href="../../assets/images/8.3a-streaming-small.png"><img src="../../assets/images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 
 **=> Stop Kafka consumer by hitting `Ctrl + C` in Terminal #4**  
@@ -106,7 +106,7 @@ Time: 1429859630000 ms
 Your setup might look like the following picture
 (click on the image to see full size image)
 
-<a href="../../images/8.3b-streaming-small.png"><img src="../../images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
+<a href="../../assets/images/8.3b-streaming-small.png"><img src="../../assets/images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 ## STEP 6: Continue fixing the TODO items 1-4
 

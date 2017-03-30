@@ -14,7 +14,7 @@ with experience in R should remember this as one of R's internal datasets.
 
 This dataset contains some statistics on 1974 Cars from Motor Trends
 
-<img src="../../images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" />
+<img src="../../assets/images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" />
 
 You can also download and view the raw data in Excel : [cars.csv](../../data/mtcars/mtcars.csv)
 
@@ -159,7 +159,7 @@ Does that match your intuitive sense of what is the best?
 The excel sheet also have a sample plot we did.  
 And here is the 'elbow curve'.   
 
-<img src="../../images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
+<img src="../../assets/images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
 
 ## Step 9: Add some new data, check and see if it changes the clusters.
 Edit input data file `../../../data/mtcars/mtcars.csv`.  
