@@ -47,9 +47,9 @@ Labs
     - [2.1 - Install and run Spark](02-intro/2.1-install-spark.md)
     - 2.2 - Spark Shell - [Standalone](02-intro/2.2-shell.md)  || [Hadoop version](02-intro/2.2H-spark-shell-hadoop.md)
 
-3. **RDDs**  (03-rdd)
-    - 3.1 - RDD basics - [Standalone](03-rdd/3.1-rdd-basics.md)  || [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
-    - 3.1b - Dataset basics - [Standalone](03-rdd/3.1b-dataset-basics.md)  || [Hadoop version](03-rdd/3.1H-rdd-hadoop.md)
+3. **RDDs & Datasets**  (03-rdd)
+    - [3.1 - RDD basics](03-rdd/3.1-rdd-basics.md)
+    - [3.1b - Dataset basics](03-rdd/3.1b-dataset-basics.md)
     - [3.2 - Working with multiple RDDs](03-rdd/3.2-rdd-multi.md)
     - [3.3 - Key Value Pairs](03-rdd/3.3-key-value.md)
     - [3.6 - Caching](03-rdd/3.6-caching.md)
