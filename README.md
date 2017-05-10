@@ -61,9 +61,10 @@ Labs
     - [4.1 - Dataframes](04-dataframe/4.1-dataframe.md)
     - 4.2 - Spark SQL - [Standalone](04-dataframe/4.2-sql.md) || [Hadoop version](04-dataframe/4.2H-spark-sql-hadoop.md)
     - [4.3 - Dataset](04-dataframe/4.3-dataset.md)
-    - [4.3b - Practice Lab (Datasets)](04-dataframe/4.3b-practice-lab.md)
     - [4.4 - Spark & Hive (Hadoop)](04-dataframe/4.4-spark-and-hive.md)
     - [4.5 - Data formats](04-dataframe/4.5-data-formats.md)
+    - [Practice Lab 4A - Analyze Spark Commit logs](04-dataframe/4a-practice-lab.md)
+    - [Practice Lab 4B - Analyze clickstream logs](04-dataframe/4b-practice-lab.md)
 
 5. **API** (05-api)
     - [5.1 - Submit first application](05-api/5.1-submit.md)
