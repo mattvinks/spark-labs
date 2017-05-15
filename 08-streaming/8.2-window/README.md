@@ -1,6 +1,6 @@
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
-[<< back to main index](../../README.md) 
+[<< back to main index](../../README.md)
 
 Lab 8.2 - Spark Streaming Windowed Calculations
 ==================================
@@ -8,7 +8,7 @@ Lab 8.2 - Spark Streaming Windowed Calculations
 ### Overview
 Submit a job for Spark Streaming and doing 'windowed count'
 
-### Depends On 
+### Depends On
 None
 
 ### Run time
@@ -45,10 +45,10 @@ You should see output like follows
 
 ```console
 drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
--rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 window-count_2.11-1.0.jar
+-rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 windowed-count_2.11-1.0.jar
 ```
 
-`window-count_2.11-1.0.jar`  is our code compiled.
+`windowed-count_2.11-1.0.jar`  is our code compiled.
 
 ----------------
 STEP 3: Run Netcat Server (Terminal #2)
@@ -70,7 +70,7 @@ Open an terminal and run this command at prompt
 STEP 4: Run The Application  (Terminal #1)
 --------------------------
 ```bash
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowed-count_2.11-1.0.jar
 ```
 
 
@@ -93,7 +93,7 @@ Inspect the output from Spark streaming on terminal #1
 
 You should see something similar to this screen shot.
 (Click on image to see larger version)   
-<a href="../../images/8.2-streaming-small.png"><img src="../../images/8.2-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
+<a href="../../assets/images/8.2-streaming-small.png"><img src="../../assets/images/8.2-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 
 --------------------------
@@ -106,7 +106,7 @@ STEP 6: Enable Window Count
 ** ==> Build and run the program**
 ```bash
     $   sbt package
-    $    ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/window-count_2.11-1.0.jar
+    $    ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowed-count_2.11-1.0.jar
 ```
 
 **=> Paste some logs in netcat window (terminal #2)**

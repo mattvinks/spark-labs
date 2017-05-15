@@ -1,20 +1,19 @@
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
-[<< back to main index](../../README.md) 
+[<< back to main index](../../README.md)
 
 # KMeans Lab
 
 In this lab we discuss how to use kmeans clustering in Spark.
 
-Step 1: Examine the MTCars dataset
----------------
+## Step 1: Examine the MTCars dataset
 
 Check out the dataset that we are going to cluster: MTCars. Those of you
 with experience in R should remember this as one of R's internal datasets.
 
 This dataset contains some statistics on 1974 Cars from Motor Trends
 
-<img src="../../images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" />
+<img src="../../assets/images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" />
 
 You can also download and view the raw data in Excel : [cars.csv](../../data/mtcars/mtcars.csv)
 
@@ -31,15 +30,13 @@ Are there any natural clusters you can identify from this data?
 We are going to use **MPG and CYL** attributes to cluster.
 
 
-Step 2: Inspect the script
---------------
+## Step 2: Inspect the script
 Open file `kmeans_mtcars.scala` and examine it.  
-This is a fully functional K-means script.  
-We are going to run this **line-by-line** in Spark Shell to understand what is going on.
+This script has some *TODO* items in it.  
+We are going to fix these TODO items and run the script **line-by-line** in Spark Shell to understand what is going on.
 
-Step 3 : Launch Spark Shell
------------
-```
+## Step 3 : Launch Spark Shell
+```bash
     # go to the kmeans dir
     $  cd   ~/spark-labs/06-mllib/kmeans
 
@@ -50,18 +47,26 @@ Step 3 : Launch Spark Shell
 **=> Open the script `kmeans_mtcaras.scala` in a favorite editor.**  
 
 **=> Copy paste snippets from text editor into Spark shell.  Watch the execution and the results**  
-Hint : When copying functions like `parseData` copy the entire function {} instead of line by line.
- 
-And record the K vs.  WSSE values in the provided [excel sheet](WSSSE-versus-k.xlsx). 
 
-**=> Also keep an eye on Spark web UI (4040) **
-  
-  
-## ---- [Optional] Following is Explanation --- 
+**==> And record the K vs.  WSSE values in the provided [excel sheet](WSSSE-versus-k.xlsx). **  
+
+**=> Also keep an eye on Spark web UI (4040)**
+
+## Step 4: Run the whole script
+
+```bash
+    # go to the kmeans dir
+    $  cd   ~/spark-labs/06-mllib/kmeans  
+
+    # supply the file to run with -i flag
+    $ ~/spark/bin/spark-shell -i kmeans_mtcars.scala
+```
 
 
-Step 4 : Printing out the clusters
-----------------------
+## ---- [Optional] Following is Explanation ---
+
+
+## Step 5 : Printing out the clusters
 The following code prints out the clusters in a user-friendly way
 ```scala
 model.transform(featureVector).show
@@ -101,9 +106,9 @@ Here we see **two clusters** (cluster 0 and cluster 1).
 
 
 
-**=> Does the clustering make sense?  Perhaps we have too few clusters?** 
+**=> Does the clustering make sense?  Perhaps we have too few clusters?**
 
-## Step 5 : Run the whole script
+## Step 6 : Run the whole script
 **=> Exit spark shell, by pressing Ctrl+D**
 
 **=> Run the spark shell in terminal as follows**
@@ -115,7 +120,7 @@ Here we see **two clusters** (cluster 0 and cluster 1).
 This will run the entire script in one go!
 
 
-## Step 6 : Adjust the cluster number (K)
+## Step 7 : Adjust the cluster number (K)
 Edit file `kmeans_mtcars.scala`.   
 **=> Change the `number of clusters` argument supplied to `Kmeans.train()` from `2` to `3`  function (around line # 60).**  
 
@@ -131,14 +136,14 @@ Try different values of `K` (4 or 5).
 What is the WSSSE value when K = 32?  Can you explain? :-)
 
 Make a note of the "wall clock time. " We will optimize this later.
-This can be done by setting sc.setLogLevel("INFO") and measuring the time. 
+This can be done by setting sc.setLogLevel("INFO") and measuring the time.
 
-##Step 7: Optimize Script
+##Step 8: Optimize Script
 
 Even though the dataset is tiny, notice that the datasets are running on disk without caching.  Could the cache() method help us at all?  
 
 Edit file `kmeans_mtcars.scala`.  
-Cache dataframe `featureVectors` 
+Cache dataframe `featureVectors`
 ```scala
     featureVectors.cache
     featureVectors.count  // force caching
@@ -150,8 +155,7 @@ Then run again and note the wall clock time.
 ```
 
 
-## Step 8: Record and Plot WSSSE versus K
------------
+## Step 9: Record and Plot WSSSE versus K
 Perform a plot of WSSSE versus K.  
 Use the provided [excel sheet](WSSSE-versus-k.xlsx).   
 Use the "elbow" method to pick what seems to be a good value of k.  
@@ -160,9 +164,9 @@ Does that match your intuitive sense of what is the best?
 The excel sheet also have a sample plot we did.  
 And here is the 'elbow curve'.   
 
-<img src="../../images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
+<img src="../../assets/images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
 
-## Step 9: Add some new data, check and see if it changes the clusters.
+## Step 10: Add some new data, check and see if it changes the clusters.
 Edit input data file `../../../data/mtcars/mtcars.csv`.  
 Add some new rows to the mtcars dataset based on your favorite cars (or just
 make up some fictitious cars).
@@ -176,7 +180,7 @@ See how adding this affects the way the data is clustered?
 
 
 ## BONUS: Automatically iterate across k.
-Is there a way you could modify this to loop through values of K instead of 
+Is there a way you could modify this to loop through values of K instead of
 manually changing the values?  
 
 ## BONUS 2: Programmatically Perform Elbow Method

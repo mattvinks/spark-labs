@@ -1,27 +1,35 @@
+// execute this script from within 'spark-labs' directory
+
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.linalg.Vectors
 
+// Load data
+val dataset = spark.read.option("header", "true").
+              option("inferschema", "true").
+              csv("../../data/mtcars/mtcars_header.csv")
 
-// Conversion function for string --> float
-def convertColumn(df: org.apache.spark.sql.DataFrame, name:String, newType:String) = {
-  val df_1 = df.withColumnRenamed(name, "swap")
-  df_1.withColumn(name, df_1.col("swap").cast(newType)).drop("swap")
-}
+// ## TODO-1 : display the dataset
+dataset.???
 
+// ## TODO-2 : extract the columns we need : model, mpg and cyl
+val dataset2 = dataset.select("model", "???", "???")
 
-// Loads data.
-val dataset = spark.read.option("header", "true").csv("../../data/mtcars/mtcars_header.csv")
+// ## TODO-3 : display dataset2
+dataset2.???
 
-val dataset1 = convertColumn(dataset, "mpg", "float")
-val dataset2 = convertColumn(dataset1, "cyl", "float")
-
-val assembler = new VectorAssembler().setInputCols(Array("mpg", "cyl")).setOutputCol("features")
-
+val assembler = new VectorAssembler().
+                    setInputCols(Array("mpg", "cyl")).
+                    setOutputCol("features")
 val featureVector = assembler.transform(dataset2)
 
+// ## TODO-4 : display featureVector, what attributes do you see?
+featureVector.???
+// if you only getting partial data use `featureVector.show(40)`
+
 // Trains a k-means model.
-val kmeans = new KMeans().setK(2).setSeed(1L)
+// ## TODO-5 : set K = 2, maxIterations to 10
+val kmeans = new KMeans().setK(???).setMaxIter(???)
 val model = kmeans.fit(featureVector)
 
 // Evaluate clustering by computing Within Set Sum of Squared Errors.
@@ -32,6 +40,14 @@ println(s"Within Set Sum of Squared Errors = $WSSSE")
 println("Cluster Centers: ")
 model.clusterCenters.foreach(println)
 
-// Print results
-model.transform(featureVector).show
+// predict clusters
+val predicted = model.transform(featureVector)
+predicted.show
+
+// print sorted by 'prediction'
+predicted.sort("prediction").show
+
+// lets count cars in each group
+predicted.groupBy("prediction").count.show
+
 

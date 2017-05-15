@@ -26,14 +26,14 @@ Happy editing!
 ## Option 2 : Using Sublime or GEdit
 
 ### Login into web desktop
-<img src="images/setup1d-vnc.png" style="border: 5px solid grey ; max-width:100%;" />
+<img src="assets/images/setup1d-vnc.png" style="border: 5px solid grey ; max-width:100%;" />
 
 ### Open Sublime Editor via desktop shortcut
 
-<img src="images/4.1a-sublime.png" style="border: 5px solid grey ; max-width:100%;" />
+<img src="assets/images/4.1a-sublime.png" style="border: 5px solid grey ; max-width:100%;" />
 
 ### Open GEdit Editor via desktop shortcut
-<img src="images/setup1f.png" style="border: 5px solid grey ; max-width:100%;" />
+<img src="assets/images/setup1f.png" style="border: 5px solid grey ; max-width:100%;" />
 
 
 

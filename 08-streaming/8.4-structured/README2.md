@@ -126,7 +126,7 @@ Batch: 0
 You should see something similar to this screen shot.
 (Click on the image for larger version)   
 
-<a href="../../images/8.4b1-json-streaming.png"><img src="../../images/8.4b1-json-streaming.png" style="border: 5px solid grey; max-width:100%;"/></a>
+<a href="../../assets/images/8.4b1-json-streaming.png"><img src="../../assets/images/8.4b1-json-streaming.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
 
