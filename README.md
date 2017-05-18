@@ -59,7 +59,7 @@ Labs
 
 4.  **Dataframes and Datasets** (04-dataframe)
     - [4.1 - Dataframes](04-dataframe/4.1-dataframe.md)
-    - 4.2 - Spark SQL - [Standalone](04-dataframe/4.2-sql.md) || [Hadoop version](04-dataframe/4.2H-spark-sql-hadoop.md)
+    - [4.2 - Spark SQL ](04-dataframe/4.2-sql.md)
     - [4.3 - Dataset](04-dataframe/4.3-dataset.md)
     - [4.4 - Spark & Hive (Hadoop)](04-dataframe/4.4-spark-and-hive.md)
     - [4.5 - Data formats](04-dataframe/4.5-data-formats.md)
@@ -92,6 +92,6 @@ Labs
 
 10. **Spark and Hadoop** (all the Hadoop labs are grouped here)
     - [2.2H - Spark Shell on Hadoop](02-intro/2.2H-spark-shell-hadoop.md)
-    - [3.1H - Loading RDDs from HDFS](03-rdd/3.1H-rdd-hadoop.md)
-    - [4.2H - Spark SQL on Hadoop](04-dataframe/4.2H-spark-sql-hadoop.md)
+    - [3.1 - Loading RDDs from HDFS](03-rdd/3.1-rdd-basics.md)
+    - [4.2 - Spark SQL on Hadoop](04-dataframe/4.2-sql.md)
     - [4.4H - Spark & Hive](04-dataframe/4.4-spark-and-hive.md)
