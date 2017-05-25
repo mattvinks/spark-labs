@@ -17,6 +17,7 @@ object Clicks {
     val spark = SparkSession.builder().
                 appName("Process Files -- MYNAME").
                 getOrCreate()
+    import spark.implicits._
 
     println ("### Ahoy mate, fix TODO items!")
 
@@ -47,6 +48,7 @@ object Clicks {
     // count the number of domains
     /* 
     // TODO-5 :   from groupedByDomain, calculate domain count
+    // note to use RDD operations you may have to call groupedByDomain.rdd.????
     val domainCountByKey = ???
     println ("### domain count : \n" + domainCountByKey)
     */
