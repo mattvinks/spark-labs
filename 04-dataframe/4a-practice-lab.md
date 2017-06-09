@@ -65,4 +65,4 @@ val commits = spark.read.
 
 For group by, you can use `email` column as a unique column.  
 
-You can group by using Dataset API  or use SQL (register DF as a temptable)
+You can group by using Dataset API  or use SQL (register DF as a temptable first)
