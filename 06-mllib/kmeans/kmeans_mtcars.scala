@@ -7,7 +7,7 @@ import org.apache.spark.ml.linalg.Vectors
 // Load data
 val dataset = spark.read.option("header", "true").
               option("inferschema", "true").
-              csv("../../data/mtcars/mtcars_header.csv")
+              csv("data/mtcars/mtcars_header.csv")
 
 // ## TODO-1 : display the dataset
 dataset.???
@@ -49,5 +49,3 @@ predicted.sort("prediction").show
 
 // lets count cars in each group
 predicted.groupBy("prediction").count.show
-
-
