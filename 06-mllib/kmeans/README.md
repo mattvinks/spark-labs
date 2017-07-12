@@ -38,7 +38,7 @@ We are going to fix these TODO items and run the script **line-by-line** in Spar
 ## Step 3 : Launch Spark Shell
 ```bash
     # go to the kmeans dir
-    $  cd   ~/spark-labs/06-mllib/kmeans
+    $  cd   ~/spark-labs
 
     # start shell
     $  ~/spark/bin/spark-shell
