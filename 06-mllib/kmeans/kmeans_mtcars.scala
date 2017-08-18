@@ -45,7 +45,8 @@ val predicted = model.transform(featureVector)
 predicted.show
 
 // print sorted by 'prediction'
-predicted.sort("prediction").show
+predicted.sort("prediction").show(32,false)
+predicted.sort("prediction", "mpg").show(32,false)
 
 // lets count cars in each group
 predicted.groupBy("prediction").count.show
