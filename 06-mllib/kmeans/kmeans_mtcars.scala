@@ -32,6 +32,10 @@ featureVector.???
 val kmeans = new KMeans().setK(???).setMaxIter(???)
 val model = kmeans.fit(featureVector)
 
+// print cluster Centers
+println("Cluster Centers: ")
+model.clusterCenters.foreach(println)
+
 // Evaluate clustering by computing Within Set Sum of Squared Errors.
 val WSSSE = model.computeCost(featureVector)
 println(s"Within Set Sum of Squared Errors = $WSSSE")
