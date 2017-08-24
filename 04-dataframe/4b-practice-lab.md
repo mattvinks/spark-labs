@@ -21,7 +21,7 @@ Deeper analytics of Clickstream data
 
 ### Data Format:
 
-The data is in [data/click-stream/clickstream.json](../data/click-stream/clickstream.json)
+The data is in [data/click-stream/clickstream.json](/data/click-stream/clickstream.json)
 
 Clickstream data looks like this
 ```

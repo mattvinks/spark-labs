@@ -21,8 +21,8 @@ Process CSV using Spark2 APIs
 In this lab, we are going to analyze Spark commit logs.
 
 The data is located in `data/spark-commits` directory.
-- [data/spark-commits/spark-commits.log](../data/spark-commits/spark-commits.log)  : large file with about 20,000 commit logs
-- [data/spark-commits/sample.log](../data/spark-commits/sample.log) : a small sample file
+- [data/spark-commits/spark-commits.log](/data/spark-commits/spark-commits.log)  : large file with about 20,000 commit logs
+- [data/spark-commits/sample.log](/data/spark-commits/sample.log) : a small sample file
 
 ### Data Format:
 
