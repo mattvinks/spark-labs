@@ -38,3 +38,5 @@ project/plugins/project/
 # IntelliJ
 .idea/
 
+# python
+.ipynb_checkpoints
