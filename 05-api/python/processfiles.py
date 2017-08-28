@@ -30,6 +30,6 @@ for file in sys.argv:
     t2 = time.time()
 
     print("### {}: count:  {} ,  time took:  {} ms".format(file, count, (t2-t1)/1e6))
-    line = input('### Hit enter to terminate the program...')
+    line = input('### Hit cntrl-c to terminate the program...')
 
     spark.stop()  # close the session
