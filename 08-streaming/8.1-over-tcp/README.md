@@ -60,14 +60,14 @@ drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
 
 Open another terminal into Spark node (terminal #2)
 
-Use `nc` command to move text you type in terminal #2 to port 9999
+Use `nc` command to move text you type in terminal #2 to port 10000
 Open an terminal and run this command at prompt
 
 ```bash
-    $ nc -lk 9999
+    $ nc -lk 10000
 
     # if this gives an error like 'Protocol not available' use this
-    # $  ~/bin/nc  -lk 9999
+    # $  ~/bin/nc  -lk 10000
 ```
 
 ## Step 5: Run the streaming application
@@ -192,13 +192,13 @@ out-blocked-1485153770000/part-00000
 
 Files
 * part-0000 : this is data
-* _SUCCESS : indicates that direcory is complete
+* _SUCCESS_ : indicates that directory is complete
 * crc : Checksum files
 
 ## Bonus Lab  1 : Extract BLOCKED IPs
-**==> Edit file :  `src/main/scala/x/OverTCP.scala`  **  
+**==> Edit file :  `src/main/scala/x/OverTCP.scala`**  
 
-**==> Fix BONUS-LAB to extract blocked IPs **
+**==> Fix BONUS-LAB to extract blocked IPs**
 
 **==> Compile and run a program like this**
 
@@ -218,17 +218,17 @@ Files
 ```
 
 ## Bonus Lab  2 : Network Word Count
-** ==> Inspect file : [src/main/scala/x/NetworkWordCount.scala](src/main/scala/x/NetworkWordCount.scala)  **
+**==> Inspect file : [src/main/scala/x/NetworkWordCount.scala](src/main/scala/x/NetworkWordCount.scala)**
 
-** ==> Compile and run it **
+**==> Compile and run it**
 ```bash
     $   sbt package
     $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.NetworkWordCount target/scala-2.11/over-tcp_2.11-1.0.jar
 ```
 
-** ==> Test with data using NC **
+**==> Test with data using NC**
 ```bash
-    $  nc -lk 9999
+    $  nc -lk 10000
         a b c
         a
         b c
