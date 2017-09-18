@@ -9,7 +9,7 @@ Lab 8.3a: Kafka Setup
 ### Overview
 Setting up Kafka
 
-### Depends On 
+### Depends On
 None
 
 ### Run time
@@ -61,7 +61,7 @@ Leave terminal-2 alone
 Open another terminal and let's create a topic.
 ```bash
 
-$  ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic clickstream
+$  ~/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic clickstream
 ```
 Read through the parameters.. most are self explanatory
 
@@ -118,5 +118,3 @@ b
 c
 hello world
 ```
-
-
