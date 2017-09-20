@@ -19,7 +19,7 @@ If this link does not work, search for markdown-preview-plus in https://chrome.g
 
 * Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'
 
-* Open any *.md file using Chrome (File --> Open)
+* Open any .md file using Chrome (File --> Open)
 
 
 Editors
@@ -31,7 +31,24 @@ We recommend using a 'programmer's editor' to view these files. These editors ha
 * For Mac : [Sublime](http://www.sublimetext.com/),  [TextWrangler](http://www.barebones.com/products/textwrangler/)
 
 * For Linux : [Sublime](http://www.sublimetext.com/), GEdit, Vim
+
+<a name="data"/>
+Data
 ----
+The VMs already have data loaded.  This for your own reference.
+
+[Link to Full Dataset](https://s3.amazonaws.com/elephantscale-public/data/datasets.zip)
+(Note: Large download, ~200 Meg)
+
+- Click the above link to download or
+- use `wget` from command line
+```
+    $    wget   "https://s3.amazonaws.com/elephantscale-public/data/datasets.zip"
+```
+
+
+
+
 Labs
 ----
 1. **Scala Primer**  (01-scala)
