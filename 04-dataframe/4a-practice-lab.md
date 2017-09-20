@@ -60,7 +60,7 @@ Use any of the APIs (RDD / Dataframe / Dataset) to analyze the data.
 val commits = spark.read.
               option("header", "???").  // true or false?
               option("delimiter", "???").  // what is our delimiter
-              csv("data/spark-commits/spark-commits.log")
+              csv("/data/spark-commits/spark-commits.log")
 ```
 
 For group by, you can use `email` column as a unique column.  
