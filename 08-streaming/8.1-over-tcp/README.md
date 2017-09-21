@@ -21,8 +21,9 @@ None
 ```
 
 
-## Step 2 : Edit files  / Fix TODO-1
+## Step 2 : Fix TODO-1 & TODO-2
 **Edit file : [src/main/scala/x/OverTCP.scala](src/main/scala/x/OverTCP.scala)**  
+Fix TODO-1 and 2 (only)
 
 See [Edit Files](../../edit-files.md) section for help.
 
@@ -105,7 +106,7 @@ You should see something similar to this screen shot.
 
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
 
-## Step 7 : Filter (TODO-2)
+## Step 7 : Filter (TODO-3)
 **==>  Edit file :  `src/main/scala/x/OverTCP.scala`  **  
 ** ==> Uncomment block around TODO-2, filter lines that has the word 'blocked'**
 
@@ -115,7 +116,7 @@ You should see something similar to this screen shot.
     val blocked2 = blocked.map("BLOCKED:" + _) // better print
     blocked2.print
 ```
-**==> Compile and run the code **
+**==> Compile and run the code**
 
 ```bash
     $   cd ~/spark-labs/08-streaming/8.1-over-tcp  
@@ -125,7 +126,7 @@ You should see something similar to this screen shot.
 
 Using 'netcat' program, send some data to streaming.  Make sure some data has 'blocked' text
 
-```
+```console
 a
 b blocked
 ```
@@ -134,10 +135,10 @@ Output may look like this:
 
 <a href="../../assets/images/8.1b"><img src="../../assets/images/8.1b.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
-## Step 8: Save data into files (TODO-3)
+## Step 8: Save data into files (TODO-4)
 
-**==> Edit file : `` **
-** Uncomment TODO-3 code block so it looks like this**
+**==> Edit file : ``**
+**Uncomment TODO-3 code block so it looks like this**
 
 ```scala
     // TODO-3  : Save both RDDs (and uncomment this block)

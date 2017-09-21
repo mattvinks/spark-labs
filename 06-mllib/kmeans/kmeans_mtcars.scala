@@ -7,9 +7,10 @@ import org.apache.spark.ml.linalg.Vectors
 // Load data
 val dataset = spark.read.option("header", "true").
               option("inferschema", "true").
-              csv("data/mtcars/mtcars_header.csv")
+              csv("/data/cars/mtcars_header.csv")
 
-// ## TODO-1 : display the dataset
+// ## TODO-1 : print schema and display the dataset
+dataset.??? 
 dataset.???
 
 // ## TODO-2 : extract the columns we need : model, mpg and cyl
@@ -31,10 +32,6 @@ featureVector.???
 // ## TODO-5 : set K = 2, maxIterations to 10
 val kmeans = new KMeans().setK(???).setMaxIter(???)
 val model = kmeans.fit(featureVector)
-
-// print cluster Centers
-println("Cluster Centers: ")
-model.clusterCenters.foreach(println)
 
 // Evaluate clustering by computing Within Set Sum of Squared Errors.
 val WSSSE = model.computeCost(featureVector)

@@ -16,21 +16,21 @@ object OverTCP {
 
     val sparkConf = new SparkConf().setAppName("BlkIPOverTCP")
 
-    // TODO  1 : define window duration for 10 seconds
-    val ssc = new StreamingContext(sparkConf, Seconds(5))
+    // TODO  1 : define window duration for 5 seconds
+    val ssc = new StreamingContext(sparkConf, Seconds(???))
 
-    // listen on port 9999, only cache it local memory
-    val lines = ssc.socketTextStream("localhost", 9999, StorageLevel.MEMORY_ONLY)
+    // TODO-2: listen on port 10000, only cache it local memory
+    val lines = ssc.socketTextStream("localhost", ???, StorageLevel.MEMORY_ONLY)
     lines.print
 
-    // TODO-2 : filter lines that contains 'blocked'
+    // TODO-3 : filter lines that contains keyword 'blocked'
     /*
     val blocked = lines.filter(line => line.contains("???"))
     val blocked2 = blocked.map("##BLOCKED:" + _) // better print
     blocked2.print
     */
 
-    // TODO-3  : Save both RDDs (and uncomment this block)
+    // TODO-4  : Save both RDDs (and uncomment this block)
     /*
     blocked.saveAsTextFiles("out-blocked")
     */

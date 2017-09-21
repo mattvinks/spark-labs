@@ -167,7 +167,7 @@ And here is the 'elbow curve'.
 <img src="../../assets/images/6.1-wssse-vs-k.png" style="border: 5px solid grey; max-width:100%;" />
 
 ## Step 10: Add some new data, check and see if it changes the clusters.
-Edit input data file `../../../data/mtcars/mtcars.csv`.  
+Edit input data file `/data/cars/mtcars.csv`.  
 Add some new rows to the mtcars dataset based on your favorite cars (or just
 make up some fictitious cars).
 
