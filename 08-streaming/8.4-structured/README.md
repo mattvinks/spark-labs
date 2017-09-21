@@ -1,7 +1,6 @@
-<head><title>Spark labs : 8.1 Streaming Over TCP</title></head>
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
-[<< back to main index](../../README.md) 
+[<< back to main index](../../README.md)
 
 Lab 8.4 - Structured Streaming 1
 ==================================
@@ -9,7 +8,7 @@ Lab 8.4 - Structured Streaming 1
 ### Overview
 Run a Spark Structured Streaming  job
 
-### Depends On 
+### Depends On
 None
 
 ### Run time
@@ -22,8 +21,8 @@ None
 ```
 
 
-## Step 2 : Inspect file
-**Inspect file : `src/main/scala/x/StructuredStreaming.scala`**  
+## Step 2 : Fix TODO-1 & 2
+Edit file : `src/main/scala/x/StructuredStreaming.scala`
 
 
 ## Step 3: Build the project
@@ -44,14 +43,14 @@ Make sure there are no errors and there is output in `target` dir.
 
 Open another terminal into Spark node (terminal #2)
 
-Use `nc` command to move text you type in terminal #2 to port 9999
+Use `nc` command to move text you type in terminal #2 to port 10000
 Open an terminal and run this command at prompt
 
 ```bash
-    $ nc -lk 9999
+    $ nc -lk 10000
 
     # if this gives an error like 'Protocol not available' use this
-    # $  ~/bin/nc  -lk 9999
+    # $  ~/bin/nc  -lk 10000
 ```
 
 ## Step 5: Run the streaming application
@@ -90,4 +89,3 @@ You should see something similar to this screen shot.
 <a href="../../assets/images/8.4a-structured-streaming.png"><img src="../../assets/images/8.4a-structured-streaming.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
-

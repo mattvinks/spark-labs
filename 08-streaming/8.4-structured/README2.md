@@ -1,7 +1,7 @@
-<head><title>Spark labs : 8.1 Streaming Over TCP</title></head>
+<title>Spark labs : 8.1 Streaming Over TCP</title></head>
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
-[<< back to main index](../../README.md) 
+[<< back to main index](../../README.md)
 
 Lab 8.4 - Structured Streaming 2 (JSON)
 ==================================
@@ -9,7 +9,7 @@ Lab 8.4 - Structured Streaming 2 (JSON)
 ### Overview
 Run a Spark Structured Streaming  job analyzing JSON data
 
-### Depends On 
+### Depends On
 None
 
 ### Run time
@@ -59,7 +59,7 @@ Make sure there are no errors and there is output in `target` dir.
     # be in project root directory
     $   cd ~/spark-labs/08-streaming/8.4-structured
 
-    $   rm -f json-input/* 
+    $   rm -f json-input/*
 
     $  ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.JSONStreaming  target/scala-2.11/structured-streaming_2.11-1.0.jar
 ```

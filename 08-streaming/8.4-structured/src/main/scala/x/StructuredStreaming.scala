@@ -1,8 +1,6 @@
 package x
 
 
-//import org.apache.spark._
-//import org.apache.spark.streaming._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.SparkSession
 //import spark.implicits._
@@ -18,12 +16,14 @@ object StructuredStreaming {
     val spark = SparkSession.builder.appName("Structured Streaming").
                 getOrCreate()
 
+    // TODO-1  : set the port to 10000
     val clickstream = spark.readStream.format("socket").
                       option("host", "localhost").
-                      option("port", 9999)
+                      option("port", ???)
                       .load()
 
-    clickstream.printSchema
+    // TODO-2 : printSchema
+    clickstream.???
 
     val query = clickstream.writeStream.
                 outputMode("append")
@@ -31,7 +31,6 @@ object StructuredStreaming {
                 .start()
 
     query.awaitTermination()
-    
+
   }
 }
-
