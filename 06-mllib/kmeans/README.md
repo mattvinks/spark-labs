@@ -15,7 +15,7 @@ This dataset contains some statistics on 1974 Cars from Motor Trends
 
 <img src="../../assets/images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" />
 
-You can also download and view the raw data in Excel : [cars.csv](../../data/mtcars/mtcars.csv)
+You can also download and view the raw data in Excel : [cars.csv](/data/cars/mtcars_header.csv)
 
 Here are the columns:
 * name   - name of the car
@@ -43,12 +43,13 @@ We are going to fix these TODO items and run the script **line-by-line** in Spar
     # start shell
     $  ~/spark/bin/spark-shell
 ```
+### Download the [spreadsheet](WSSSE-versus-k.xlsx)
 
-**=> Open the script `kmeans_mtcaras.scala` in a favorite editor.**  
+**=> Open the script `kmeans_mtcars.scala` in a favorite editor.**  
 
 **=> Copy paste snippets from text editor into Spark shell.  Watch the execution and the results**  
 
-**==> And record the K vs.  WSSE values in the provided [excel sheet](WSSSE-versus-k.xlsx). **  
+**==> And record the K vs.  WSSE values in the provided WSSSE-versus-k.xlsx. **  
 
 **=> Also keep an eye on Spark web UI (4040)**
 

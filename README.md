@@ -17,9 +17,10 @@ Go to this url in Chrome & click add to Chrome.
     https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl?hl=en-US  
 If this link does not work, search for markdown-preview-plus in https://chrome.google.com/webstore
 
-* Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'
+* Once installed, go to 'Window --> Extensions' menu of Chrome ;   Find 'Markdown Preview Plus' plugin ;  set 'Allow access to file urls'  
+Also go to 'options' of the MPP plugin and enable 'HTML view'
 
-* Open any .md file using Chrome (File --> Open)
+* Now open any .md file using Chrome (File --> Open) or drag-and-drop
 
 
 Editors
@@ -33,6 +34,13 @@ We recommend using a 'programmer's editor' to view these files. These editors ha
 * For Linux : [Sublime](http://www.sublimetext.com/), GEdit, Vim
 
 <a name="data"/>
+
+Labs
+---
+```
+    $   git clone  --depth 1 git@github.com:elephantscale/spark-labs.git
+```
+
 Data
 ----
 The VMs already have data loaded.  This for your own reference.
