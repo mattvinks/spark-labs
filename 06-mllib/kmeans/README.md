@@ -37,9 +37,6 @@ We are going to fix these TODO items and run the script **line-by-line** in Spar
 
 ## Step 3 : Launch Spark Shell
 ```bash
-    # go to the kmeans dir
-    $  cd   ~/spark-labs
-
     # start shell
     $  ~/spark/bin/spark-shell
 ```
@@ -56,11 +53,14 @@ We are going to fix these TODO items and run the script **line-by-line** in Spar
 ## Step 4: Run the whole script
 
 ```bash
-    # go to the kmeans dir
-    $  cd   ~/spark-labs/06-mllib/kmeans  
-
     # supply the file to run with -i flag
-    $ ~/spark/bin/spark-shell -i kmeans_mtcars.scala
+    $ ~/spark/bin/spark-shell -i ~/spark-labs/06-mllib/kmeans/kmeans_mtcars.scala
+```
+
+**Hint**
+You can also load a file into scala shell Using
+```scala
+    :load file_name.scala
 ```
 
 

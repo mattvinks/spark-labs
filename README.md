@@ -4,6 +4,12 @@ Spark Labs
 ==========
 Welcome to Spark labs bundle.
 
+## To Instructor
+Create a lab bundle as follows
+```bash
+    $    git archive --format=zip HEAD -o spark-labs.zip
+```
+
 Viewing the files:
 -----------------
 Markdown files are plain text files and can be viewed in any text editor.
