@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>4.4-spark-and-hive</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>4.5-data-formats-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11777,12 +11777,63 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <link rel='stylesheet' href='../assets/css/main.css'/>
 
-<h1 id="Lab-4.4:-Spark-And-Hive">Lab 4.4: Spark And Hive<a class="anchor-link" href="#Lab-4.4:-Spark-And-Hive">&#182;</a></h1><p><img src="../assets/images/spark-and-hadoop-1.png" style="border: 5px solid grey ; max-
-width:100%;" /></p>
-<p><img src="../assets/images/spark-and-hadoop-2.png" style="border: 5px solid grey ; max-
-width:100%;" /></p>
-<h2 id="Step-1-:-Open-Two-Terminal-Sessions-to-Hadoop-Node">Step 1 : Open Two Terminal Sessions to Hadoop Node<a class="anchor-link" href="#Step-1-:-Open-Two-Terminal-Sessions-to-Hadoop-Node">&#182;</a></h2><p>Instructor will demonstrate how.</p>
-<h2 id="Step-2-:-In-Terminal-1-:-Start-Hive-Shell">Step 2 : In Terminal 1 : Start Hive Shell<a class="anchor-link" href="#Step-2-:-In-Terminal-1-:-Start-Hive-Shell">&#182;</a></h2>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="Lab-4.5-:-Data-formats-(JSON-vs.-Parquet-vs.-ORC)">Lab 4.5 : Data formats (JSON vs. Parquet vs. ORC)<a class="anchor-link" href="#Lab-4.5-:-Data-formats-(JSON-vs.-Parquet-vs.-ORC)">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Comparing different data formats for Dataframes.  We will evaluate JSON, Parquet and ORC format.</p>
+<p>Background reads:</p>
+<ul>
+<li><a href="https://spark.apache.org/docs/latest/sql-programming-guide.html">Spark data frames</a></li>
+<li>JSON format <ul>
+<li><a href="https://en.wikipedia.org/wiki/JSON">wikipedia</a></li>
+<li><a href="http://json.org/">json.org</a></li>
+</ul>
+</li>
+<li>Parquet format<ul>
+<li><a href="https://parquet.apache.org/">Parquet project</a></li>
+<li><a href="https://github.com/Parquet/parquet-format">parquet github</a></li>
+<li><a href="http://www.slideshare.net/larsgeorge/parquet-data-io-philadelphia-2013">presentation</a></li>
+</ul>
+</li>
+<li>ORC format<ul>
+<li><a href="https://orc.apache.org/">ORC project</a></li>
+<li><a href="http://www.semantikoz.com/blog/orc-intelligent-big-data-file-format-hadoop-hive/">ORC explained</a></li>
+<li><a href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_performance_tuning/content/hive_perf_best_pract_use_orc_file_format.html">ORC performance</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p>None</p>
+<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20-30 mins</p>
+<h2 id="STEP-1:-Clickstream-data">STEP 1: Clickstream data<a class="anchor-link" href="#STEP-1:-Clickstream-data">&#182;</a></h2><p>There is about 1G+ clickstream data stored in <code>/data/click-stream/json</code> directory.</p>
+<p>They look like this</p>
+<div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1420070400000</span><span class="p">,</span> <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;ip_557&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user_13011&quot;</span><span class="p">,</span> <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;blocked&quot;</span><span class="p">,</span> <span class="nt">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;npr.org&quot;</span><span class="p">,</span> <span class="nt">&quot;campaign&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign_13&quot;</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mi">116</span><span class="p">,</span> <span class="nt">&quot;session&quot;</span><span class="p">:</span> <span class="s2">&quot;session_43&quot;</span><span class="p">}</span>
+
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1420070400043</span><span class="p">,</span> <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;ip_129&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user_58773&quot;</span><span class="p">,</span> <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;clicked&quot;</span><span class="p">,</span> <span class="nt">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;flickr.com&quot;</span><span class="p">,</span> <span class="nt">&quot;campaign&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign_7&quot;</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mi">170</span><span class="p">,</span> <span class="nt">&quot;session&quot;</span><span class="p">:</span> <span class="s2">&quot;session_23&quot;</span><span class="p">}</span>
+
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1420070400086</span><span class="p">,</span> <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;ip_704&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user_71191&quot;</span><span class="p">,</span> <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;viewed&quot;</span><span class="p">,</span> <span class="nt">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;foxnews.com&quot;</span><span class="p">,</span> <span class="nt">&quot;campaign&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign_20&quot;</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mi">47</span><span class="p">,</span> <span class="nt">&quot;session&quot;</span><span class="p">:</span> <span class="s2">&quot;session_48&quot;</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="[Optional]-If-you-need-to-generate-more-data....">[Optional] If you need to generate more data....<a class="anchor-link" href="#[Optional]-If-you-need-to-generate-more-data....">&#182;</a></h4><div class="highlight"><pre><span></span>$    <span class="nb">cd</span>   /data/click-stream/
+    $    python   gen-clickstream-json.py
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-2:-Benchmarking-Spreadsheet">STEP 2: Benchmarking Spreadsheet<a class="anchor-link" href="#STEP-2:-Benchmarking-Spreadsheet">&#182;</a></h2><p>Download and inspect <a href="Benchmarking_Dataformats.xlsx">Benchmarking_Dataformats.xlsx</a>.<br>
+<strong>We will be filling out the values in this spreadsheet, as we execute commands on Spark Shell.</strong></p>
+<p>It will look like this (click on the image for larger version)</p>
+<p><a href="../assets/images/5.3a.png"><img src="../assets/images/5.3a-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+
 </div>
 </div>
 </div>
@@ -11791,9 +11842,8 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="err">```</span><span class="n">bash</span>
-    <span class="err">$</span>   <span class="n">hive</span>
-<span class="err">```</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log level set to INFO&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11805,8 +11855,17 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Inspect the tables and run a query on 'clickstream' table.</p>
+<h2 id="STEP-3:-ATOP">STEP 3: ATOP<a class="anchor-link" href="#STEP-3:-ATOP">&#182;</a></h2><p>Also open another terminal and run <strong>atop</strong>.<br>
+We will use this to monitor CPU / IO usage</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-4:-Load-Clickstream-data">STEP 4: Load Clickstream data<a class="anchor-link" href="#STEP-4:-Load-Clickstream-data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11815,14 +11874,9 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="err">```</span><span class="n">sql</span>
-  <span class="n">hive</span><span class="o">&gt;</span>
-        <span class="n">show</span> <span class="n">tables</span><span class="p">;</span>
-
-        <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">clickstream</span> <span class="n">limit</span> <span class="mi">10</span><span class="p">;</span>
-
-        <span class="n">select</span> <span class="n">action</span><span class="p">,</span> <span class="n">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">total</span> <span class="kn">from</span> <span class="nn">clickstream</span> <span class="n">group</span> <span class="n">by</span> <span class="n">action</span><span class="p">;</span>
-<span class="err">```</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load all the files in the dir</span>
+<span class="n">clicksJson</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/json/&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clicksJson</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11834,7 +11888,11 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-3-:-In-Terminal-2-Start-Spark-shell">Step 3 : In Terminal 2 Start Spark shell<a class="anchor-link" href="#Step-3-:-In-Terminal-2-Start-Spark-shell">&#182;</a></h2>
+<p><strong>==&gt; While the import is running take a look at <code>atop</code> terminal.  Which of the resources are we maxing out?</strong><br>
+<strong>==&gt; Measure the time taken to load JSON data; record it in the spreadsheet</strong></p>
+<p><strong>==&gt; Find the max value of cost</strong><br>
+<strong>==&gt; While the query is running, check <code>atop</code></strong></p>
+
 </div>
 </div>
 </div>
@@ -11843,9 +11901,9 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="err">```</span><span class="n">bash</span>
-    <span class="err">$</span>    <span class="n">pyspark</span>
-<span class="err">```</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="k">import</span> <span class="o">*</span>
+<span class="n">clicksJson</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_json&quot;</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11857,7 +11915,7 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Type this in Spark Shell</p>
+<p>Sample output</p>
 
 </div>
 </div>
@@ -11867,7 +11925,11 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;WARN&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span>    <span class="o">+---------+</span>
+    <span class="o">|</span><span class="n">MAX</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="o">|</span>
+    <span class="o">+---------+</span>
+    <span class="o">|</span>      <span class="mi">180</span><span class="o">|</span>
+    <span class="o">+---------+</span>
 </pre></div>
 
 </div>
@@ -11879,9 +11941,8 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Go to <a href="http://localhost:4040">http://localhost:4040</a> in the browser.</p>
-<h2 id="Step-4-:-Inspect-Hive-Tables">Step 4 : Inspect Hive Tables<a class="anchor-link" href="#Step-4-:-Inspect-Hive-Tables">&#182;</a></h2><p>Do this in pyspark</p>
-<h4 id="spark-2">spark 2<a class="anchor-link" href="#spark-2">&#182;</a></h4>
+<p><strong>==&gt; Note the time it took to run the query, and record it in spreadsheet</strong></p>
+
 </div>
 </div>
 </div>
@@ -11890,9 +11951,7 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Spark 2 Catalog</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">listDatabases</span><span class="p">())</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">listTables</span><span class="p">(</span><span class="s2">&quot;mydb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span>    <span class="n">Job</span> <span class="mi">1</span> <span class="n">finished</span><span class="p">:</span> <span class="n">show</span> <span class="n">at</span> <span class="o">&lt;</span><span class="n">console</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">24</span><span class="p">,</span> <span class="n">took</span> <span class="err">`</span><span class="mf">8.550481</span> <span class="n">s</span><span class="err">`</span>
 </pre></div>
 
 </div>
@@ -11904,7 +11963,8 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Spark-1">Spark 1<a class="anchor-link" href="#Spark-1">&#182;</a></h4>
+<h2 id="STEP-6-:-Save-the-logs-in-Parquet-format">STEP 6 : Save the logs in Parquet format<a class="anchor-link" href="#STEP-6-:-Save-the-logs-in-Parquet-format">&#182;</a></h2><p>We are going to use Spark's built-in parquet support to save the dataframe into parquet format</p>
+
 </div>
 </div>
 </div>
@@ -11913,14 +11973,7 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Spark 1</span>
-<span class="n">sqlContext</span><span class="o">.</span><span class="n">tableNames</span><span class="p">()</span>
-<span class="c1">## TODO : change &#39;mydb&#39; accordingly</span>
-<span class="n">sqlContext</span><span class="o">.</span><span class="n">tableNames</span><span class="p">(</span><span class="s2">&quot;mydb&quot;</span><span class="p">)</span>
-
-<span class="n">t</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;mydb.clickstream&quot;</span><span class="p">)</span>
-<span class="n">t</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
-<span class="n">t</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksJson</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-parquet&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11932,7 +11985,17 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-5-:-Queries">Step 5 : Queries<a class="anchor-link" href="#Step-5-:-Queries">&#182;</a></h2><h4 id="Spark-2">Spark 2<a class="anchor-link" href="#Spark-2">&#182;</a></h4>
+<p><strong>==&gt; Inspect <code>atop</code> terminal</strong><br>
+<strong>==&gt; Measure the time taken to 'save as parquet' and record it in spreadsheet</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-7-:-Saving-ORC">Step 7 : Saving ORC<a class="anchor-link" href="#Step-7-:-Saving-ORC">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11941,12 +12004,7 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Spark 2</span>
-<span class="c1">#accessing Hive databases (access using DBName.TabeName)</span>
-
-
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from x_clickstream limit 10&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select action, count(*) as total from x_clickstream group by action&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksJson</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">orc</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-orc&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11958,7 +12016,8 @@ width:100%;" /></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Spark-1">Spark 1<a class="anchor-link" href="#Spark-1">&#182;</a></h4>
+<p><strong>==&gt; Measure the time taken to save as ORC and record in spreadsheet</strong></p>
+<h2 id="STEP-8-:-Querying-Parquet-Data">STEP 8 : Querying Parquet Data<a class="anchor-link" href="#STEP-8-:-Querying-Parquet-Data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11967,14 +12026,219 @@ width:100%;" /></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sqlContext</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from x_clickstream limit 10&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">sqlContext</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select action, count(*) as total from x_clickstream group by action&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksParquet</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-parquet&quot;</span><span class="p">)</span>
+<span class="n">clicksParquet</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_parquet&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Note how quickly the data is loaded; measure this time and record in spreadsheet</strong><br>
+<strong>==&gt; and schema is inferred!</strong></p>
+<p>Parquet format has built-in schema, so Spark doesn't have to parse the files as needed in JSON format</p>
+<p><strong>==&gt; Caclculate max(cost)</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_parquet&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Notice the time took and record in spreadsheet</strong><br>
+Sample output</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Job 3 finished: show at <console>:24, took <code>0.627185 s</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Why parquet is so quick to process?</strong></p>
+<h2 id="STEP-9-:-Querying-ORC">STEP 9 : Querying ORC<a class="anchor-link" href="#STEP-9-:-Querying-ORC">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksORC</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">orc</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-orc&quot;</span><span class="p">)</span>
+<span class="n">clicksORC</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_orc&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Note the load time and record in spreadsheet</strong></p>
+<p><strong>==&gt; Measure query time and record in spreadsheet</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_orc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-10-:-Compare-Data-Sizes">Step 10 : Compare Data Sizes<a class="anchor-link" href="#Step-10-:-Compare-Data-Sizes">&#182;</a></h2><p>Open a terminal and run the following command.</p>
+<div class="highlight"><pre><span></span><span class="c1"># bytes for spreadsheet</span>
+    $    du -b  ~/data/click-stream/*
+    <span class="c1"># in Mac use `du -k`</span>
+
+    <span class="c1"># for human readable format use</span>
+    $    du -skh  ~/data/click-stream/*
+</pre></div>
+<p>Sample output</p>
+
+<pre><code>    1415178847  /Users/sujee/data/click-stream/json
+    161398938   /Users/sujee/data/click-stream/json-gz
+    105793926   /Users/sujee/data/click-stream/orc
+    118394196   /Users/sujee/data/click-stream/parquet</code></pre>
+<p><strong>==&gt; Record the byte sizes in spreadsheet</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="BONUS-:-Compressed-JSON">BONUS : Compressed JSON<a class="anchor-link" href="#BONUS-:-Compressed-JSON">&#182;</a></h2><p>We are going to store JSON files in compressed gzip format</p>
+<p><strong>==&gt; Compress the files</strong></p>
+<div class="highlight"><pre><span></span>$    <span class="nb">cd</span>   ~/data/click-stream
+$   ./compress-json.sh
+</pre></div>
+<p>This will create compressed JSON in <code>json-gz</code> directory</p>
+<p><strong>==&gt; Inspect directory sizes</strong></p>
+<div class="highlight"><pre><span></span><span class="c1"># bytes for spreadsheet</span>
+    $    du -b json    json-gz   parquet 
+
+    <span class="c1"># human readable format</span>
+    $    du -skh  json    json-gz   parquet
+</pre></div>
+<p>Sample output</p>
+
+<pre><code>1.3G    json
+154M    json-gz
+ 77M    parquet</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Load compressed json files in Spark shell and do the same processing</strong><br>
+<strong>==&gt; Look at <code>atop</code> window to see resource usage</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#note the parsing time</span>
+<span class="n">clicksJgz</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/json-gz&quot;</span><span class="p">)</span>
+<span class="n">clicksParquet</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_jsongz&quot;</span><span class="p">)</span>
+
+
+
+<span class="c1"># calculate the max cost</span>
+<span class="c1">#notice the time took</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_jsongz&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># output : Job 7 finished: show at console:22, took 8.066727 s</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="STEP-9-:-Analyze-/-discuss-results">STEP 9 : Analyze / discuss results<a class="anchor-link" href="#STEP-9-:-Analyze-/-discuss-results">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here are numbers from my run:</p>
+
+<pre><code>|format   | storage size |  loading time | query time : max(cost)|
+|---------|:-------------|:--------------|:---------------------:|
+| json    |  1.3 G       |  8.3 s        |   4.6 s               |
+| json.gz |  154 M       |  8.5 s        |   4.1 s               | 
+| parquet |  101 M       |    0 s        |   0.23 s              | 
+| ORC     |  113 M       |    0 s        |   0.76 s              |</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Also discuss your findings from <code>atop</code>.  Which resource 'ceiling' we are hitting first?  CPU / Memory / Disk ?</strong></p>
+
+</div>
+</div>
 </div>
     </div>
   </div>

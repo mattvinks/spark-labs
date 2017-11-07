@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>2.1-install-spark</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>2.1-install-spark-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11783,88 +11783,25 @@ div#notebook {
 <h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20 mins</p>
 <h2 id="STEP-0:-To-Instructor">STEP 0: To Instructor<a class="anchor-link" href="#STEP-0:-To-Instructor">&#182;</a></h2><p>Please go through this lab on 'screen' first.</p>
 <h2 id="STEP-1:-Login-to-your-Spark-node">STEP 1: Login to your Spark node<a class="anchor-link" href="#STEP-1:-Login-to-your-Spark-node">&#182;</a></h2><p>Instructor will provide details</p>
-<h2 id="STEP-2:-Installing-Spark">STEP 2: Installing Spark<a class="anchor-link" href="#STEP-2:-Installing-Spark">&#182;</a></h2><p>There is no 'install'.  Just unzip/untar and run :-)
+<h2 id="STEP-2:-Installing-Spark">STEP 2: Installing Spark<a class="anchor-link" href="#STEP-2:-Installing-Spark">&#182;</a></h2><p><strong>Skip this step, if you had already installed Spark</strong></p>
+<p>There is no 'install'.  Just unzip/untar and run :-)
 (copy paste the following commands on terminal,  do not include $ in your commands)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>%%bash
-    $   cd
-    $   rm -rf  spark   # cleanup existing spark installation (if any)
-    $   tar xvf   files/spark-2.1.0-bin-hadoop2.7.tgz
-    $   mv  spark-2.1.0-bin-hadoop2.7    spark</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have spark installed in  <code>~/spark</code>  directory</p>
-<h2 id="STEP-3:-Running-Spark">STEP 3: Running Spark<a class="anchor-link" href="#STEP-3:-Running-Spark">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$   ~/spark/sbin/start-all.sh
+<div class="highlight"><pre><span></span>$   <span class="nb">cd</span>
+$   rm -rf  spark   <span class="c1"># cleanup existing spark installation (if any)</span>
+$   tar xvf   files/spark-2.1.0-bin-hadoop2.7.tgz
+$   mv  spark-2.1.0-bin-hadoop2.7    spark
 </pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have spark installed in  <code>~/spark</code>  directory</p>
+<h2 id="STEP-3:-Running-Spark">STEP 3: Running Spark<a class="anchor-link" href="#STEP-3:-Running-Spark">&#182;</a></h2><div class="highlight"><pre><span></span>$   ~/spark/sbin/start-all.sh
+</pre></div>
 <p>Verify Spark is running by 'jps' command</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <div class="highlight"><pre><span></span>$  jps
 </pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Your output may look like this..</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 
 <pre><code>  30624 Jps
   30431 Master
   30565 Worker</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>you will see <strong>Master</strong> and <strong>Worker</strong>  processes running.
 (you probably will get different values for process ids - first column )</p>
 <p>Spark UI will be at port 8080 of the host.
@@ -11887,84 +11824,50 @@ In browser go to
 <p>We will need this for later labs</p>
 </li>
 </ul>
-<h2 id="STEP-5:-Download-Spark-labs">STEP 5: Download Spark labs<a class="anchor-link" href="#STEP-5:-Download-Spark-labs">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$   <span class="nb">cd</span>
-    $   git clone   git@github.com:elephantscale/spark-labs.git
+<h2 id="STEP-5:-Download-Spark-labs-and-Data">STEP 5: Download Spark labs and Data<a class="anchor-link" href="#STEP-5:-Download-Spark-labs-and-Data">&#182;</a></h2><h3 id="Labs">Labs<a class="anchor-link" href="#Labs">&#182;</a></h3><div class="highlight"><pre><span></span>$   <span class="nb">cd</span>
+$   git clone   git@github.com:elephantscale/spark-labs.git
 
-    <span class="c1"># for v2 - latest</span>
-    <span class="c1"># $  cd  ~/spark-labs</span>
-    <span class="c1"># $  git checkout master</span>
+<span class="c1"># for v2 - latest</span>
+<span class="c1"># $  cd  ~/spark-labs</span>
+<span class="c1"># $  git checkout master</span>
 
-    <span class="c1"># for 1.6 (old)</span>
-    $  <span class="nb">cd</span> ~/spark-labs
-    $  git checkout v1.6
+<span class="c1"># for 1.6 (old)</span>
+<span class="c1"># $  cd ~/spark-labs</span>
+<span class="c1"># $  git checkout v1.6</span>
 </pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>This will create a <code>spark-labs</code> directory that has all the labs.</p>
-<h2 id="Optional-1:-Spark-VM">Optional 1: Spark VM<a class="anchor-link" href="#Optional-1:-Spark-VM">&#182;</a></h2><p>Here are a virtual machine for you</p>
-<p>CentOS: <a href="https://s3.amazonaws.com/elephantscale-public/vm/CentOS.ova">https://s3.amazonaws.com/elephantscale-public/vm/CentOS.ova</a><br>
-Ubuntu: <a href="https://s3.amazonaws.com/elephantscale-public/vm/Ubuntu.ova">https://s3.amazonaws.com/elephantscale-public/vm/Ubuntu.ova</a></p>
-<p>They are in the OVA format, useable both in VMWare and VirtualBox.</p>
-<p>User name: es<br>
-Password: student</p>
+<h3 id="Data">Data<a class="anchor-link" href="#Data">&#182;</a></h3><p>Download the dataset</p>
+<div class="highlight"><pre><span></span><span class="c1"># if  ~/data dir is missing, do the following</span>
+    <span class="c1"># $   git clone --depth 1  git@github.com:elephantscale/datasets.git</span>
+
+    $   <span class="nb">cd</span> ~/data
+    $   git pull
+</pre></div>
+<p><a href="https://s3.amazonaws.com/elephantscale-public/data/datasets.zip">Link to Full Dataset</a>
+(Note: Large download, ~200 Meg)</p>
+<ul>
+<li>Click the above link to download or</li>
+<li>use <code>wget</code> from command line
+<pre><code>  $    wget   "https://s3.amazonaws.com/elephantscale-public/data/datasets.zip"</code></pre>
+</li>
+</ul>
+<h2 id="Optional:-Spark-Sandbox">Optional: Spark Sandbox<a class="anchor-link" href="#Optional:-Spark-Sandbox">&#182;</a></h2><p>To run Spark on your laptop, we recommend the sandbox.  This Sandbox can run on Mac / Windows / Linux.</p>
+<ul>
+<li><a href="https://github.com/elephantscale/sandbox">Download Sandbox</a></li>
+<li><a href="https://github.com/elephantscale/sandbox">Tutorials</a></li>
+</ul>
 <h2 id="Optional-2:-Running-Spark-on-Windows">Optional 2: Running Spark on Windows<a class="anchor-link" href="#Optional-2:-Running-Spark-on-Windows">&#182;</a></h2><p>If one has to do a Windows install, here is the magic</p>
 <p><a href="http://nishutayaltech.blogspot.com/2015/04/how-to-run-apache-spark-on-windows7-in.html">http://nishutayaltech.blogspot.com/2015/04/how-to-run-apache-spark-on-windows7-in.html</a></p>
 <p>set winutils as described</p>
 <p>For example</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
 <pre><code>   \projects
    \projects\spark-labs
    \projects\spark-1.4.1-bin-hadoop2.4
    \projects\winutils\bin\winutils</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>System env variable</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
 <pre><code>   HADOOP_HOME=\projects\winutils</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>With this download spark-1.4.1-bin-hadoop2.4</p>
 
 </div>

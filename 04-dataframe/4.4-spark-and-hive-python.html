@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>2.2-shell</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>4.4-spark-and-hive-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11777,66 +11777,35 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <link rel='stylesheet' href='../assets/css/main.css'/>
 
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
-<h1 id="Lab-2.2-:-Spark-Shell">Lab 2.2 : Spark Shell<a class="anchor-link" href="#Lab-2.2-:-Spark-Shell">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Get familiar with Spark shell</p>
-<ul>
-<li><a href="2.2-shell.ipynb">Standalone version</a></li>
-</ul>
-<h3 id="Builds-on">Builds on<a class="anchor-link" href="#Builds-on">&#182;</a></h3><p><a href="2.1-install-spark.ipynb">2.1-install-spark</a></p>
-<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>approx. 20-30 minutes</p>
-<h3 id="Notes">Notes<a class="anchor-link" href="#Notes">&#182;</a></h3><h2 id="STEP-1:-Download-Spark-labs">STEP 1: Download Spark labs<a class="anchor-link" href="#STEP-1:-Download-Spark-labs">&#182;</a></h2><p>If you had done this already, you can go to next step.</p>
-<div class="highlight"><pre><span></span>$   <span class="nb">cd</span>
-    $   git clone  -depth <span class="m">1</span> git@github.com:elephantscale/spark-labs.git
+<h1 id="Lab-4.4:-Spark-And-Hive">Lab 4.4: Spark And Hive<a class="anchor-link" href="#Lab-4.4:-Spark-And-Hive">&#182;</a></h1><p><img src="../assets/images/spark-and-hadoop-1.png" style="border: 5px solid grey ; max-
+width:100%;" /></p>
+<p><img src="../assets/images/spark-and-hadoop-2.png" style="border: 5px solid grey ; max-
+width:100%;" /></p>
+<h2 id="Step-1-:-Open-Two-Terminal-Sessions-to-Hadoop-Node">Step 1 : Open Two Terminal Sessions to Hadoop Node<a class="anchor-link" href="#Step-1-:-Open-Two-Terminal-Sessions-to-Hadoop-Node">&#182;</a></h2><p>Instructor will demonstrate how.</p>
+<h2 id="Step-2-:-In-Terminal-1-:-Start-Hive-Shell">Step 2 : In Terminal 1 : Start Hive Shell<a class="anchor-link" href="#Step-2-:-In-Terminal-1-:-Start-Hive-Shell">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="err">```</span><span class="n">bash</span>
+    <span class="err">$</span>   <span class="n">hive</span>
+<span class="err">```</span>
 </pre></div>
-<p>Update the dataset</p>
-<div class="highlight"><pre><span></span><span class="c1"># if  ~/data dir is missing, do the following</span>
-    <span class="c1"># $   git clone --depth 1  git@github.com:elephantscale/datasets.git</span>
-
-    $   <span class="nb">cd</span> ~/data
-    $   git pull
-</pre></div>
 
 </div>
 </div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Note:--Using--PySpark-shell">Note:  Using  PySpark shell<a class="anchor-link" href="#Note:--Using--PySpark-shell">&#182;</a></h2><p>You can run all notebook commands in PySpark shell.</p>
-<p>Start PySpark shell as follows</p>
-
-<pre><code>    #  go to labs directory first
-    $   cd ~/spark-labs
-    $   ~/spark/bin/pyspark  ## spark shell is in bin/ dir</code></pre>
-<p>And then you can execute the code blocks in pySpak shell</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-2:-Exploring-Spark-shell-UI">STEP 2: Exploring Spark shell UI<a class="anchor-link" href="#STEP-2:-Exploring-Spark-shell-UI">&#182;</a></h2><p>Spark shell UI is available on port 4040.</p>
-<p>In browser go to :   <a href="http://your_machine_address:4040">http://your_machine_address:4040</a>
-(use 'public' ip of machine)</p>
-<p>Here is a sample screen shot:</p>
-<p><img src="../assets/images/2a.png" style="border: 5px solid grey ; max-width:100%;" /></p>
-<p><strong>==&gt; Explore stage, storage, environment and executor tabs</strong></p>
-<p><strong>==&gt; Take note of 'Event Timeline', we will use this for monitoring our jobs later</strong></p>
-<p><strong>==&gt; Check spark master on port 8080,  Do you the Spark shell application connected?  Why (not)?</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-3:-Spark-context">STEP 3: Spark context<a class="anchor-link" href="#STEP-3:-Spark-context">&#182;</a></h2><p>Within Spark  shell,  variable <code>sc</code> is the SparkContext.<br>
-Type <code>sc</code> in scala prompt and see what happens.<br>
-Your output might look like this...</p>
+<p>Inspect the tables and run a query on 'clickstream' table.</p>
 
 </div>
 </div>
@@ -11846,39 +11815,37 @@ Your output might look like this...</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># older version spark context</span>
-<span class="n">sc</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="err">```</span><span class="n">sql</span>
+  <span class="n">hive</span><span class="o">&gt;</span>
+        <span class="n">show</span> <span class="n">tables</span><span class="p">;</span>
+
+        <span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">clickstream</span> <span class="n">limit</span> <span class="mi">10</span><span class="p">;</span>
+
+        <span class="n">select</span> <span class="n">action</span><span class="p">,</span> <span class="n">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">total</span> <span class="kn">from</span> <span class="nn">clickstream</span> <span class="n">group</span> <span class="n">by</span> <span class="n">action</span><span class="p">;</span>
+<span class="err">```</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-3-:-In-Terminal-2-Start-Spark-shell">Step 3 : In Terminal 2 Start Spark shell<a class="anchor-link" href="#Step-3-:-In-Terminal-2-Start-Spark-shell">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># newwer Spark Session</span>
-<span class="n">spark</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the name of application name**</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">appName</span><span class="p">)</span>
-
-<span class="c1"># Find the &#39;Spark master&#39; for the shell</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="err">```</span><span class="n">bash</span>
+    <span class="err">$</span>    <span class="n">pyspark</span>
+<span class="err">```</span>
 </pre></div>
 
 </div>
@@ -11890,32 +11857,7 @@ Your output might look like this...</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-4:-Load-a-file">STEP 4: Load a file<a class="anchor-link" href="#STEP-4:-Load-a-file">&#182;</a></h2><p>We have data files under <code>spark-labs/data</code>.<br>
-Use test file :  <code>data/twinkle/sample.txt</code> .<br>
-The file has a favorite nursery rhyme</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>   twinkle twinkle little star
-   how I wonder what you are
-   up above the world so high
-   like a diamond in the sky
-   twinkle twinkle little star</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's load the file:</p>
+<p>Type this in Spark Shell</p>
 
 </div>
 </div>
@@ -11925,7 +11867,7 @@ The file has a favorite nursery rhyme</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/sample.txt&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;WARN&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11937,20 +11879,9 @@ The file has a favorite nursery rhyme</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="answer-the-following-questions:">answer the following questions:<a class="anchor-link" href="#answer-the-following-questions:">&#182;</a></h4><p><strong>==&gt; What is the 'type' of f ?</strong><br>
-hint : type <code>f</code> on the console</p>
-<p><strong>==&gt; Inspect Spark Shell UI on port 4040, do you see any processing done?  Why (not)?</strong></p>
-<p><strong>==&gt; Print the first line / record from RDD</strong><br>
-hint : <code>f.first()</code></p>
-<p><strong>==&gt; Again, inspect Spark Shell UI on port 4040, do you see any processing done?  Why (not)?</strong></p>
-<p><strong>==&gt; Print first 3 lines of RDD</strong><br>
-hint : <code>f.take(???)</code>  (provide the correct argument to take function)</p>
-<p><strong>==&gt; Again, inspect Spark Shell UI on port 4040, do you see any processing done?  Why (not)?</strong></p>
-<p><strong>==&gt; Print all the content from the file</strong><br>
-hint : <code>f.collect()</code></p>
-<p><strong>==&gt; How many lines are in the file?</strong><br>
-hint : <code>f.count()</code></p>
-
+<p>Go to <a href="http://localhost:4040">http://localhost:4040</a> in the browser.</p>
+<h2 id="Step-4-:-Inspect-Hive-Tables">Step 4 : Inspect Hive Tables<a class="anchor-link" href="#Step-4-:-Inspect-Hive-Tables">&#182;</a></h2><p>Do this in pyspark</p>
+<h4 id="spark-2">spark 2<a class="anchor-link" href="#spark-2">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -11959,8 +11890,9 @@ hint : <code>f.count()</code></p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO : Try the code here</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Spark 2 Catalog</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">listDatabases</span><span class="p">())</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">listTables</span><span class="p">(</span><span class="s2">&quot;mydb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11972,13 +11904,7 @@ hint : <code>f.count()</code></p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Check-out-Jobs-Page">Check out Jobs Page<a class="anchor-link" href="#Check-out-Jobs-Page">&#182;</a></h2><p><strong>==&gt; Inspect the 'Jobs' section in Shell UI (in browser)</strong><br>
-Also inspect the event time line</p>
-<p><img src="../assets/images/2b.png" style="border: 5px solid grey; max-width:100%;" /></p>
-<p><strong>==&gt; Inspect the 'Executor' section in Shell UI (in browser)</strong></p>
-<p><img src="../assets/images/2c.png" style="border: 5px solid grey; max-width:100%;" /></p>
-<h2 id="Step-5-:-Spark-Session-(Only-in-V2-and-later)">Step 5 : Spark Session (Only in V2 and later)<a class="anchor-link" href="#Step-5-:-Spark-Session-(Only-in-V2-and-later)">&#182;</a></h2><p>Try to load file using Spark Session</p>
-
+<h4 id="Spark-1">Spark 1<a class="anchor-link" href="#Spark-1">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -11987,10 +11913,14 @@ Also inspect the event time line</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/sample.txt&quot;</span><span class="p">)</span>
-<span class="c1"># Note the type of f is RDD.  No DataSet in Pyspark</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="n">f</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Spark 1</span>
+<span class="n">sqlContext</span><span class="o">.</span><span class="n">tableNames</span><span class="p">()</span>
+<span class="c1">## TODO : change &#39;mydb&#39; accordingly</span>
+<span class="n">sqlContext</span><span class="o">.</span><span class="n">tableNames</span><span class="p">(</span><span class="s2">&quot;mydb&quot;</span><span class="p">)</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;mydb.clickstream&quot;</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="n">t</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12002,122 +11932,7 @@ Also inspect the event time line</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-6:--Connecting-Shell-and--Spark-server">STEP 6:  Connecting Shell and  Spark server<a class="anchor-link" href="#STEP-6:--Connecting-Shell-and--Spark-server">&#182;</a></h2><p>For this lab, we are going use command line pyspark</p>
-<h3 id="6.1-Start-Spark-Server">6.1 Start Spark Server<a class="anchor-link" href="#6.1-Start-Spark-Server">&#182;</a></h3><p>If Spark server is not running, start it as</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$ ~/spark/sbin/start-all.sh
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Use <code>jps</code> command to inspect the java process.  Your output might look like this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>    731 Master
-    902 Jps
-    831 Worker</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Spark master UI is available on port 8080.
-In browser go to :   <a href="http://your_machine_address:8080">http://your_machine_address:8080</a>
-(use 'public' ip of machine)</p>
-<p>Here is a sample screen shot:</p>
-<p><img src="../assets/images/2d.png" style="border: 5px solid grey; max-width:100%;" /></p>
-<h3 id="6.2-Now-start-pyspark-shell">6.2 Now start pyspark shell<a class="anchor-link" href="#6.2-Now-start-pyspark-shell">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$ ~/spark/bin/pyspark
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Once the shell starts, check the <em>server</em> UI on port 8080.</p>
-<p><strong>==&gt; Do you see the shell connected as an application?  why (not) ?</strong></p>
-<h3 id="6.3-Connect-Spark-shell-with-the-Spark-server.">6.3 Connect Spark shell with the Spark server.<a class="anchor-link" href="#6.3-Connect-Spark-shell-with-the-Spark-server.">&#182;</a></h3><p>Make a note of Spark server uri (e.g  <code>spark://host_name:7077</code>)</p>
-<p><strong>==&gt; Restart spark shell as follows</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$   ~/spark/bin/pyspark   --master  spark-server-uri
-                                            ^^^^^^^^^^^^^^^^
-                                        update this to match your spark server
-
-  $   ~/spark/bin/pyspark   --master  spark://localhost:7077
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>On an Amazon server you may have to use the internal ip for the spark server, such as</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>~/spark/bin/pyspark  --master spark://your_host_name:7077
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>On the ES VM you may have to use the localhost.localdomain. In all cases, follow what the spark master UI tells you.</p>
-<p><strong>==&gt; Once the shell started, check both UIs</strong></p>
-<h4 id="spark-server-UI-at-port-8080">spark server UI at port 8080<a class="anchor-link" href="#spark-server-UI-at-port-8080">&#182;</a></h4><h2 id=""><img src="../assets/images/2e.png" style="border: 5px solid grey; max-width:100%;" /><a class="anchor-link" href="#">&#182;</a></h2><h4 id="spark-shell-UI-at--port-4040">spark shell UI at  port 4040<a class="anchor-link" href="#spark-shell-UI-at--port-4040">&#182;</a></h4><p><img src="../assets/images/2f.png" style="border: 5px solid grey; max-width:100%;" /></p>
-<h2 id="STEP-7:-Redo-step-(4)-in-the-new-shell">STEP 7: Redo step (4) in the new shell<a class="anchor-link" href="#STEP-7:-Redo-step-(4)-in-the-new-shell">&#182;</a></h2><p>Now our shell is connected to a server
-<strong>==&gt; Load file and test it as in Step (4)</strong></p>
-<h2 id="Tip-:-Dealing-With-Logs">Tip : Dealing With Logs<a class="anchor-link" href="#Tip-:-Dealing-With-Logs">&#182;</a></h2><p>Spark Shell by default prints logs at warning (WARN) level.  If you want to change the logging level, do this at the pyspark shell</p>
-
+<h2 id="Step-5-:-Queries">Step 5 : Queries<a class="anchor-link" href="#Step-5-:-Queries">&#182;</a></h2><h4 id="Spark-2">Spark 2<a class="anchor-link" href="#Spark-2">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -12126,8 +11941,12 @@ In browser go to :   <a href="http://your_machine_address:8080">http://your_mach
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
-   
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Spark 2</span>
+<span class="c1">#accessing Hive databases (access using DBName.TabeName)</span>
+
+
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from x_clickstream limit 10&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select action, count(*) as total from x_clickstream group by action&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12139,34 +11958,23 @@ In browser go to :   <a href="http://your_machine_address:8080">http://your_mach
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you don't want to see any logs, you can start Spark shell as follows.  All the logs will be sent to 'logs' file.</p>
-
+<h4 id="Spark-1">Spark 1<a class="anchor-link" href="#Spark-1">&#182;</a></h4>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>$    ~/spark/bin/pyspark  <span class="m">2</span>&gt; logs
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sqlContext</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from x_clickstream limit 10&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">sqlContext</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select action, count(*) as total from x_clickstream group by action&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="BONUS-Lab-1-:-Start-multiple-Shells">BONUS Lab 1 : Start multiple Shells<a class="anchor-link" href="#BONUS-Lab-1-:-Start-multiple-Shells">&#182;</a></h2><ul>
-<li>Using one terminal, start a shell and connect to master  using <strong>Step 5.3</strong></li>
-<li>Using second terminal (open one if you need to), start another shell connecting to the same master</li>
-<li>Check the master UI (port 8080).  You would see some thing like this, can you explain the behavior?</li>
-</ul>
-<p><img src="../assets/images/2g.png" style="border: 5px solid grey ; max-width:100%;" /></p>
 
-</div>
-</div>
 </div>
     </div>
   </div>
