@@ -6,7 +6,7 @@ There are two tracks.
 2. Python
 
 ## Scala track
-Please see [Spark-scala.md](Spark-scala.md)
+Please see [spark-scala.md](spark-scala.md)
 
 ## Python track
 - Open [README-python1.html](README-python1.html) in browser and follow the steps
