@@ -30,6 +30,24 @@ Clickstream data looks like this
 {"session": "session_96", "domain": "facebook.com", "cost": 5, "user": "user_5", "campaign": "campaign_12", "ip": "ip_3", "action": "blocked", "timestamp": 1420070400864}
 ```
 
+
+Domains data looks like this
+```
+{"domain":"amazon.com","category":"SHOPPING"}
+{"domain":"bbc.co.uk","category":"NEWS"}
+{"domain":"facebook.com","category":"SOCIAL"}
+```
+
+## Read the data and export them as tables
+```
+val clickstreamDF = spark.read.json("/data/click-stream/json")
+clickstreamDF.createOrReplaceTempView("clickstream")
+
+val domainsDF = spark.read.json("/data/click-stream/domain-info.json")
+domainsDF.createOrReplaceTempView("domains")
+
+```
+
 ## Answer the following Queries
 
 #### find all distinct domains we have seen
@@ -44,6 +62,22 @@ sample output
 |youtube.com  |  8,900 |
 +-------------+--------+
 ```
+
+
+### Find total money (clickstream.cost) spent per domain.CATEGORY
+e.g  
+    SOCIAL  100  
+    NEWS    200  
+
+Hint: 'join'
+
+
+### Optimize the above query
+Make the above query as fast as possible!  
+
+Hints:   
+- convert JSON to parquet!
+- ???
 
 #### calculate clicks/view ratio for each domain.  Sort the data in descending order
 sample output

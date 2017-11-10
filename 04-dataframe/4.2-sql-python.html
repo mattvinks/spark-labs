@@ -11785,6 +11785,19 @@ div#notebook {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spark UI running on http://YOURIPADDRESS:&#39;</span> <span class="o">+</span> <span class="n">sc</span><span class="o">.</span><span class="n">uiWebUrl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -11823,6 +11836,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">clickstreamDF</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clickstream&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;created clickstream temp table&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11871,8 +11885,8 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Find Records with only clicks</span>
-<span class="c1"># TODO: fix the  table nmae?</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from ??? where action = &#39;???&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># TODO: fix the  table name?</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select * from ???table_name??? where action = &#39;???&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11885,6 +11899,17 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>==&gt; Count records from each domain, sort the output by most to least</strong></p>
+<p>Sample output:</p>
+
+<pre><code>+-----------------+-----+
+|           domain|total|
++-----------------+-----+
+|      nytimes.com|    1|
+|     facebook.com|    1|
+|       google.com|    2|
+|       amazon.com|    2|
+|    wikipedia.org|    3|
++-----------------+-----+</code></pre>
 
 </div>
 </div>
@@ -11896,7 +11921,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: Try this query here:</span>
 
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select ???, ??? from clickstream group by ???  order by ??? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;select domain, COUNT(*) as total from clickstream group by ???  order by ??? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11951,7 +11976,7 @@ Hint : Join query syntax for joining two tables A, B on A.x and A.y is</p>
 
 <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT clickstream.*, domains.*  </span>
-<span class="s2">from clickstream join domain </span>
+<span class="s2">from clickstream join domains </span>
 <span class="s2">ON (clickstream.???= domains.???)</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
@@ -11982,7 +12007,7 @@ Hint : query the joined datasets</p>
 
 <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT  domains.category, ???  </span>
-<span class="s2">from clickstream join domain </span>
+<span class="s2">from clickstream join domains </span>
 <span class="s2">ON (clickstream.???= domains.???)</span>
 <span class="s2">group by ???</span>
 <span class="s2">order by ??? </span>

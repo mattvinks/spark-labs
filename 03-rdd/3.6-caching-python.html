@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>3.6-caching</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>3.6-caching-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11778,10 +11778,10 @@ div#notebook {
 <link rel='stylesheet' href='../assets/css/main.css'/>
 
 <p><a href="../README.md">&lt;&lt; back to main index</a></p>
-<h1 id="Lab-3.6-:--Caching">Lab 3.6 :  Caching<a class="anchor-link" href="#Lab-3.6-:--Caching">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Understanding RDD caching</p>
+<h1 id="Lab-3.6-:--Caching">Lab 3.6 :  Caching<a class="anchor-link" href="#Lab-3.6-:--Caching">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Understanding Spark caching</p>
 <h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p>None</p>
 <h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>15-20 mins</p>
-<h3 id="STEP-1:-Inspect-data">STEP 1: Inspect data<a class="anchor-link" href="#STEP-1:-Inspect-data">&#182;</a></h3><p>Under <code>/data/text/twinkle</code> directory we have created some large data files for you.</p>
+<h3 id="STEP-1:-'Large'-data-set">STEP 1: 'Large' data set<a class="anchor-link" href="#STEP-1:-'Large'-data-set">&#182;</a></h3><p>Under <code>/data/text/twinkle</code> directory we have created some large data files for you.</p>
 <p><img src="../assets/images/3.1a.png" style="border: 5px solid grey; max-width:100%;"/></p>
 <h4 id="Optional-Step">Optional Step<a class="anchor-link" href="#Optional-Step">&#182;</a></h4><p>You can generate more data if you'd like.</p>
 <div class="highlight"><pre><span></span>$    <span class="nb">cd</span> /data/text/twinkle
@@ -11791,22 +11791,13 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-2:-Log-Level">Step 2: Log Level<a class="anchor-link" href="#Step-2:-Log-Level">&#182;</a></h2><p>Also set the logging level to INFO (so Spark will print out job execution times on console)</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;set log level to INFO&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Identify Spark UI port</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Spark UI running on http://YOURIPADDRESS:&#39;</span> <span class="o">+</span> <span class="n">sc</span><span class="o">.</span><span class="n">uiWebUrl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -11823,11 +11814,34 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>set log level to INFO
+<pre>Spark UI running on http://YOURIPADDRESS:4041
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-2:-Log-Level">Step 2: Log Level<a class="anchor-link" href="#Step-2:-Log-Level">&#182;</a></h2><p>Also set the logging level to INFO (so Spark will print out job execution times on console)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;set log level to INFO&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
@@ -11847,128 +11861,11 @@ We are going to fill in the values here to understand how caching performs.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/500M.data&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>=&gt; Count the number of lines in this file</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-
-<span class="c1"># output might look like</span>
-<span class="c1"># Job 1 finished: count at &lt;console&gt;:30, took __3.792822__ s</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>=&gt; Do the same count() operation a few times until the execution time 'stablizes'</strong><br>
-<strong>=&gt; Record the time in spreadsheet.</strong><br>
-<strong>=&gt; Can you explain the behavior of count() execution time ?</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-5:--Cache">STEP 5:  Cache<a class="anchor-link" href="#STEP-5:--Cache">&#182;</a></h2><p><strong>=&gt; Cache the file using  <code>cache()</code> action.</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>=&gt; Run the <code>count()</code> again. Notice the time.   Can you explain this behavior ?  :-)</strong></p>
-<p><strong>=&gt; Run count() a few more times and note the execution times.</strong><br>
-<strong>=&gt; Record the time in spreadsheet.</strong><br>
-<strong>=&gt; Do the timings make sense?</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-6:--Understanding-Cache-storage">STEP 6:  Understanding Cache storage<a class="anchor-link" href="#STEP-6:--Understanding-Cache-storage">&#182;</a></h2><p>Go to spark shell UI @ port 4040<br>
-<strong>=&gt; Inspect 'storage' tab</strong></p>
-<p><img src="../assets/images/3.6b.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<p><strong>=&gt; Can you see the cached RDD?  What is the memory size?</strong><br>
-<strong>=&gt; What are the implications?</strong></p>
-<h2 id="Step-8-:-Caching-RDD-vs.-Dataframe">Step 8 : Caching RDD vs. Dataframe<a class="anchor-link" href="#Step-8-:-Caching-RDD-vs.-Dataframe">&#182;</a></h2><p>We will load the same data using RDD API and Dataframe API will compare cache performance.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#RDD</span>
-<span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
-<span class="n">rdd</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rdd</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>  <span class="c1"># force caching</span>
-
-<span class="n">df</span>  <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -11985,12 +11882,265 @@ We are going to fill in the values here to understand how caching performs.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>3130078
-3130078
+<pre>DataFrame[value: string]
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>=&gt; Count the number of lines in this file</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="c1"># output might look like</span>
+<span class="c1"># Job 1 finished: count at &lt;console&gt;:30, took __3.792822__ s</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>15650389</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>=&gt; Observe time taken on Spark UI</strong><br>
+<strong>=&gt; Record the time in spread sheet</strong><br>
+<strong>=&gt; Run 'count' below a couple of times and observe the time</strong><br>
+<strong>=&gt; Can you explain the behavior of count() execution time ?</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>15650389
+15650389
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-5:--Cache">STEP 5:  Cache<a class="anchor-link" href="#STEP-5:--Cache">&#182;</a></h2><p><strong>=&gt; Cache the file using  <code>cache()</code> action.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>DataFrame[value: string]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">**=&gt;</span> <span class="n">Run</span> <span class="n">the</span> <span class="err">`</span><span class="n">count</span><span class="p">()</span><span class="err">`</span> <span class="n">again</span><span class="o">.</span> <span class="n">Notice</span> <span class="n">the</span> <span class="n">time</span><span class="o">.</span>   <span class="n">Can</span> <span class="n">you</span> <span class="n">explain</span> <span class="n">this</span> <span class="n">behavior</span> <span class="err">?</span>  <span class="p">:</span><span class="o">-</span><span class="p">)</span><span class="o">**</span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>15650389
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>=&gt; Run count() a few more times and note the execution times.</strong><br>
+<strong>=&gt; Record the time in spreadsheet.</strong><br>
+<strong>=&gt; Do the timings make sense?</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>15650389
+15650389
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-6:--Understanding-Cache-storage">STEP 6:  Understanding Cache storage<a class="anchor-link" href="#STEP-6:--Understanding-Cache-storage">&#182;</a></h2><p>Go to spark shell UI @ port 4040<br>
+<strong>=&gt; Inspect 'storage' tab</strong></p>
+<p><img src="../assets/images/3.6b.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><strong>=&gt; Can you see the cached data?  What is the memory size?</strong><br>
+<strong>=&gt; What are the implications?</strong></p>
+<h2 id="Step-8-:-Caching-RDD-vs.-Dataframe">Step 8 : Caching RDD vs. Dataframe<a class="anchor-link" href="#Step-8-:-Caching-RDD-vs.-Dataframe">&#182;</a></h2><p>We will load the same data using RDD API and Dataframe API will compare cache performance.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#RDD</span>
+<span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
+<span class="n">rdd</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rdd</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>  <span class="c1"># force caching</span>
+
+<span class="n">df</span>  <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
@@ -12005,8 +12155,8 @@ We are going to fill in the values here to understand how caching performs.</p>
 <p><strong> ==&gt; Discuss your findings </strong></p>
 <h3 id="Step-9-:-Reducing-memory-footprint">Step 9 : Reducing memory footprint<a class="anchor-link" href="#Step-9-:-Reducing-memory-footprint">&#182;</a></h3><p>There are various levels of memory caching.  Here are a couple:</p>
 <ul>
-<li>Raw caching (<code>rdd.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY)</code>)  </li>
-<li>Serialized Caching (<code>rdd.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY_SER)</code>)</li>
+<li>Raw caching (<code>data.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY)</code>)  </li>
+<li>Serialized Caching (<code>data.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY_SER)</code>)</li>
 </ul>
 <p><strong>=&gt; Try both options <code>f.persist(....)</code> .  Monitor memory consumption in storage tab</strong></p>
 <p><strong>NOte: Caching level can not be changed after an RDD cached.  You have to 'uncache / unpersist' the RDD and then cache it again</strong></p>
@@ -12019,9 +12169,12 @@ We are going to fill in the values here to understand how caching performs.</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rdd</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">pyspark</span><span class="o">.</span><span class="n">StorageLevel</span><span class="o">.</span><span class="n">MEMORY_ONLY</span><span class="p">)</span> <span class="c1"># same as rdd.cache()</span>
-<span class="n">rdd</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span>
-<span class="n">rdd</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">pyspark</span><span class="o">.</span><span class="n">StorageLevel</span><span class="o">.</span><span class="n">MEMORY_ONLY_SER</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark</span>
+
+
+<span class="n">data</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">pyspark</span><span class="o">.</span><span class="n">StorageLevel</span><span class="o">.</span><span class="n">MEMORY_ONLY</span><span class="p">)</span> <span class="c1"># same as data.cache()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">persist</span><span class="p">(</span><span class="n">pyspark</span><span class="o">.</span><span class="n">StorageLevel</span><span class="o">.</span><span class="n">MEMORY_ONLY_SER</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12037,14 +12190,6 @@ We are going to fill in the values here to understand how caching performs.</p>
 <li>mechanics of caching</li>
 <li>implications of caching vs memory</li>
 </ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Further-Reading">Further Reading<a class="anchor-link" href="#Further-Reading">&#182;</a></h3><ul>
 <li><a href="http://sujee.net/2015/01/22/understanding-spark-caching/">Understanding Spark Caching by Sujee Maniyam</a></li>
 </ul>

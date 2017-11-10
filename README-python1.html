@@ -11784,9 +11784,14 @@ $   mv  spark-2.2.0-bin-hadoop2.7    spark
 </pre></div>
 <h2 id="Step-3-:-Get-the-labs">Step 3 : Get the labs<a class="anchor-link" href="#Step-3-:-Get-the-labs">&#182;</a></h2><div class="highlight"><pre><span></span>$  git clone --depth <span class="m">1</span>  git@github.com:elephantscale/spark-labs.git
 </pre></div>
-<h2 id="Step-4-:-Start-Jupyter">Step 4 : Start Jupyter<a class="anchor-link" href="#Step-4-:-Start-Jupyter">&#182;</a></h2><div class="highlight"><pre><span></span>$  <span class="nb">cd</span> spark-labs
-$  ./run-jupyter.sh
+<h2 id="Step-4-:-Get-Data">Step 4 : Get Data<a class="anchor-link" href="#Step-4-:-Get-Data">&#182;</a></h2><div class="highlight"><pre><span></span>$   <span class="nb">cd</span>  ~/data
+$   git pull
+$   <span class="nb">cd</span>
 </pre></div>
+<h2 id="Step-5-:-Start-Jupyter">Step 5 : Start Jupyter<a class="anchor-link" href="#Step-5-:-Start-Jupyter">&#182;</a></h2><div class="highlight"><pre><span></span>$  <span class="nb">cd</span> spark-labs
+$  nohup ./run-jupyter.sh <span class="p">&amp;</span>
+</pre></div>
+<p>This will start Jupyter in the background.</p>
 <p>Open the Jupyter URL printed on console in browser.</p>
 <p>Then open <strong>Spark-python.ipynb</strong>  notebook.</p>
 

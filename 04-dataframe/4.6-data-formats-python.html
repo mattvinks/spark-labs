@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>4.1-dataframe-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>4.6-data-formats-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11778,9 +11778,61 @@ div#notebook {
 <link rel='stylesheet' href='../assets/css/main.css'/>
 
 <p><a href="../README.md">&lt;&lt; back to main index</a></p>
-<h1 id="Lab-4.1-:-Spark-Dataframes">Lab 4.1 : Spark Dataframes<a class="anchor-link" href="#Lab-4.1-:-Spark-Dataframes">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>First look at Spark Dataframes</p>
+<h1 id="Lab-4.5-:-Data-formats-(JSON-vs.-Parquet-vs.-ORC)">Lab 4.5 : Data formats (JSON vs. Parquet vs. ORC)<a class="anchor-link" href="#Lab-4.5-:-Data-formats-(JSON-vs.-Parquet-vs.-ORC)">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Comparing different data formats for Dataframes.  We will evaluate JSON, Parquet and ORC format.</p>
+<p>Background reads:</p>
+<ul>
+<li><a href="https://spark.apache.org/docs/latest/sql-programming-guide.html">Spark data frames</a></li>
+<li>JSON format <ul>
+<li><a href="https://en.wikipedia.org/wiki/JSON">wikipedia</a></li>
+<li><a href="http://json.org/">json.org</a></li>
+</ul>
+</li>
+<li>Parquet format<ul>
+<li><a href="https://parquet.apache.org/">Parquet project</a></li>
+<li><a href="https://github.com/Parquet/parquet-format">parquet github</a></li>
+<li><a href="http://www.slideshare.net/larsgeorge/parquet-data-io-philadelphia-2013">presentation</a></li>
+</ul>
+</li>
+<li>ORC format<ul>
+<li><a href="https://orc.apache.org/">ORC project</a></li>
+<li><a href="http://www.semantikoz.com/blog/orc-intelligent-big-data-file-format-hadoop-hive/">ORC explained</a></li>
+<li><a href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_performance_tuning/content/hive_perf_best_pract_use_orc_file_format.html">ORC performance</a></li>
+</ul>
+</li>
+</ul>
 <h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p>None</p>
 <h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20-30 mins</p>
+<h2 id="STEP-1:-Clickstream-data">STEP 1: Clickstream data<a class="anchor-link" href="#STEP-1:-Clickstream-data">&#182;</a></h2><p>There is about 1G+ clickstream data stored in <code>/data/click-stream/json</code> directory.</p>
+<p>They look like this</p>
+<div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1420070400000</span><span class="p">,</span> <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;ip_557&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user_13011&quot;</span><span class="p">,</span> <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;blocked&quot;</span><span class="p">,</span> <span class="nt">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;npr.org&quot;</span><span class="p">,</span> <span class="nt">&quot;campaign&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign_13&quot;</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mi">116</span><span class="p">,</span> <span class="nt">&quot;session&quot;</span><span class="p">:</span> <span class="s2">&quot;session_43&quot;</span><span class="p">}</span>
+
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1420070400043</span><span class="p">,</span> <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;ip_129&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user_58773&quot;</span><span class="p">,</span> <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;clicked&quot;</span><span class="p">,</span> <span class="nt">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;flickr.com&quot;</span><span class="p">,</span> <span class="nt">&quot;campaign&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign_7&quot;</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mi">170</span><span class="p">,</span> <span class="nt">&quot;session&quot;</span><span class="p">:</span> <span class="s2">&quot;session_23&quot;</span><span class="p">}</span>
+
+<span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">1420070400086</span><span class="p">,</span> <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;ip_704&quot;</span><span class="p">,</span> <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="s2">&quot;user_71191&quot;</span><span class="p">,</span> <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;viewed&quot;</span><span class="p">,</span> <span class="nt">&quot;domain&quot;</span><span class="p">:</span> <span class="s2">&quot;foxnews.com&quot;</span><span class="p">,</span> <span class="nt">&quot;campaign&quot;</span><span class="p">:</span> <span class="s2">&quot;campaign_20&quot;</span><span class="p">,</span> <span class="nt">&quot;cost&quot;</span><span class="p">:</span> <span class="mi">47</span><span class="p">,</span> <span class="nt">&quot;session&quot;</span><span class="p">:</span> <span class="s2">&quot;session_48&quot;</span><span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="[Optional]-If-you-need-to-generate-more-data....">[Optional] If you need to generate more data....<a class="anchor-link" href="#[Optional]-If-you-need-to-generate-more-data....">&#182;</a></h4><div class="highlight"><pre><span></span>$    <span class="nb">cd</span>   /data/click-stream/
+    $    python   gen-clickstream-json.py
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-2:-Benchmarking-Spreadsheet">STEP 2: Benchmarking Spreadsheet<a class="anchor-link" href="#STEP-2:-Benchmarking-Spreadsheet">&#182;</a></h2><p>Download and inspect <a href="Benchmarking_Dataformats.xlsx">Benchmarking_Dataformats.xlsx</a>.<br>
+<strong>We will be filling out the values in this spreadsheet, as we execute commands on Spark Shell.</strong></p>
+<p>It will look like this (click on the image for larger version)</p>
+<p><a href="../assets/images/5.3a.png"><img src="../assets/images/5.3a-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
 
 </div>
 </div>
@@ -11798,21 +11850,13 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-1:-Load-Clickstream-data">STEP 1: Load Clickstream data<a class="anchor-link" href="#STEP-1:-Load-Clickstream-data">&#182;</a></h2>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clickstreamDF</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/clickstream.json&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">clickstreamDF</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log level set to INFO&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11824,12 +11868,17 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Monitor Spark shell UI on port 4040</strong><br>
-You may see something like this:</p>
-<p><strong>==&gt; Q : Why is Spark not lazy loading the JASON files? </strong></p>
-<p><img src="../assets/images/5.1a.png" style="border: 5px solid grey; max-width:100%;" /></p>
-<h2 id="STEP-2-:-Inspecting-The-Dataframe">STEP 2 : Inspecting The Dataframe<a class="anchor-link" href="#STEP-2-:-Inspecting-The-Dataframe">&#182;</a></h2><p><strong>==&gt; Print the schema of data frame</strong></p>
+<h2 id="STEP-3:-ATOP">STEP 3: ATOP<a class="anchor-link" href="#STEP-3:-ATOP">&#182;</a></h2><p>Also open another terminal and run <strong>atop</strong>.<br>
+We will use this to monitor CPU / IO usage</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-4:-Load-Clickstream-data">STEP 4: Load Clickstream data<a class="anchor-link" href="#STEP-4:-Load-Clickstream-data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11838,10 +11887,9 @@ You may see something like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: Print the schema</span>
-<span class="c1"># Hint : `printSchema()`</span>
-
-<span class="n">clickstreamDF</span><span class="o">.</span><span class="err">????</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load all the files in the dir</span>
+<span class="n">clicksJson</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/json/&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clicksJson</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11853,18 +11901,10 @@ You may see something like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Your output may look like this:</p>
-
-<pre><code>    root
-     |-- action: string (nullable = true)
-     |-- campaign: string (nullable = true)
-     |-- cost: long (nullable = true)
-     |-- domain: string (nullable = true)
-     |-- ip: string (nullable = true)
-     |-- session: string (nullable = true)
-     |-- timestamp: long (nullable = true)
-     |-- user: string (nullable = true)</code></pre>
-<p><strong>==&gt; Print / Dump the data contained within dataframe</strong></p>
+<p><strong>==&gt; While the import is running take a look at <code>atop</code> terminal.  Which of the resources are we maxing out?</strong><br>
+<strong>==&gt; Measure the time taken to load JSON data; record it in the spreadsheet</strong></p>
+<p><strong>==&gt; Find the max value of cost</strong><br>
+<strong>==&gt; While the query is running, check <code>atop</code></strong></p>
 
 </div>
 </div>
@@ -11874,75 +11914,9 @@ You may see something like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: Print/Dump the data</span>
-<span class="c1"># Hint : show()</span>
-<span class="n">clickstreamDF</span><span class="o">.</span><span class="err">???</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Your output may look like this:</p>
-
-<pre><code>+-------+-----------+----+-----------------+----+----------+-------------+------+
-| action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|
-+-------+-----------+----+-----------------+----+----------+-------------+------+
-|clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|
-|blocked|campaign_12|   5|     facebook.com|ip_3|session_96|1420070400864|user_5|
-|clicked| campaign_3|  54|sf.craigslist.org|ip_9|session_61|1420070401728|user_8|
-...</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Explore methods available in Dataframe</strong><br>
-1) Here is the Dataframe API : 
-<a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrame">Scala</a>  /
-<a href="http://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/DataFrame.html">Java</a> / 
-<a href="http://spark.apache.org/docs/latest/api/python/pyspark.sql.html?highlight=dataframe#pyspark.sql.DataFrame">Python</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-3-:-Querying-Dataframe">STEP 3 : Querying Dataframe<a class="anchor-link" href="#STEP-3-:-Querying-Dataframe">&#182;</a></h2><p><strong>==&gt; Show only click logs where the cost &gt; 100</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clickstreamDF</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;cost &gt; ???&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Same thing</span>
-<span class="n">clickstreamDF</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">clickstreamDF</span><span class="p">[</span><span class="s1">&#39;cost&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="err">???</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="k">import</span> <span class="o">*</span>
+<span class="n">clicksJson</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_json&quot;</span><span class="p">)</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11956,22 +11930,6 @@ You may see something like this:</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Sample output</p>
 
-<pre><code>    +-------+-----------+----+-----------------+----+----------+-------------+------+
-    | action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|
-    +-------+-----------+----+-----------------+----+----------+-------------+------+
-    |clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|
-    |blocked|campaign_18| 110|    wikipedia.org|ip_5|session_55|1420070402592|user_6|
-    |blocked| campaign_9| 139|          cnn.com|ip_8|session_13|1420070404320|user_7|</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Show the logs where action = clicked</strong></p>
-
 </div>
 </div>
 </div>
@@ -11980,23 +11938,11 @@ You may see something like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO: show the logs where action = clicked</span>
-<span class="c1"># Hint : clickstreamDF.filter(&quot;action == &#39;???&#39;&quot;)</span>
-<span class="n">clickstreamDF</span><span class="o">.</span><span class="n">filter</span> <span class="p">(</span><span class="s2">&quot;??? == &#39;???&#39;&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO Another approach</span>
-<span class="n">clickstreamDF</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">clickstreamDF</span><span class="p">[</span><span class="s1">&#39;column_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;???&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span>    <span class="o">+---------+</span>
+    <span class="o">|</span><span class="n">MAX</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span><span class="o">|</span>
+    <span class="o">+---------+</span>
+    <span class="o">|</span>      <span class="mi">180</span><span class="o">|</span>
+    <span class="o">+---------+</span>
 </pre></div>
 
 </div>
@@ -12008,13 +11954,7 @@ You may see something like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-5-:-Count-the-number-of-visits-from-each-domain">Step 5 : Count the number of visits from each domain<a class="anchor-link" href="#Step-5-:-Count-the-number-of-visits-from-each-domain">&#182;</a></h2><p>Hint : <code>g = clickstreamDF.groupBy("column_name")</code></p>
-<ul>
-<li>Inspect methods on <code>g</code>  (use tab completion)  </li>
-<li>Then do <code>count</code> on <code>g</code>  </li>
-<li>Then do a show  </li>
-<li>So <code>clickstreamDF.groupby().count.show</code>  </li>
-</ul>
+<p><strong>==&gt; Note the time it took to run the query, and record it in spreadsheet</strong></p>
 
 </div>
 </div>
@@ -12024,14 +11964,7 @@ You may see something like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO: </span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">clickstreamDF</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">&quot;???&quot;</span><span class="p">)</span>
-
-<span class="c1">## TODO: do the count</span>
-<span class="c1"># g.???()</span>
-
-<span class="c1">## And finally show</span>
-<span class="c1"># g.???().show()</span>
+<div class=" highlight hl-ipython3"><pre><span></span>    <span class="n">Job</span> <span class="mi">1</span> <span class="n">finished</span><span class="p">:</span> <span class="n">show</span> <span class="n">at</span> <span class="o">&lt;</span><span class="n">console</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">24</span><span class="p">,</span> <span class="n">took</span> <span class="err">`</span><span class="mf">8.550481</span> <span class="n">s</span><span class="err">`</span>
 </pre></div>
 
 </div>
@@ -12043,15 +11976,7 @@ You may see something like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-6-:-Joining-Dataframes">STEP 6 : Joining Dataframes<a class="anchor-link" href="#STEP-6-:-Joining-Dataframes">&#182;</a></h2><p>Let's load another data set <code>domain info</code><br>
-The data is in   <code>/data/click-stream/domain-info.json</code><br>
-The data looks like this:</p>
-<div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="s2">&quot;amazon.com&quot;</span><span class="p">,</span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="s2">&quot;SHOPPING&quot;</span><span class="p">}</span>
-    <span class="p">{</span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="s2">&quot;bbc.co.uk&quot;</span><span class="p">,</span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="s2">&quot;NEWS&quot;</span><span class="p">}</span>
-    <span class="p">{</span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="s2">&quot;facebook.com&quot;</span><span class="p">,</span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="s2">&quot;SOCIAL&quot;</span><span class="p">}</span>
-    <span class="err">...</span>
-</pre></div>
-<p><strong>==&gt; Load the dataframe</strong></p>
+<h2 id="STEP-6-:-Save-the-logs-in-Parquet-format">STEP 6 : Save the logs in Parquet format<a class="anchor-link" href="#STEP-6-:-Save-the-logs-in-Parquet-format">&#182;</a></h2><p>We are going to use Spark's built-in parquet support to save the dataframe into parquet format</p>
 
 </div>
 </div>
@@ -12061,23 +11986,7 @@ The data looks like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domainsDF</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/domain-info.json&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">domainsDF</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO display domains data</span>
-<span class="c1">## Hint : show()</span>
-<span class="n">domainsDF</span><span class="o">.</span><span class="err">???</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksJson</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-parquet&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12089,8 +11998,17 @@ The data looks like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Join both dataframes</strong></p>
+<p><strong>==&gt; Inspect <code>atop</code> terminal</strong><br>
+<strong>==&gt; Measure the time taken to 'save as parquet' and record it in spreadsheet</strong></p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-7-:-Saving-ORC">Step 7 : Saving ORC<a class="anchor-link" href="#Step-7-:-Saving-ORC">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -12099,10 +12017,7 @@ The data looks like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">joined</span> <span class="o">=</span> <span class="n">clickstreamDF</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">domainsDF</span><span class="p">,</span>  <span class="n">clickstreamDF</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">domainsDF</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">])</span>
-    
-<span class="c1">#see the results</span>
-<span class="n">joined</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksJson</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">orc</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-orc&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12114,25 +12029,8 @@ The data looks like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Inspect the results, here is a sample</strong></p>
-
-<pre><code>    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
-    | action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|   category|           domain|
-    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
-    |clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|      VIDEO|      youtube.com|
-    |blocked| campaign_2|   7|      youtube.com|ip_2|session_93|1420070412960|user_1|      VIDEO|      youtube.com|
-    |blocked|campaign_17|  20|       amazon.com|ip_4|session_13|1420070406048|user_1|   SHOPPING|       amazon.com|</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Note some rows are missing.  Which ones?  Why?</strong></p>
-<p><strong>==&gt; Do an outer join</strong></p>
-
+<p><strong>==&gt; Measure the time taken to save as ORC and record in spreadsheet</strong></p>
+<h2 id="STEP-8-:-Querying-Parquet-Data">STEP 8 : Querying Parquet Data<a class="anchor-link" href="#STEP-8-:-Querying-Parquet-Data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -12141,8 +12039,8 @@ The data looks like this:</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">joinedOuter</span> <span class="o">=</span> <span class="n">clickstreamDF</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">domainsDF</span><span class="p">,</span>  <span class="n">clickstreamDF</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">domainsDF</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">],</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
-<span class="n">joinedOuter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksParquet</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-parquet&quot;</span><span class="p">)</span>
+<span class="n">clicksParquet</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_parquet&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12154,16 +12052,203 @@ The data looks like this:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Inspect the output, might look like this</strong><br>
-<strong>==&gt; Can you explain the null values?</strong></p>
-<p>Output:</p>
+<p><strong>==&gt; Note how quickly the data is loaded; measure this time and record in spreadsheet</strong><br>
+<strong>==&gt; and schema is inferred!</strong></p>
+<p>Parquet format has built-in schema, so Spark doesn't have to parse the files as needed in JSON format</p>
+<p><strong>==&gt; Caclculate max(cost)</strong></p>
 
-<pre><code>    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
-    | action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|   category|           domain|
-    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
-    |blocked| campaign_9| 139|          cnn.com|ip_8|session_13|1420070404320|user_7|       null|             null|
-    |   null|       null|null|             null|null|      null|         null|  null|     SOCIAL|      twitter.com|
-    |clicked| campaign_6|  15|comedycentral.com|ip_9|session_49|1420070403456|user_4|       null|             null|</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_parquet&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Notice the time took and record in spreadsheet</strong><br>
+Sample output</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Job 3 finished: show at <console>:24, took <code>0.627185 s</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Why parquet is so quick to process?</strong></p>
+<h2 id="STEP-9-:-Querying-ORC">STEP 9 : Querying ORC<a class="anchor-link" href="#STEP-9-:-Querying-ORC">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">clicksORC</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">orc</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/my-orc&quot;</span><span class="p">)</span>
+<span class="n">clicksORC</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_orc&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Note the load time and record in spreadsheet</strong></p>
+<p><strong>==&gt; Measure query time and record in spreadsheet</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_orc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-10-:-Compare-Data-Sizes">Step 10 : Compare Data Sizes<a class="anchor-link" href="#Step-10-:-Compare-Data-Sizes">&#182;</a></h2><p>Open a terminal and run the following command.</p>
+<div class="highlight"><pre><span></span><span class="c1"># bytes for spreadsheet</span>
+    $    du -b  ~/data/click-stream/*
+    <span class="c1"># in Mac use `du -k`</span>
+
+    <span class="c1"># for human readable format use</span>
+    $    du -skh  ~/data/click-stream/*
+</pre></div>
+<p>Sample output</p>
+
+<pre><code>    1415178847  /Users/sujee/data/click-stream/json
+    161398938   /Users/sujee/data/click-stream/json-gz
+    105793926   /Users/sujee/data/click-stream/orc
+    118394196   /Users/sujee/data/click-stream/parquet</code></pre>
+<p><strong>==&gt; Record the byte sizes in spreadsheet</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="BONUS-:-Compressed-JSON">BONUS : Compressed JSON<a class="anchor-link" href="#BONUS-:-Compressed-JSON">&#182;</a></h2><p>We are going to store JSON files in compressed gzip format</p>
+<p><strong>==&gt; Compress the files</strong></p>
+<div class="highlight"><pre><span></span>$    <span class="nb">cd</span>   ~/data/click-stream
+$   ./compress-json.sh
+</pre></div>
+<p>This will create compressed JSON in <code>json-gz</code> directory</p>
+<p><strong>==&gt; Inspect directory sizes</strong></p>
+<div class="highlight"><pre><span></span><span class="c1"># bytes for spreadsheet</span>
+    $    du -b json    json-gz   parquet 
+
+    <span class="c1"># human readable format</span>
+    $    du -skh  json    json-gz   parquet
+</pre></div>
+<p>Sample output</p>
+
+<pre><code>1.3G    json
+154M    json-gz
+ 77M    parquet</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Load compressed json files in Spark shell and do the same processing</strong><br>
+<strong>==&gt; Look at <code>atop</code> window to see resource usage</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#note the parsing time</span>
+<span class="n">clicksJgz</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/json-gz&quot;</span><span class="p">)</span>
+<span class="n">clicksParquet</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clicks_jsongz&quot;</span><span class="p">)</span>
+
+
+
+<span class="c1"># calculate the max cost</span>
+<span class="c1">#notice the time took</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT MAX(cost) FROM clicks_jsongz&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># output : Job 7 finished: show at console:22, took 8.066727 s</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="STEP-9-:-Analyze-/-discuss-results">STEP 9 : Analyze / discuss results<a class="anchor-link" href="#STEP-9-:-Analyze-/-discuss-results">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here are numbers from my run:</p>
+
+<pre><code>|format   | storage size |  loading time | query time : max(cost)|
+|---------|:-------------|:--------------|:---------------------:|
+| json    |  1.3 G       |  8.3 s        |   4.6 s               |
+| json.gz |  154 M       |  8.5 s        |   4.1 s               | 
+| parquet |  101 M       |    0 s        |   0.23 s              | 
+| ORC     |  113 M       |    0 s        |   0.76 s              |</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>==&gt; Also discuss your findings from <code>atop</code>.  Which resource 'ceiling' we are hitting first?  CPU / Memory / Disk ?</strong></p>
 
 </div>
 </div>
