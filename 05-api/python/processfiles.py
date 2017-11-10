@@ -1,35 +1,39 @@
 # Usage:
+# spark-submit  processfiles.py  <files to process>
 # spark-submit  --master spark://localhost:7077 processfiles.py  <files to process>
 
 # Multiple files can be specified
-# file to process can be :  /etc/hosts
-#                           scripts/1M.data
-#                           s3n:#elephantscale-public/data/twinkle/100M.data
-#                           tachyon:#tachyon_ip_address:19998/file
 
 #e.g:
 #- with 4G executor memory and turning off verbose logging
-#   spark-submit  --master spark:#localhost:7077 --executor-memory 4g   --driver-class-path logging/    processfiles.py  s3n:#/elephantscale-public/data/twinkle/1G.data
+#   spark-submit  --master spark://localhost:7077 --executor-memory 4g   --driver-class-path logging/    processfiles.py  /data/text/twinkle/1G.data
 #
 
 import sys
 import time
 from pyspark.sql import SparkSession
 
-if len(sys.argv) < 1:
+if len(sys.argv) < 2:
     sys.exit("need file(s) to load")
 
 ## TODO 1: Give a name
 spark = SparkSession.builder.appName("Process Files -- MYNAME").getOrCreate()
 
-for file in sys.argv:
-    f = spark.read.text(file) 
+for file in sys.argv[1:]:
+    ## TODO-2 : read a file as dataset
+    ## hint : spark.read.text(file)
+    #f = ???(file)
 
-    t1 = time.time()
-    count = f.rdd.count()
-    t2 = time.time()
+    t1 = time.perf_counter()
+    ## TODO-2 : Count the number of lines
+    ## Hint : count
+    count = f.???()
+    t2 = time.perf_counter()
 
-    print("### {}: count:  {} ,  time took:  {} ms".format(file, count, (t2-t1)/1e6))
-    line = input('### Hit cntrl-c to terminate the program...')
+    print("### {}: count:  {} ,  time took:  {:,.2f} ms".format(file, count, (t2-t1)*1000))
 
-    spark.stop()  # close the session
+    # end of for loop
+
+
+line = input('### Hit Ctrl+C to terminate the program...')
+spark.stop()  # close the session
