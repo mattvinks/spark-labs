@@ -2,17 +2,16 @@
 
 [<< back to main index](../README.md)
 
-Lab 4.A : Practice Lab
-=================
+# Practice Lab 1 - Analyze Spark Commits
 
 
 ### Overview
 Process CSV using Spark2 APIs
 
 ### Depends On
-- [4.1 Dataframe](4.1-dataframe.md)
-- [4.2 SQL](4.2-sql.md)
-- [4.3 Dataset](4.3-dataset.md)
+- [4.1 Dataframe](../04-dataframe/4.1-dataframe-scala.md)
+- [4.2 SQL](../04-dataframe/4.2-sql-scala.md)
+- [4.3 Dataset](../04-dataframe/4.3-dataset-scala.md)
 
 ### Run time
 20-30 mins

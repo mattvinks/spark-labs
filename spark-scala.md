@@ -95,13 +95,16 @@ The VMs already have data loaded.  This for your own reference.
 - [4.4 - Caching 2 SQL](04-dataframe/4.4-caching-2-sql-scala.md)
 - [4.5 - Spark & Hive (Hadoop)](04-dataframe/4.5-spark-and-hive-scala.md)
 - [4.6 - Data formats](04-dataframe/4.6-data-formats-scala.md)
-- **Practice Labs**
-    - [Practice Lab 4A - Analyze Spark Commit logs](04-dataframe/4a-practice-lab.md)
-    - [Practice Lab 4B - Analyze clickstream logs](04-dataframe/4b-practice-lab.md)
+
 
 ### 5 - API
 - [5.1 - Submit first application](05-api/5.1-submit.md)
 - [5.2 - Mapreduce using API](05-api/5.2-mapreduce.md)
+
+### Practice Labs for end of day 2
+- [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/1-analyze-commit-logs.md)
+- [Practice Lab 2 - Analyze clickstream logs](practice-labs/2-anaylyze-clickstream.md)
+
 
 ### 6 - MLLib
 - [6.1 - Kmeans](06-mllib/kmeans/README.md)
