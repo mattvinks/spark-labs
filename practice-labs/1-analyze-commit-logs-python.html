@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>spark-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>1-analyze-commit-logs-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,67 +11775,64 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Spark-Labs----Python">Spark Labs -- Python<a class="anchor-link" href="#Spark-Labs----Python">&#182;</a></h1><h1 id="Labs">Labs<a class="anchor-link" href="#Labs">&#182;</a></h1><h3 id="Pre-requisites">Pre-requisites<a class="anchor-link" href="#Pre-requisites">&#182;</a></h3><p>Complete <a href="README-python1.html">README-python1.html</a> first</p>
-<h3 id="1---Python-Primer">1 - Python Primer<a class="anchor-link" href="#1---Python-Primer">&#182;</a></h3><ul>
-<li><a href="01-python/hello-jupyter.html">1.1 - Hello Jupyter</a></li>
-<li><a href="01-python/testing-123.html">1.2 - Testing 123</a></li>
+<h1 id="Practice-Lab-1---Analyze-Spark-Commits">Practice Lab 1 - Analyze Spark Commits<a class="anchor-link" href="#Practice-Lab-1---Analyze-Spark-Commits">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Process CSV using Spark2 APIs</p>
+<h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><ul>
+<li><a href="../04-dataframe/4.1-dataframe-scala.md">4.1 Dataframe</a></li>
+<li><a href="../04-dataframe/4.2-sql-scala.md">4.2 SQL</a></li>
+<li><a href="../04-dataframe/4.3-dataset-scala.md">4.3 Dataset</a></li>
 </ul>
-<h3 id="2---Spark-Intro">2 - Spark Intro<a class="anchor-link" href="#2---Spark-Intro">&#182;</a></h3><ul>
-<li><a href="02-intro/2.1-install-spark-python.html">2.1 - Run Spark</a></li>
-<li><a href="02-intro/2.2-shell-python.html">2.2 - Spark Shell</a> </li>
+<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20-30 mins</p>
+<h2 id="Analyze-Spark-commit-logs-(CSV-data)">Analyze Spark commit logs (CSV data)<a class="anchor-link" href="#Analyze-Spark-commit-logs-(CSV-data)">&#182;</a></h2><p>In this lab, we are going to analyze Spark commit logs.</p>
+<p>The data is located in <code>data/spark-commits</code> directory.</p>
+<ul>
+<li><a href="/data/spark-commits/spark-commits.log">data/spark-commits/spark-commits.log</a>  : large file with about 20,000 commit logs</li>
+<li><a href="/data/spark-commits/sample.log">data/spark-commits/sample.log</a> : a small sample file</li>
 </ul>
-<h3 id="3---RDDs">3 - RDDs<a class="anchor-link" href="#3---RDDs">&#182;</a></h3><ul>
-<li><a href="03-rdd/3.1-rdd-basics-python.html">3.1 - RDD basics</a></li>
-<li><a href="03-rdd/3.6-caching-python.html">3.6 - Caching</a></li>
-<li><strong>These RDD labs are for your reference (not done in the class)</strong><ul>
-<li><a href="03-rdd/3.2-rdd-multi.html">3.2 - Working with multiple RDDs</a></li>
-<li><a href="03-rdd/3.3-rdd-kv.html">3.3 - Key Value Pair RDDs</a></li>
-<li><a href="03-rdd/3.4-mapreduce.html">3.4 - Map Reduce</a></li>
-<li><a href="03-rdd/3.5-clickstream.html">3.5 - Clickstream processing</a></li>
+<h3 id="Data-Format:">Data Format:<a class="anchor-link" href="#Data-Format:">&#182;</a></h3><ul>
+<li>SHA</li>
+<li>committer</li>
+<li>email</li>
+<li>date</li>
+<li>comment</li>
 </ul>
-</li>
+<p>Separator is  |</p>
+
+<pre><code>sha|committer|email|date|comment
+
+8f2142cfd2ca632a4afb0cc29cc358edbb21f8d|Dilip Biswal|dbiswal@us.ibm.com|Sat Feb 25 23:56:57 2017 -0800|[SQL] Duplicate test exception in SQLQueryTestSuite due to meta files(.DS_Store) on Mac
+
+89608cf26226e28f331a4695fee89394d0d38ea0|Wenchen Fan|wenchen@databricks.com|Sat Feb 25 23:01:44 2017 -0800|[SPARK-17075][SQL][FOLLOWUP] fix some minor issues and clean up the code
+
+6ab60542e8e803b1d91371a92f4aaef6a64106f6|Joseph K. Bradley|joseph@databricks.com|Sat Feb 25 22:24:08 2017 -0800|[MINOR][ML][DOC] Document default value for GeneralizedLinearRegression.linkPower</code></pre>
+<h2 id="Queries">Queries<a class="anchor-link" href="#Queries">&#182;</a></h2><ul>
+<li>Find the person with most number of commits</li>
+<li>How many commits came from 'databricks.com'</li>
 </ul>
-<h3 id="4---Dataframes">4 - Dataframes<a class="anchor-link" href="#4---Dataframes">&#182;</a></h3><ul>
-<li><a href="04-dataframe/4.1-dataframe-python.html">4.1 - Dataframes</a></li>
-<li><a href="04-dataframe/4.2-sql-python.html">4.2 - Spark SQL</a></li>
-<li><a href="04-dataframe/4.3-dataset-python.html">4.3 - Dataset</a></li>
-<li><a href="04-dataframe/4.4-caching-2-sql-python.html">4.4 - Caching 2 SQL</a></li>
-<li><a href="04-dataframe/4.5-spark-and-hive-python.html">4.5 - Spark &amp; Hive (Hadoop)</a></li>
-<li><a href="04-dataframe/4.6-data-formats-python.html">4.6 - Data formats</a></li>
-</ul>
-<h3 id="5---API">5 - API<a class="anchor-link" href="#5---API">&#182;</a></h3><ul>
-<li><a href="05-api/5.1-submit.md">5.1 - Submit first application</a></li>
-<li><a href="05-api/5.2-mapreduce.md">5.2 - Mapreduce using API</a></li>
-</ul>
-<h3 id="Practice-Labs-for-end-of-day-2">Practice Labs for end of day 2<a class="anchor-link" href="#Practice-Labs-for-end-of-day-2">&#182;</a></h3><ul>
-<li><a href="practice-labs/1-analyze-commit-logs.html">Practice Lab 1 - Analyze Spark Commit logs</a></li>
-<li><a href="practice-labs/2-analyze-clickstream.html">Practice Lab 2 - Analyze clickstream logs</a></li>
-</ul>
-<h3 id="6---MLLib">6 - MLLib<a class="anchor-link" href="#6---MLLib">&#182;</a></h3><ul>
-<li><a href="06-mllib/kmeans/kmeans_mtcars.html">6.1 - Kmeans</a></li>
-<li><a href="06-mllib/recs/README.md">6.2 - Recommendations</a></li>
-<li><a href="06-mllib/classification/README.md">6.3 - Classification</a></li>
-</ul>
-<h3 id="7---GraphX">7 - GraphX<a class="anchor-link" href="#7---GraphX">&#182;</a></h3><ul>
-<li><a href="07-graphx/7.1-influencer.html">7.1  - Influencers (Twitter)</a></li>
-<li><a href="07-graphx/7.2-shortest-path.html">7.2  - Shortest path (in LinkedIn)</a></li>
-</ul>
-<h3 id="8---Streaming">8 - Streaming<a class="anchor-link" href="#8---Streaming">&#182;</a></h3><ul>
-<li><a href="08-streaming/8.1-over-tcp/README.html">8.1 - Streaming over TCP</a></li>
-<li><a href="08-streaming/8.2-window/README.html">8.2 - Windowed Count</a></li>
-<li><a href="08-streaming/8.3-kafka/README.html">8.3 - Kafka Streaming</a></li>
-<li>8.4 - Structured Streaming<ul>
-<li><a href="08-streaming/8.4-structured/README.html">8.4a - Structured Streaming 1</a></li>
-<li><a href="08-streaming/8.4-structured/README2.html">8.4b - Structured Streaming 2 (JSON)</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="9---Operations">9 - Operations<a class="anchor-link" href="#9---Operations">&#182;</a></h3><ul>
-<li><a href="09-ops/9.1-cluster-setup.md">9.1 - Cluster setup</a></li>
-</ul>
+<h2 id="Steps">Steps<a class="anchor-link" href="#Steps">&#182;</a></h2><p>This is an open lab.<br>
+Feel free to experiment.<br>
+Use any of the APIs (RDD / Dataframe / Dataset) to analyze the data.</p>
+<h3 id="Some-Hints:">Some Hints:<a class="anchor-link" href="#Some-Hints:">&#182;</a></h3><p><code>spark.read.csv</code>  is a handy way to read CSV files.  (see below)</p>
+<p>For group by, you can use <code>email</code> column as a unique column.</p>
+<p>You can group by using Dataset API  or use SQL (register DF as a temptable first)</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val</span> <span class="n">commits</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span>
+              <span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">)</span><span class="o">.</span>  <span class="o">//</span> <span class="n">true</span> <span class="ow">or</span> false<span class="o">?</span>
+              <span class="n">option</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">)</span><span class="o">.</span>  <span class="o">//</span> <span class="n">what</span> <span class="ow">is</span> <span class="n">our</span> <span class="n">delimiter</span>
+              <span class="n">csv</span><span class="p">(</span><span class="s2">&quot;/data/spark-commits/spark-commits.log&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>

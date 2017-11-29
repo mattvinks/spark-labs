@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>spark-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>2-analyze-clickstream-python</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,67 +11775,94 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Spark-Labs----Python">Spark Labs -- Python<a class="anchor-link" href="#Spark-Labs----Python">&#182;</a></h1><h1 id="Labs">Labs<a class="anchor-link" href="#Labs">&#182;</a></h1><h3 id="Pre-requisites">Pre-requisites<a class="anchor-link" href="#Pre-requisites">&#182;</a></h3><p>Complete <a href="README-python1.html">README-python1.html</a> first</p>
-<h3 id="1---Python-Primer">1 - Python Primer<a class="anchor-link" href="#1---Python-Primer">&#182;</a></h3><ul>
-<li><a href="01-python/hello-jupyter.html">1.1 - Hello Jupyter</a></li>
-<li><a href="01-python/testing-123.html">1.2 - Testing 123</a></li>
+<h1 id="Practice-Lab-2-:-Analyze-Clickstream-data">Practice Lab 2 : Analyze Clickstream data<a class="anchor-link" href="#Practice-Lab-2-:-Analyze-Clickstream-data">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Deeper analytics of Clickstream data</p>
+<h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><ul>
+<li><a href="../04-dataframe/4.1-dataframe-scala.md">4.1 Dataframe</a></li>
+<li><a href="../04-dataframe/4.2-sql-scala.md">4.2 SQL</a></li>
+<li><a href="../04-dataframe/4.3-dataset-scala.md">4.3 Dataset</a></li>
 </ul>
-<h3 id="2---Spark-Intro">2 - Spark Intro<a class="anchor-link" href="#2---Spark-Intro">&#182;</a></h3><ul>
-<li><a href="02-intro/2.1-install-spark-python.html">2.1 - Run Spark</a></li>
-<li><a href="02-intro/2.2-shell-python.html">2.2 - Spark Shell</a> </li>
+<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20-30 mins</p>
+<h2 id="Analyze-Clickstream-logs">Analyze Clickstream logs<a class="anchor-link" href="#Analyze-Clickstream-logs">&#182;</a></h2><h3 id="Data-Format:">Data Format:<a class="anchor-link" href="#Data-Format:">&#182;</a></h3><p>The data is in <a href="/data/click-stream/clickstream.json">data/click-stream/clickstream.json</a></p>
+<p>Clickstream data looks like this</p>
+
+<pre><code>{"session": "session_36", "domain": "youtube.com", "cost": 118, "user": "user_9", "campaign": "campaign_19", "ip": "ip_4", "action": "clicked", "timestamp": 1420070400000}
+
+{"session": "session_96", "domain": "facebook.com", "cost": 5, "user": "user_5", "campaign": "campaign_12", "ip": "ip_3", "action": "blocked", "timestamp": 1420070400864}</code></pre>
+<p>Domains data looks like this</p>
+
+<pre><code>{"domain":"amazon.com","category":"SHOPPING"}
+{"domain":"bbc.co.uk","category":"NEWS"}
+{"domain":"facebook.com","category":"SOCIAL"}</code></pre>
+<h2 id="Read-the-data-and-export-them-as-tables">Read the data and export them as tables<a class="anchor-link" href="#Read-the-data-and-export-them-as-tables">&#182;</a></h2><p>see code block below</p>
+
+<pre><code>val clickstreamDF = spark.read.json("/data/click-stream/json")
+clickstreamDF.createOrReplaceTempView("clickstream")
+
+val domainsDF = spark.read.json("/data/click-stream/domain-info.json")
+domainsDF.createOrReplaceTempView("domains")</code></pre>
+<h2 id="Answer-the-following-Queries">Answer the following Queries<a class="anchor-link" href="#Answer-the-following-Queries">&#182;</a></h2><h4 id="find-all-distinct-domains-we-have-seen">find all distinct domains we have seen<a class="anchor-link" href="#find-all-distinct-domains-we-have-seen">&#182;</a></h4><h4 id="find-total-amount-(cost)-spent-on-each-domain.--Sort-the-data-in-descending-order">find total amount (<code>cost</code>) spent on each domain.  Sort the data in descending order<a class="anchor-link" href="#find-total-amount-(cost)-spent-on-each-domain.--Sort-the-data-in-descending-order">&#182;</a></h4><p>sample output</p>
+<div class="highlight"><pre><span></span><span class="go">+-------------+--------+</span>
+<span class="go">| domain      | cost   |</span>
+<span class="go">+-------------+--------+</span>
+<span class="go">|facebook.com | 10,100 |</span>
+<span class="go">|youtube.com  |  8,900 |</span>
+<span class="go">+-------------+--------+</span>
+</pre></div>
+<h3 id="Find-total-money-(clickstream.cost)-spent-per-domain.CATEGORY">Find total money (clickstream.cost) spent per domain.CATEGORY<a class="anchor-link" href="#Find-total-money-(clickstream.cost)-spent-per-domain.CATEGORY">&#182;</a></h3><p>e.g<br>
+    SOCIAL  100<br>
+    NEWS    200</p>
+<p>Hint: 'join'</p>
+<h3 id="Optimize-the-above-query">Optimize the above query<a class="anchor-link" href="#Optimize-the-above-query">&#182;</a></h3><p>Make the above query as fast as possible!</p>
+<p>Hints:</p>
+<ul>
+<li>convert JSON to parquet!</li>
+<li>???</li>
 </ul>
-<h3 id="3---RDDs">3 - RDDs<a class="anchor-link" href="#3---RDDs">&#182;</a></h3><ul>
-<li><a href="03-rdd/3.1-rdd-basics-python.html">3.1 - RDD basics</a></li>
-<li><a href="03-rdd/3.6-caching-python.html">3.6 - Caching</a></li>
-<li><strong>These RDD labs are for your reference (not done in the class)</strong><ul>
-<li><a href="03-rdd/3.2-rdd-multi.html">3.2 - Working with multiple RDDs</a></li>
-<li><a href="03-rdd/3.3-rdd-kv.html">3.3 - Key Value Pair RDDs</a></li>
-<li><a href="03-rdd/3.4-mapreduce.html">3.4 - Map Reduce</a></li>
-<li><a href="03-rdd/3.5-clickstream.html">3.5 - Clickstream processing</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="4---Dataframes">4 - Dataframes<a class="anchor-link" href="#4---Dataframes">&#182;</a></h3><ul>
-<li><a href="04-dataframe/4.1-dataframe-python.html">4.1 - Dataframes</a></li>
-<li><a href="04-dataframe/4.2-sql-python.html">4.2 - Spark SQL</a></li>
-<li><a href="04-dataframe/4.3-dataset-python.html">4.3 - Dataset</a></li>
-<li><a href="04-dataframe/4.4-caching-2-sql-python.html">4.4 - Caching 2 SQL</a></li>
-<li><a href="04-dataframe/4.5-spark-and-hive-python.html">4.5 - Spark &amp; Hive (Hadoop)</a></li>
-<li><a href="04-dataframe/4.6-data-formats-python.html">4.6 - Data formats</a></li>
-</ul>
-<h3 id="5---API">5 - API<a class="anchor-link" href="#5---API">&#182;</a></h3><ul>
-<li><a href="05-api/5.1-submit.md">5.1 - Submit first application</a></li>
-<li><a href="05-api/5.2-mapreduce.md">5.2 - Mapreduce using API</a></li>
-</ul>
-<h3 id="Practice-Labs-for-end-of-day-2">Practice Labs for end of day 2<a class="anchor-link" href="#Practice-Labs-for-end-of-day-2">&#182;</a></h3><ul>
-<li><a href="practice-labs/1-analyze-commit-logs.html">Practice Lab 1 - Analyze Spark Commit logs</a></li>
-<li><a href="practice-labs/2-analyze-clickstream.html">Practice Lab 2 - Analyze clickstream logs</a></li>
-</ul>
-<h3 id="6---MLLib">6 - MLLib<a class="anchor-link" href="#6---MLLib">&#182;</a></h3><ul>
-<li><a href="06-mllib/kmeans/kmeans_mtcars.html">6.1 - Kmeans</a></li>
-<li><a href="06-mllib/recs/README.md">6.2 - Recommendations</a></li>
-<li><a href="06-mllib/classification/README.md">6.3 - Classification</a></li>
-</ul>
-<h3 id="7---GraphX">7 - GraphX<a class="anchor-link" href="#7---GraphX">&#182;</a></h3><ul>
-<li><a href="07-graphx/7.1-influencer.html">7.1  - Influencers (Twitter)</a></li>
-<li><a href="07-graphx/7.2-shortest-path.html">7.2  - Shortest path (in LinkedIn)</a></li>
-</ul>
-<h3 id="8---Streaming">8 - Streaming<a class="anchor-link" href="#8---Streaming">&#182;</a></h3><ul>
-<li><a href="08-streaming/8.1-over-tcp/README.html">8.1 - Streaming over TCP</a></li>
-<li><a href="08-streaming/8.2-window/README.html">8.2 - Windowed Count</a></li>
-<li><a href="08-streaming/8.3-kafka/README.html">8.3 - Kafka Streaming</a></li>
-<li>8.4 - Structured Streaming<ul>
-<li><a href="08-streaming/8.4-structured/README.html">8.4a - Structured Streaming 1</a></li>
-<li><a href="08-streaming/8.4-structured/README2.html">8.4b - Structured Streaming 2 (JSON)</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="9---Operations">9 - Operations<a class="anchor-link" href="#9---Operations">&#182;</a></h3><ul>
-<li><a href="09-ops/9.1-cluster-setup.md">9.1 - Cluster setup</a></li>
-</ul>
+<h4 id="calculate-clicks/view-ratio-for-each-domain.--Sort-the-data-in-descending-order">calculate clicks/view ratio for each domain.  Sort the data in descending order<a class="anchor-link" href="#calculate-clicks/view-ratio-for-each-domain.--Sort-the-data-in-descending-order">&#182;</a></h4><p>sample output</p>
+<div class="highlight"><pre><span></span><span class="go">+-------------+---------+---------+---------+-------------------------+</span>
+<span class="go">| domain      | views   |  clicks |  blocks |   clicks_per_1000_views |</span>
+<span class="go">|             |         |         |         |   (=clicks*1000/views)  |</span>
+<span class="go">+-------------+---------+---------+---------+-------------------------+</span>
+<span class="go">|facebook.com | 10,000  |   100   |     500 |        10               |</span>
+<span class="go">|youtube.com  |  5,000  |    20   |    1000 |         4               |</span>
+<span class="go">+-------------+---------+---------+---------+-------------------------+</span>
+</pre></div>
+<h4 id="Which-domain-gets-most-'bang-for-the-buck'-?">Which domain gets most 'bang for the buck' ?<a class="anchor-link" href="#Which-domain-gets-most-'bang-for-the-buck'-?">&#182;</a></h4><p>Calculate total cost spent vs. number of clicks from that domain.<br>
+Another way to think about this is, how much are we spending to get a click from a domain?  (Don't forget to factor in money spent on blocks as well!)</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># read in data </span>
+<span class="n">val</span> <span class="n">clickstreamDF</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/json&quot;</span><span class="p">)</span>
+<span class="n">clickstreamDF</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;clickstream&quot;</span><span class="p">)</span>
+
+<span class="n">val</span> <span class="n">domainsDF</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="s2">&quot;/data/click-stream/domain-info.json&quot;</span><span class="p">)</span>
+<span class="n">domainsDF</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;domains&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
