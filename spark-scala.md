@@ -1,8 +1,8 @@
 <link rel='stylesheet' href='assets/css/main.css'/>
 
-Spark Labs
+Spark Labs - Scala
 ==========
-Welcome to Spark labs bundle.
+Welcome to Spark labs bundle.  This is the Scala track.
 
 ## To Instructor
 Create a lab bundle as follows
