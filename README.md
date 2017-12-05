@@ -9,7 +9,7 @@ There are two tracks.
 Please see [spark-scala.md](spark-scala.md)
 
 ## Python track
-- Open [README-python1.html](README-python1.html) in browser and follow the steps
+- Open [README-python.html](README-python.html) in browser and follow the steps
 
 ## To Instructor
 Please run
