@@ -11785,7 +11785,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># older version spark context</span>
@@ -11796,44 +11796,10 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[1]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-
-        <div>
-            <p><b>SparkContext</b></p>
-
-            <p><a href="http://127.0.0.1:4042">Spark UI</a></p>
-
-            <dl>
-              <dt>Version</dt>
-                <dd><code>v2.2.0</code></dd>
-              <dt>Master</dt>
-                <dd><code>local[*]</code></dd>
-              <dt>AppName</dt>
-                <dd><code>PySparkShell</code></dd>
-            </dl>
-        </div>
-        
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># newwer Spark Session</span>
@@ -11841,45 +11807,6 @@ div#notebook {
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[2]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-
-            <div>
-                <p><b>SparkSession - hive</b></p>
-                
-        <div>
-            <p><b>SparkContext</b></p>
-
-            <p><a href="http://127.0.0.1:4042">Spark UI</a></p>
-
-            <dl>
-              <dt>Version</dt>
-                <dd><code>v2.2.0</code></dd>
-              <dt>Master</dt>
-                <dd><code>local[*]</code></dd>
-              <dt>AppName</dt>
-                <dd><code>PySparkShell</code></dd>
-            </dl>
-        </div>
-        
-            </div>
-        
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -12076,7 +12003,7 @@ Also inspect the event time line</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Step-5-:-Running-pyspark-shell">Step 5 : Running pyspark shell<a class="anchor-link" href="#Step-5-:-Running-pyspark-shell">&#182;</a></h2><p>In a terminal start PySpark shell as follows:</p>
-<div class="highlight"><pre><span></span>$  ~/spark/bin/pyspark
+<div class="highlight"><pre><span></span>$  <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>  ~/spark/bin/pyspark
 </pre></div>
 <p>And try the following commands in pyspark shell</p>
 <div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/sample.txt&quot;</span><span class="p">)</span>
@@ -12105,20 +12032,20 @@ In browser go to :   <a href="http://your_machine_address:8080">http://your_mach
 (use 'public' ip of machine)</p>
 <p>Here is a sample screen shot:</p>
 <p><img src="../assets/images/2d.png" style="border: 5px solid grey; max-width:100%;" /></p>
-<h3 id="6.2-Now-start-pyspark-shell">6.2 Now start pyspark shell<a class="anchor-link" href="#6.2-Now-start-pyspark-shell">&#182;</a></h3><div class="highlight"><pre><span></span>$ ~/spark/bin/pyspark
+<h3 id="6.2-Now-start-pyspark-shell">6.2 Now start pyspark shell<a class="anchor-link" href="#6.2-Now-start-pyspark-shell">&#182;</a></h3><div class="highlight"><pre><span></span>$ <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>   ~/spark/bin/pyspark
 </pre></div>
 <p>Once the shell starts, check the <em>server</em> UI on port 8080.</p>
 <p><strong>==&gt; Do you see the shell connected as an application?  why (not) ?</strong></p>
 <h3 id="6.3-Connect-Spark-shell-with-the-Spark-server.">6.3 Connect Spark shell with the Spark server.<a class="anchor-link" href="#6.3-Connect-Spark-shell-with-the-Spark-server.">&#182;</a></h3><p>Make a note of Spark server uri (e.g  <code>spark://host_name:7077</code>)</p>
 <p><strong>==&gt; Restart spark shell as follows</strong></p>
-<div class="highlight"><pre><span></span>$   ~/spark/bin/pyspark   --master  spark-server-uri
+<div class="highlight"><pre><span></span>$   <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>   ~/spark/bin/pyspark   --master  spark-server-uri
                                             ^^^^^^^^^^^^^^^^
                                         update this to match your spark server
 
-  $   ~/spark/bin/pyspark   --master  spark://localhost:7077
+  $   <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>   ~/spark/bin/pyspark   --master  spark://localhost:7077
 </pre></div>
 <p>On an Amazon server you may have to use the internal ip for the spark server, such as</p>
-<div class="highlight"><pre><span></span>~/spark/bin/pyspark  --master spark://your_host_name:7077
+<div class="highlight"><pre><span></span>$  <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>     ~/spark/bin/pyspark  --master spark://your_host_name:7077
 </pre></div>
 <p>On the ES VM you may have to use the localhost.localdomain. In all cases, follow what the spark master UI tells you.</p>
 <p><strong>==&gt; Once the shell started, check both UIs</strong></p>
@@ -12146,7 +12073,7 @@ In browser go to :   <a href="http://your_machine_address:8080">http://your_mach
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you don't want to see any logs, you can start Spark shell as follows.  All the logs will be sent to 'logs' file.</p>
-<div class="highlight"><pre><span></span>$    ~/spark/bin/pyspark  <span class="m">2</span>&gt; logs
+<div class="highlight"><pre><span></span>$  <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>   ~/spark/bin/pyspark  <span class="m">2</span>&gt; logs
 </pre></div>
 
 </div>

@@ -14,7 +14,7 @@ notebooks=$(find . -type f -name "*.ipynb" | grep -v ".ipynb_checkpoints" )
 jupyter nbconvert ${notebooks}
 
 # move files in right place
-mv -f private/README-python1.html  .
+mv -f private/README-python.html  .
 
 ## Change all the links from README.html
 sed 's/ipynb/html/g' < Spark-python.html > a.html
