@@ -4,8 +4,8 @@
 #export PATH=$HOME/anaconda/bin:$PATH
 
 export SPARK_HOME=$HOME/spark
-export PYSPARK_PYTHON=python3
-export PYSPARK_DRIVER_PYTHON="jupyter"
+export PYSPARK_PYTHON=$(which python3)
+export PYSPARK_DRIVER_PYTHON=$(which jupyter)
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
 
 ## pyspark i local mode
