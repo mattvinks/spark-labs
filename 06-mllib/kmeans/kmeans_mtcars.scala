@@ -10,7 +10,7 @@ val dataset = spark.read.option("header", "true").
               csv("/data/cars/mtcars_header.csv")
 
 // ## TODO-1 : print schema and display the dataset
-dataset.??? 
+dataset.???
 dataset.???
 
 // ## TODO-2 : extract the columns we need : model, mpg and cyl
@@ -51,3 +51,14 @@ predicted.sort("prediction", "mpg").show(32,false)
 
 // lets count cars in each group
 predicted.groupBy("prediction").count.show
+
+
+// iterate over k
+for (k <- 2 to 10) {
+    //println (k)
+    val kmeans = new KMeans().setK(k)setMaxIter(10)
+    val model = kmeans.fit(featureVector)
+    val WSSSE = model.computeCost(featureVector)
+    //println(WSSSE)
+    println("%d,%f".format(k,WSSSE))
+}
