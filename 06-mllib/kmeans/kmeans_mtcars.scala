@@ -54,7 +54,7 @@ predicted.groupBy("prediction").count.show
 
 
 // iterate over k
-for (k <- 2 to 10) {
+for (k <- 2 to 32) {
     //println (k)
     val kmeans = new KMeans().setK(k)setMaxIter(10)
     val model = kmeans.fit(featureVector)
