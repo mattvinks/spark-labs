@@ -18,7 +18,7 @@ object WindowedCount {
 
     val ssc = new StreamingContext(sparkConf, Seconds(5))
 
-    val lines = ssc.socketTextStream("localhost", 9999, StorageLevel.MEMORY_ONLY)
+    val lines = ssc.socketTextStream("localhost", 10000, StorageLevel.MEMORY_ONLY)
     val actionsKVPairs = lines.map{
       line => {
         val tokens = line.split(",")

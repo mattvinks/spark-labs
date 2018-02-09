@@ -44,8 +44,8 @@ Make sure there are no errors and there is output in `target` dir.
 You should see output like follows
 
 ```console
-drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
--rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 windowed-count_2.11-1.0.jar
+drwxr-xr-x  3 tfox  staff   102B Apr 16 09:59 classes/
+-rw-r--r--  1 tfox  staff    13K Apr 16 09:59 windowedcount_2.11-1.0.jar
 ```
 
 `windowed-count_2.11-1.0.jar`  is our code compiled.
@@ -55,14 +55,14 @@ STEP 3: Run Netcat Server (Terminal #2)
 ----------------
 Open another terminal into Spark node (terminal #2)
 
-Use `nc` command to move text you type in terminal #2 to port 9999
+Use `nc` command to move text you type in terminal #2 to port 10000
 Open an terminal and run this command at prompt
 
 ```bash
-    $ nc -lk 9999
+    $ nc -lk 10000
 
     # if this gives an error like 'Protocol not available' use this
-    # $  ~/bin/nc  -lk 9999
+    # $  ~/bin/nc  -lk 10000
 ```
 
 
@@ -70,7 +70,7 @@ Open an terminal and run this command at prompt
 STEP 4: Run The Application  (Terminal #1)
 --------------------------
 ```bash
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowed-count_2.11-1.0.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowedcount_2.11-1.0.jar
 ```
 
 
