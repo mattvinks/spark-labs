@@ -22,7 +22,7 @@ object WindowedCount {
     val actionsKVPairs = lines.map{
       line => {
         val tokens = line.split(",")
-        if (tokens.length >= 3) {
+        if (tokens.length > 3) {
           val action = tokens(3) // either blocked / viewed / clicked
           (action, 1)
         }
