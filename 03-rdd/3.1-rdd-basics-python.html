@@ -12031,6 +12031,7 @@ Hint : check number of partitions in RDD using <code>getNumPartitions</code>  or
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
 <span class="n">filtered</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="s2">&quot;diamond&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">)</span>
 <span class="n">filtered</span><span class="o">.</span><span class="n">saveAsTextFile</span><span class="p">(</span><span class="s2">&quot;out1&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;saved&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
