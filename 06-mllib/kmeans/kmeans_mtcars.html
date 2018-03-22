@@ -11775,9 +11775,31 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Spark-MLLilb-Example:-Clustering">Spark MLLilb Example: Clustering<a class="anchor-link" href="#Spark-MLLilb-Example:-Clustering">&#182;</a></h1><p>Let's look at a clustering example in Spark MLLib.</p>
+<h1 id="Spark-MLLilb-Example:-Clustering">Spark MLLilb Example: Clustering<a class="anchor-link" href="#Spark-MLLilb-Example:-Clustering">&#182;</a></h1><h3 id="Download-the-spreadsheet">Download the <a href="WSSSE-versus-k.xlsx">spreadsheet</a><a class="anchor-link" href="#Download-the-spreadsheet">&#182;</a></h3><p>Let's look at a clustering example in Spark MLLib.</p>
 <p>Here, we are going to load the mtcars dataset. This has some stats on different models of cars.  Here, we will load the CSV file as a spark dataframe, and view it.</p>
+<p>This dataset contains some statistics on 1974 Cars from Motor Trends</p>
+<p>Here are the columns:</p>
+<ul>
+<li>name   - name of the car</li>
+<li>mpg   - Miles/(US) gallon                        </li>
+<li>cyl   - Number of cylinders                      </li>
+<li>disp  - Displacement (cu.in.)                    </li>
+<li>hp    - Gross horsepower                         </li>
+<li>drat  - Rear axle ratio            </li>
+</ul>
+<p>Are there any natural clusters you can identify from this data?</p>
+<p>We are going to use <strong>MPG and CYL</strong> attributes to cluster.</p>
+<p>You can also download and view the raw data in Excel : <a href="/data/cars/mtcars_header.csv">cars.csv</a></p>
+<p><img src="../../assets/images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" /></p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-1-:-Load-Data">Step 1 : Load Data<a class="anchor-link" href="#Step-1-:-Load-Data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11786,7 +11808,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="k">import</span> <span class="n">VectorAssembler</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Imports</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.feature</span> <span class="k">import</span> <span class="n">VectorAssembler</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.clustering</span> <span class="k">import</span> <span class="n">KMeans</span>
 </pre></div>
 
@@ -11813,7 +11836,24 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO : print schema</span>
+<span class="c1">## Hint : printSchema()</span>
+<span class="n">dataset</span><span class="o">.</span><span class="err">???</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO display the data</span>
+<span class="c1">## Hint : show</span>
+<span class="n">dataset</span><span class="o">.</span><span class="err">???</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11825,7 +11865,31 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Creating-Vectors">Creating Vectors<a class="anchor-link" href="#Creating-Vectors">&#182;</a></h2><p>Now that we have ourselves a dataframe, let's work on turning it into vectors.  We're going to vectorize 2 columns:</p>
+<h2 id="Step-2-:-Extract-data">Step 2 : Extract data<a class="anchor-link" href="#Step-2-:-Extract-data">&#182;</a></h2><p>We only care about 'model', 'mpg' and 'cyl' columns</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO : extract the columns we need : model, mpg and cyl</span>
+<span class="n">dataset2</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">])</span>
+<span class="n">dataset2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-3-:-Creating-Vectors">Step 3 : Creating Vectors<a class="anchor-link" href="#Step-3-:-Creating-Vectors">&#182;</a></h2><p>Now that we have ourselves a dataframe, let's work on turning it into vectors.  We're going to vectorize 2 columns:</p>
 <ol>
 <li>MPG</li>
 <li>Number of cylineders.</li>
@@ -11840,21 +11904,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mpg&quot;</span><span class="p">,</span> <span class="s2">&quot;cyl&quot;</span><span class="p">],</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
-<span class="n">featureVector</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">featureVector</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO : create featureVecttor with &#39;mpg&#39; and &#39;cyl&#39;</span>
+<span class="c1">## Hint :  inputCols=[&#39;mpg&#39;, &#39;cyl&#39;]</span>
+<span class="n">assembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mpg&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">],</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
+<span class="n">featureVector</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataset2</span><span class="p">)</span>
+<span class="n">featureVector</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11866,7 +11920,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Running-Kmeans">Running Kmeans<a class="anchor-link" href="#Running-Kmeans">&#182;</a></h2><p>Now it's time to run kmeans on the resultnt dataframe.  We don't know what value of k to use, so let's just start with k=2.  This means we will cluster into two groups.</p>
+<h2 id="Step-4-:-Running-Kmeans">Step 4 : Running Kmeans<a class="anchor-link" href="#Step-4-:-Running-Kmeans">&#182;</a></h2><p>Now it's time to run kmeans on the resultnt dataframe.  We don't know what value of k to use, so let's just start with k=2.  This means we will cluster into two groups.</p>
 <p>We will fit a model to the data, and then train it.</p>
 
 </div>
@@ -11895,7 +11949,15 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The WSSSE for this is not particularly good.  We will probably need to change k.</p>
-<p>Let's take a look at the transformed dataset.  Notice the new column "prediction."</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-5-:-Display-grouping">Step 5 : Display grouping<a class="anchor-link" href="#Step-5-:-Display-grouping">&#182;</a></h2><p>Let's take a look at the transformed dataset.  Notice the new column "prediction."</p>
 
 </div>
 </div>
@@ -11905,7 +11967,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">featureVector</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">featureVector</span><span class="p">)</span>
+<span class="n">predicted</span><span class="o">.</span><span class="n">orderBy</span><span class="p">([</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;mpg&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11919,6 +11982,14 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Notice what we have here.  We have two clusters. One is smaller, fuel efficient cars like the Fiat and the Corolla (remember, we cluster on two variables only: MPG and cylinders).  The other is for basically oll other cars.  Probably, we can get better results here with a differnet value of k.</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-6-:-Adjust-K">Step 6 : Adjust K<a class="anchor-link" href="#Step-6-:-Adjust-K">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11954,8 +12025,34 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># look at transformed data again for k=3</span>
-<span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">featureVector</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">featureVector</span><span class="p">)</span>
+<span class="n">predicted</span><span class="o">.</span><span class="n">orderBy</span><span class="p">([</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;mpg&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-7-:-Iterate-over-K">Step 7 : Iterate over K<a class="anchor-link" href="#Step-7-:-Iterate-over-K">&#182;</a></h2><p>We are going to calculate WSSSE for various values of K:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">33</span><span class="p">):</span>
+    <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">()</span><span class="o">.</span><span class="n">setK</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">featureVector</span><span class="p">)</span>
+    <span class="n">wssse</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">computeCost</span><span class="p">(</span><span class="n">featureVector</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">k</span> <span class="p">,</span> <span class="s2">&quot;  wssse &quot;</span><span class="p">,</span> <span class="n">wssse</span><span class="p">)</span>
 </pre></div>
 
 </div>
