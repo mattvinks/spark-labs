@@ -11823,9 +11823,9 @@ Use any of the APIs (RDD / Dataframe / Dataset) to analyze the data.</p>
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">val</span> <span class="n">commits</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span>
-              <span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">)</span><span class="o">.</span>  <span class="o">//</span> <span class="n">true</span> <span class="ow">or</span> false<span class="o">?</span>
-              <span class="n">option</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">)</span><span class="o">.</span>  <span class="o">//</span> <span class="n">what</span> <span class="ow">is</span> <span class="n">our</span> <span class="n">delimiter</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">commits</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span>\
+              <span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">)</span><span class="o">.</span>\  <span class="c1"># True or False?</span>
+              <span class="n">option</span><span class="p">(</span><span class="s2">&quot;delimiter&quot;</span><span class="p">,</span> <span class="s2">&quot;???&quot;</span><span class="p">)</span><span class="o">.</span>\  <span class="c1"># what is our delimiter</span>
               <span class="n">csv</span><span class="p">(</span><span class="s2">&quot;/data/spark-commits/spark-commits.log&quot;</span><span class="p">)</span>
 </pre></div>
 
