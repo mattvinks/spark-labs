@@ -103,8 +103,8 @@ The VMs already have data loaded.  This for your own reference.
 
 ### Practice Labs for end of day 2
 - [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/commit-logs-scala.md)
-- [Practice Lab 2 - Analyze house sales data](practice-labs/house-sales-scala.md)
-- [Practice Lab 3 - Analyze clickstream logs](practice-labs/clickstream-scala.md)
+- [Practice Lab 2 - Optimize SQL query](practice-labs/optimize-query-scala.md)
+- [Practice Lab 3 - Analyze house sales data](practice-labs/house-sales-scala.md)
 
 
 ### 6 - MLLib
