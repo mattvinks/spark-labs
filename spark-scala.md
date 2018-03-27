@@ -102,8 +102,9 @@ The VMs already have data loaded.  This for your own reference.
 - [5.2 - Mapreduce using API](05-api/5.2-mapreduce.md)
 
 ### Practice Labs for end of day 2
-- [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/1-analyze-commit-logs-scala.md)
-- [Practice Lab 2 - Analyze clickstream logs](practice-labs/2-analyze-clickstream-scala.md)
+- [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/commit-logs-scala.md)
+- [Practice Lab 2 - Analyze house sales data](practice-labs/house-sales-scala.md)
+- [Practice Lab 3 - Analyze clickstream logs](practice-labs/clickstream-scala.md)
 
 
 ### 6 - MLLib
