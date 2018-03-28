@@ -119,7 +119,9 @@ The VMs already have data loaded.  This for your own reference.
 ### 8 - Streaming
 - [8.1 - Streaming over TCP](08-streaming/8.1-over-tcp/README.md)
 - [8.2 - Windowed Count](08-streaming/8.2-window/README.md)
-- [8.3 - Kafka Streaming](08-streaming/8.3-kafka/README.md)
+- 8.3 - Kafka Streaming
+    * [8.3a - Kafka Direct Streaming](08-streaming/8.3-kafka/README.md)
+    * [8.3b - Kafka Structured Streaming](08-streaming/8.3-kafka/3-kafka-structured-streaming.md)
 - 8.4 - Structured Streaming
     * [8.4a - Structured Streaming 1](08-streaming/8.4-structured/README.md)
     * [8.4b - Structured Streaming 2 (JSON)](08-streaming/8.4-structured/README2.md)
