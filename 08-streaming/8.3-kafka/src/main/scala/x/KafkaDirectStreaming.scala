@@ -2,10 +2,13 @@
 
 package x
 
-import kafka.serializer.StringDecoder
+import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{StreamingContext, Seconds}
-import org.apache.spark.streaming.kafka.KafkaUtils
+import org.apache.spark.streaming.kafka010._
+import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
+import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 
 /*
   $  sbt assembly
@@ -30,23 +33,33 @@ object KafkaDirectStreaming {
     val sparkConf = new SparkConf().setAppName("Kafka Streaming")
     val ssc =  new StreamingContext(sparkConf, Seconds(5))
     //ssc.checkpoint("checkpoint")
-    val topicSet = topics.split(",").toSet
-    val kafkaParams = Map ("metadata.broker.list" -> brokers)
+    val topicsArray = topics.split(",")
+    val kafkaParams = Map[String, Object] (
+                        "bootstrap.servers" -> brokers,
+                        "key.deserializer" -> classOf[StringDeserializer],
+                        "value.deserializer" -> classOf[StringDeserializer],
+                        "group.id" -> "app1",
+                        "auto.offset.reset" -> "latest"
+                      )
 
-    val stream = KafkaUtils.createDirectStream[String,String,StringDecoder,StringDecoder](ssc, kafkaParams, topicSet)
+    val stream = KafkaUtils.createDirectStream[String,String](
+                ssc,
+                PreferConsistent,
+                Subscribe[String, String](topicsArray, kafkaParams)
+            )
 
     // debug print
-    stream.print()
+    // stream.map(record=>(record.value().toString)).print
 
-    // map the values out  (null, v1)
-    val lines = stream.map(_._2) 
+    // extract the values
+    val lines = stream.map(record => record.value.toString)
     lines.print
 
-    // TODO-1 : extract clicked records
-    val clicks = lines.filter(_.contains("???")) 
-
-    // TODO-2 : print clicks lines
-    // clicks.???
+    /*
+    // TODO-1 : extract lines that has 'x'
+    val x = lines.filter(_.contains("???"))
+    x.print
+    */
 
     ssc.start()
     ssc.awaitTermination()

@@ -21,40 +21,47 @@ For this it is recommended that you have 3-4 terminal sessions open
 
 ```bash
 $    cd  #  cd to home dir
-$    tar   xvf   files/kafka_2.11-0.10.1.1.tgz
-$    mv kafka_2.11-0.10.1.1     kafka
+$    tar xvf files/kafka_2.11-0.11.0.0.tgz
+$    mv kafka_2.11-0.11.0.0/ kafka
 ```
 Now Kafka is in   ~/kafka directory
 
 
 ## Step 2 :  Start zookeeper (in terminal 1)
 ```bash
-$    ~/kafka/bin/zookeeper-server-start.sh   ~/kafka/config/zookeeper.properties
+$    ~/kafka/bin/zookeeper-server-start.sh -daemon  ~/kafka/config/zookeeper.properties
 ```
 
-You will see output like
-```console
-...
-[2015-04-19 16:31:19,350] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
+This will start ZK in background.
+
+Do `jps` command to see if ZK is running
+
+```bash
+$  jps
 ```
-Leave this terminal-1 alone
+
+Verify that you have `QuorumPeerMain` in the output
 
 
 ## Step 3 :  Start Kafka Server (terminal-2)
 On another terminal....
 ```bash
-$   ~/kafka/bin/kafka-server-start.sh   ~/kafka/config/server.properties
+$   ~/kafka/bin/kafka-server-start.sh   -daemon  ~/kafka/config/server.properties
 ```
 
-You should see console output like this
+This will start Kafka server in the background.
+
+Do `jps` again make sure we ses both Kafka and zookeeper running
+
+```bash
+$ jps
+```
+
 ```console
-...
-[2015-04-19 16:35:37,548] INFO [Kafka Server 0], started (kafka.server.KafkaServer)
-[2015-04-19 16:35:37,649] INFO New leader is 0 (kafka.server.ZookeeperLeaderElector$LeaderChangeListener)
-```
+Kafka
+QuorumPeerMain
 
-Very good, Kafka server is running.  
-Leave terminal-2 alone
+```
 
 
 ## Step 4 : Create Kafka topics(terminal-3)
@@ -102,9 +109,8 @@ Now what ever we type in this terminal will be stored in Kafka.
 ** ==> Start a Kafka console consumer (terminal-4)**   
 Open another terminal and start the consumer application
 ```bash
-$   ~/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic clickstream  --from-beginning
+$   ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic clickstream
 ```
-
 
 You should have a setup like this screen shot.  (Click on the image  to see the full size)
 
