@@ -11988,6 +11988,14 @@ div#notebook {
 <p><img src="../assets/images/3.6b.png" style="border: 5px solid grey; max-width:100%;"/></p>
 <p><strong>=&gt; Can you see the cached data?  What is the memory size?</strong><br>
 <strong>=&gt; What are the implications?</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Step-8-:-Caching-RDD-vs.-Dataframe">Step 8 : Caching RDD vs. Dataframe<a class="anchor-link" href="#Step-8-:-Caching-RDD-vs.-Dataframe">&#182;</a></h2><p>We will load the same data using RDD API and Dataframe API will compare cache performance.</p>
 
 </div>
@@ -11998,14 +12006,30 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#RDD</span>
-<span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
-<span class="n">rdd</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rdd</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>  <span class="c1"># force caching</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Create some random data</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;creating 100M random data&quot;</span><span class="p">)</span>
+<span class="o">!</span>dd <span class="k">if</span><span class="o">=</span>/dev/urandom <span class="nv">of</span><span class="o">=</span>/data/100M-rand  <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
+</pre></div>
 
-<span class="n">df</span>  <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/text/twinkle/100M.data&quot;</span><span class="p">)</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#RDD</span>
+<span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;/data/100M-rand&quot;</span><span class="p">)</span>
+<span class="n">rdd</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rdd count &quot;</span> <span class="p">,</span> <span class="n">rdd</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>  <span class="c1"># force caching</span>
+
+<span class="n">df</span>  <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;/data/100M-rand&quot;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;df count &quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
 </pre></div>
 
 </div>
