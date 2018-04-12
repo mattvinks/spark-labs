@@ -11789,8 +11789,12 @@ div#notebook {
 <li><p>RDD-based graphx has no python API, whereas GraphFrames does have a python API. As this jupyter notebook is python that makes it required.</p>
 </li>
 </ol>
-<p>So, to run this we have to start pyspark like this:</p>
-<div class="highlight"><pre><span></span><span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3 <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>jupyter <span class="nv">PYSPARK_DRIVER_PYTHON_OPTS</span><span class="o">=</span>notebook ~/spark/bin/pyspark --packages graphframes:graphframes:0.3.0-spark2.0-s_2.11
+<p>So, to run this we have two choices</p>
+<p><strong> option 1 : Jupyter</strong></p>
+<div class="highlight"><pre><span></span>$  <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3 <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>jupyter <span class="nv">PYSPARK_DRIVER_PYTHON_OPTS</span><span class="o">=</span>notebook ~/spark/bin/pyspark --packages graphframes:graphframes:0.3.0-spark2.0-s_2.11
+</pre></div>
+<p><strong> option 2 : PySpark (command line)</strong></p>
+<div class="highlight"><pre><span></span>$  <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  ~/spark/bin/pyspark --packages   graphframes:graphframes:0.5.0-spark2.1-s_2.11
 </pre></div>
 <p>Replace the version on graphframes with your latest.</p>
 <p>With that said, let's start:</p>
@@ -11804,7 +11808,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Step-1:-Build-the-following-twitter-graph">Step 1: Build the following twitter graph<a class="anchor-link" href="#Step-1:-Build-the-following-twitter-graph">&#182;</a></h2><p>Here some real world data:
 <img src="../assets/images/7.1a.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<p>All of the following steps are performed by entering the commands in the Spark Scala shell</p>
+<p>We are using data from a real Twitter account, if you want, you can use yours</p>
 <h4 id="Import-the-necessary-libraries">Import the necessary libraries<a class="anchor-link" href="#Import-the-necessary-libraries">&#182;</a></h4>
 </div>
 </div>
@@ -11815,8 +11819,20 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># %AddDeps graphframes graphframes 0.3.0-spark2.0-s_2.11 </span>
-<span class="o">%</span><span class="k">lsmagic</span>
-<span class="c1">#from graphframes import *</span>
+<span class="c1">#%lsmagic</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">graphframes</span> <span class="k">import</span> <span class="o">*</span>
 </pre></div>
 
 </div>
@@ -11838,7 +11854,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vertexArray</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vertices</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;@markkerzner&quot;</span><span class="p">,</span> <span class="mi">309</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>  <span class="c1"># (Name, # followers, gender)</span>
         <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;@mjbrender&quot;</span><span class="p">,</span> <span class="mi">3101</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;@dridisahar1&quot;</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
@@ -11848,7 +11864,7 @@ div#notebook {
         <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;@WibiData &quot;</span><span class="p">,</span> <span class="mi">2477</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">)</span>  <span class="c1"># company, so gender neutral</span>
 <span class="p">],</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;followers&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">])</span> 
 
-<span class="n">vertexArray</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">vertices</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -11870,7 +11886,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edgeArray</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="c1"># src,  dest,   # retweets</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
@@ -11878,23 +11894,14 @@ div#notebook {
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="p">],</span> <span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;dst&quot;</span><span class="p">,</span> <span class="s2">&quot;retweets&quot;</span><span class="p">])</span>
-<span class="n">edgeArray</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We are using data from a real Twitter account, if you want, you can use yours</p>
-<p><img src="../assets/images/7.1-twitter.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<h4 id="Prepare-the-data-for-Spark-processing.-What-do-&quot;.parallelize&quot;-methods-below-accomplish?">Prepare the data for Spark processing. What do ".parallelize" methods below accomplish?<a class="anchor-link" href="#Prepare-the-data-for-Spark-processing.-What-do-&quot;.parallelize&quot;-methods-below-accomplish?">&#182;</a></h4>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -11909,7 +11916,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">GraphFrame</span><span class="p">(</span><span class="n">vertexArray</span><span class="p">,</span> <span class="n">edgeArray</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">GraphFrame</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11921,7 +11928,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-3-:-Analyzing-Graph">Step 3 : Analyzing Graph<a class="anchor-link" href="#Step-3-:-Analyzing-Graph">&#182;</a></h2><h4 id="Print-graph">Print graph<a class="anchor-link" href="#Print-graph">&#182;</a></h4>
+<h2 id="Step-2-:-Analyzing-Graph">Step 2 : Analyzing Graph<a class="anchor-link" href="#Step-2-:-Analyzing-Graph">&#182;</a></h2><h4 id="Print-graph">Print graph<a class="anchor-link" href="#Print-graph">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -11932,22 +11939,48 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Vertices</span>
 <span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
-<span class="c1"># Edges</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1">#graph.vertices.foreach { case (id, (name, nFollow, gender)) =&gt;</span>
-<span class="c1">#    println(s&quot;Tweeter $name has $nFollow followers and is $gender&quot;) }</span>
-
-<span class="c1"># triplets</span>
-<span class="c1">#    graph.triplets.foreach(println)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Edges</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># triplets</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">triplets</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-3-:-Query-the-graph">Step 3 : Query the graph<a class="anchor-link" href="#Step-3-:-Query-the-graph">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
