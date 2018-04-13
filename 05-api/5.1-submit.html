@@ -11815,7 +11815,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-3:-Test-Application-in-Local-Master-Mode">STEP 3: Test Application in Local Master Mode<a class="anchor-link" href="#STEP-3:-Test-Application-in-Local-Master-Mode">&#182;</a></h2>
+<h2 id="STEP-2:-Test-Application-in-Local-Master-Mode">STEP 2: Test Application in Local Master Mode<a class="anchor-link" href="#STEP-2:-Test-Application-in-Local-Master-Mode">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11876,7 +11876,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
-    $   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py   ~/data/twinkle/*  <span class="m">2</span>&gt; logs
+    $   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py   ~/data/text/twinkle/*  <span class="m">2</span>&gt; logs
 </pre></div>
 
 </div>
@@ -11889,7 +11889,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now let's submit the application to Spark server</p>
-<h2 id="STEP-4:-Start-Spark-Server">STEP 4: Start Spark Server<a class="anchor-link" href="#STEP-4:-Start-Spark-Server">&#182;</a></h2>
+<h2 id="STEP-3:-Start-Spark-Server">STEP 3: Start Spark Server<a class="anchor-link" href="#STEP-3:-Start-Spark-Server">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -11914,7 +11914,7 @@ div#notebook {
 <p><strong>=&gt; Check the Spark Server UI at port 8080.</strong><br>
 <strong>=&gt; Note the Spark master URL.</strong></p>
 <p><img src="../assets/images/4.1b.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<h2 id="STEP-5:-Submit-the-application">STEP 5: Submit the application<a class="anchor-link" href="#STEP-5:-Submit-the-application">&#182;</a></h2><p>Use the following command to submit the job</p>
+<h2 id="STEP-4:-Submit-the-application">STEP 4: Submit the application<a class="anchor-link" href="#STEP-4:-Submit-the-application">&#182;</a></h2><p>Use the following command to submit the job</p>
 
 </div>
 </div>
@@ -11931,7 +11931,7 @@ div#notebook {
     $   ~/spark/bin/spark-submit  --master MASTER_URL   python/processfiles.py   README.md   <span class="m">2</span>&gt; logs
 
     <span class="c1"># multiple twinkle files</span>
-    $   ~/spark/bin/spark-submit  --master MASTER_URL  python/processfiles.py    ~/data/twinkle/*  <span class="m">2</span>&gt; logs
+    $   ~/spark/bin/spark-submit  --master MASTER_URL  python/processfiles.py    ~/data/text/twinkle/*  <span class="m">2</span>&gt; logs
 </pre></div>
 
 </div>
@@ -11975,7 +11975,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The lines starting with <code>###</code> are output from our program</p>
-<h2 id="STEP-6:--Configuring-logging">STEP 6:  Configuring logging<a class="anchor-link" href="#STEP-6:--Configuring-logging">&#182;</a></h2><h4 id="To-quickly-turn-off-the-logging:">To quickly turn off the logging:<a class="anchor-link" href="#To-quickly-turn-off-the-logging:">&#182;</a></h4><p>Redirect the logs as follows <code>2&gt; logs</code>.<br>
+<h2 id="STEP-5:--Configuring-logging">STEP 5:  Configuring logging<a class="anchor-link" href="#STEP-5:--Configuring-logging">&#182;</a></h2><h4 id="To-quickly-turn-off-the-logging:">To quickly turn off the logging:<a class="anchor-link" href="#To-quickly-turn-off-the-logging:">&#182;</a></h4><p>Redirect the logs as follows <code>2&gt; logs</code>.<br>
 All logs will be sent to <code>logs</code> file.</p>
 
 </div>
@@ -12068,54 +12068,6 @@ All logs will be sent to <code>logs</code> file.</p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
     $   ~/spark/bin/spark-submit --master local<span class="o">[</span>*<span class="o">]</span>  --driver-class-path logging/ processfiles/processfiles.py   README.md
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-7:--Bonus-Lab-:-Read-a-file-from-Amazon-S3">STEP 7:  Bonus Lab : Read a file from Amazon S3<a class="anchor-link" href="#STEP-7:--Bonus-Lab-:-Read-a-file-from-Amazon-S3">&#182;</a></h2><p>For the file argument, try the following <code>s3n://elephantscale-public/data/twinkle/100M.data</code></p>
-<p>For example:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-    $   ~/spark/bin/spark-submit   --driver-class-path logging/  processfiles/processfiles.py    <span class="s1">&#39;s3n://elephantscale-public/data/twinkle/100M.data&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>=&gt; Notice the time it too to access the file</strong></p>
-<p><strong>=&gt; To find out more data files on S3 use the following command</strong></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span>%%bash
-    $   s3cmd ls s3://elephantscale-public/data/twinkle/
 </pre></div>
 
 </div>

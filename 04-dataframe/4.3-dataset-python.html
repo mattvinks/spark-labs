@@ -11915,14 +11915,22 @@ Sue,F,19</code></pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="k">import</span> <span class="o">*</span>
 
 <span class="n">nameField</span> <span class="o">=</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">genderField</span> <span class="o">=</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">ageField</span> <span class="o">=</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
 
+<span class="c1"># TODO : gender is &#39;StringType()&#39; </span>
+<span class="n">genderField</span> <span class="o">=</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;gender&quot;</span><span class="p">,</span> <span class="err">???</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># TODO : age is &#39;IntegerType()&#39;</span>
+<span class="n">ageField</span> <span class="o">=</span> <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="err">???</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">my_schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span><span class="n">nameField</span><span class="p">,</span> <span class="n">genderField</span><span class="p">,</span> <span class="n">ageField</span><span class="p">])</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">my_schema</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&quot;/data/people/people2.csv&quot;</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span>\
+    <span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span>\
+    <span class="n">schema</span><span class="p">(</span><span class="n">my_schema</span><span class="p">)</span><span class="o">.</span>\
+    <span class="n">csv</span><span class="p">(</span><span class="s2">&quot;/data/people/people2.csv&quot;</span><span class="p">)</span>
 <span class="n">p</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 <span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">## TODO : verify the schema printed is the one we specified</span>
 </pre></div>
 
 </div>
