@@ -11784,9 +11784,11 @@ $   mv  spark-2.3.0-bin-hadoop2.7    spark
 </pre></div>
 <h2 id="Step-3---Configure-Spark---Hive-Metastore-to-a-database">Step 3 - Configure Spark - Hive Metastore to a database<a class="anchor-link" href="#Step-3---Configure-Spark---Hive-Metastore-to-a-database">&#182;</a></h2><p>This is an optional but recommended step.<br>
 This allows us to run multiple Spark notebooks simultaneously.</p>
-<h3 id="3.1---Create-the-database">3.1 - Create the database<a class="anchor-link" href="#3.1---Create-the-database">&#182;</a></h3><div class="highlight"><pre><span></span>$    sudo -u postgres psql -c <span class="s2">&quot;create user spark with password &#39;bingobob123&#39; ;&quot;</span>
-$    sudo -u postgres psql -c <span class="s2">&quot;drop database spark_warehouse;&quot;</span>
-$    sudo -u postgres psql -c <span class="s2">&quot;create database spark_warehouse with owner spark;&quot;</span>
+<h3 id="3.1---Create-the-database">3.1 - Create the database<a class="anchor-link" href="#3.1---Create-the-database">&#182;</a></h3><p>This step should be already done in VMs later than v36.<br>
+But here are the steps for reference.</p>
+<div class="highlight"><pre><span></span><span class="c1"># $    sudo -u postgres psql -c &quot;create user spark with password &#39;bingobob123&#39; ;&quot;</span>
+<span class="c1"># $    sudo -u postgres psql -c &quot;drop database spark_warehouse;&quot;</span>
+<span class="c1"># $    sudo -u postgres psql -c &quot;create database spark_warehouse with owner spark;&quot;</span>
 </pre></div>
 <h3 id="3.2---Copy-hive-site.xml-into-Spark-conf">3.2 - Copy <code>hive-site.xml</code> into Spark conf<a class="anchor-link" href="#3.2---Copy-hive-site.xml-into-Spark-conf">&#182;</a></h3><div class="highlight"><pre><span></span>$    cp  ~/config/spark/hive-site.xml    ~/spark/conf/
 </pre></div>
