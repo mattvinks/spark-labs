@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>5.1-submit</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>5.1-submit-old</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11778,87 +11778,154 @@ div#notebook {
 <link rel='stylesheet' href='../assets/css/main.css'/>
 
 <p><a href="../README.md">&lt;&lt; back to main index</a></p>
-<hr>
 <h1 id="Lab-5.1-First-Spark-Job-Submission">Lab 5.1 First Spark Job Submission<a class="anchor-link" href="#Lab-5.1-First-Spark-Job-Submission">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Submit a job for Spark</p>
 <h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p>None</p>
 <h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20-30 mins</p>
+<h2 id="Step-0-:-Editing-Files-on-VM">Step 0 : Editing Files on VM<a class="anchor-link" href="#Step-0-:-Editing-Files-on-VM">&#182;</a></h2><p>Please follow <a href="../edit-files.md">these instructions</a></p>
+<h2 id="STEP-1:-Edit-source-file">STEP 1: Edit source file<a class="anchor-link" href="#STEP-1:-Edit-source-file">&#182;</a></h2><p>Go to the project root directory</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-1:-Edit-source-file">STEP 1: Edit source file<a class="anchor-link" href="#STEP-1:-Edit-source-file">&#182;</a></h2><ul>
-<li>Edit this file <a href="python/processfiles.py">~/spark-labs/05-api/python/processfiles.py</a><ul>
-<li>(Recommended) Open this file from Jupyter file browser</li>
-<li>or edit in terminal using vi / nano editors</li>
-</ul>
-</li>
-<li>And fix the TODO items</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-2:-Test-Application-in-Local-Master-Mode">STEP 2: Test Application in Local Master Mode<a class="anchor-link" href="#STEP-2:-Test-Application-in-Local-Master-Mode">&#182;</a></h2><p>Login to the node via SSH.  And then follow these steps in terminal.</p>
-<div class="highlight"><pre><span></span>$  <span class="nb">cd</span>  ~/spark-labs/05-api
-    $  <span class="nb">export</span> <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3
-
-    $  ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py    README.md
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $    <span class="nb">cd</span> ~/spark-labs/05-api
 </pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>=&gt; Edit file : <code>~/spark-labs/05-api/python/processfiles.py</code></strong><br>
+<strong>=&gt; And fix the TODO items</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="STEP-2:-Test-Application-in-Local-Master-Mode">STEP 2: Test Application in Local Master Mode<a class="anchor-link" href="#STEP-2:-Test-Application-in-Local-Master-Mode">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $  <span class="nb">cd</span>  ~/spark-labs/05-api
+    $ <span class="nb">export</span> <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3
+
+    $   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py    README.md
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>==&gt; Checkout the Shell UI (4040)</strong></p>
 <p><strong>==&gt; Hit Enter key to terminate the program</strong></p>
+<p><strong>==&gt; Turn off the logs by sending logs by <code>2&gt; logs</code> </strong></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-3-:-Turn-off-Logs">Step 3 : Turn off Logs<a class="anchor-link" href="#Step-3-:-Turn-off-Logs">&#182;</a></h2><p><strong>==&gt; Turn off the logs by sending logs by <code>2&gt; logs</code></strong></p>
-<div class="highlight"><pre><span></span>$   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py    README.md  <span class="m">2</span>&gt; logs
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py    README.md  <span class="m">2</span>&gt; logs
 </pre></div>
 
 </div>
 </div>
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-4-:-Try-a-few-input-files">Step 4 : Try a few input files<a class="anchor-link" href="#Step-4-:-Try-a-few-input-files">&#182;</a></h2><div class="highlight"><pre><span></span>$   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py   ~/data/text/twinkle/*  <span class="m">2</span>&gt; logs
+<p><strong>==&gt; Try a few input files </strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $   ~/spark/bin/spark-submit  --master local<span class="o">[</span>*<span class="o">]</span>  python/processfiles.py   ~/data/text/twinkle/*  <span class="m">2</span>&gt; logs
 </pre></div>
 
 </div>
 </div>
 </div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-5:-Start-Spark-Server">STEP 5: Start Spark Server<a class="anchor-link" href="#STEP-5:-Start-Spark-Server">&#182;</a></h2><p>Now let's submit the application to Spark server</p>
-<div class="highlight"><pre><span></span>$  ~/spark/sbin/start-all.sh
+<p>Now let's submit the application to Spark server</p>
+<h2 id="STEP-3:-Start-Spark-Server">STEP 3: Start Spark Server<a class="anchor-link" href="#STEP-3:-Start-Spark-Server">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $  ~/spark/sbin/start-all.sh
 </pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>=&gt; Check the Spark Server UI at port 8080.</strong><br>
 <strong>=&gt; Note the Spark master URL.</strong></p>
 <p><img src="../assets/images/4.1b.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<h2 id="STEP-4:-Submit-the-application">STEP 4: Submit the application<a class="anchor-link" href="#STEP-4:-Submit-the-application">&#182;</a></h2><p>Use the following command to submit the job</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-6-:--Submit-the-application">Step 6 :  Submit the application<a class="anchor-link" href="#Step-6-:--Submit-the-application">&#182;</a></h2><p>Use the following command to submit the job</p>
-<div class="highlight"><pre><span></span>$  <span class="nb">cd</span>  ~/spark-labs/05-api
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $  <span class="nb">cd</span>  ~/spark-labs/05-api
 
     <span class="c1"># single README file</span>
     $   ~/spark/bin/spark-submit  --master MASTER_URL   python/processfiles.py   README.md   <span class="m">2</span>&gt; logs
@@ -11866,56 +11933,147 @@ div#notebook {
     <span class="c1"># multiple twinkle files</span>
     $   ~/spark/bin/spark-submit  --master MASTER_URL  python/processfiles.py    ~/data/text/twinkle/*  <span class="m">2</span>&gt; logs
 </pre></div>
-<p>TODO:</p>
-<ul>
-<li>MASTER URL : substitute your spark master url</li>
-<li>for files you can try <code>README.md</code></li>
-</ul>
-<p><strong>=&gt; Watch the console output</strong></p>
-<p>It may look like the following</p>
-
-<pre><code>    15/04/15 15:41:51 INFO SparkUI: Started SparkUI at http://192.168.1.115:4040
-    ...
-    15/04/15 15:41:54 INFO DAGScheduler: Job 0 finished: count at ProcessFiles.scala:42, took 2.156893 s
-
-    ### README.md : count (7) took 2,251.007000 ms</code></pre>
-<p>The lines starting with <code>###</code> are output from our program</p>
 
 </div>
 </div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-7:--Configuring-logging">STEP 7:  Configuring logging<a class="anchor-link" href="#STEP-7:--Configuring-logging">&#182;</a></h2><h3 id="7.1---To-quickly-turn-off-the-logging:">7.1 - To quickly turn off the logging:<a class="anchor-link" href="#7.1---To-quickly-turn-off-the-logging:">&#182;</a></h3><p>Redirect the logs as follows <code>2&gt; logs</code>.<br>
-All logs will be sent to <code>logs</code> file.</p>
-<div class="highlight"><pre><span></span>$  ~/spark/bin/spark-submit  --master MASTER_URL  python/processfiles.py    &lt;files to process&gt;    <span class="m">2</span>&gt;  logs
-</pre></div>
-<h3 id="7.2---Using-log4j-config">7.2 - Using log4j config<a class="anchor-link" href="#7.2---Using-log4j-config">&#182;</a></h3><p>Spark by default logs at INFO level.  While there is a lot of useful information there, it can be quite verbose.</p>
-<p>We have a <code>logging/log4j.properties</code> file.  Inspect this file</p>
-<div class="highlight"><pre><span></span>$    cat   logging/log4j.properties
-</pre></div>
-<p>The file has following contents</p>
-<div class="highlight"><pre><span></span><span class="gp">#</span> Set everything to be logged to the console
-<span class="go">log4j.rootCategory=WARN, console</span>
-<span class="go">log4j.appender.console=org.apache.log4j.ConsoleAppender</span>
-<span class="go">log4j.appender.console.target=System.err</span>
-<span class="go">log4j.appender.console.layout=org.apache.log4j.PatternLayout</span>
-<span class="go">log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n</span>
+<ul>
+<li>MASTER URL : substitute your spark master url</li>
+<li>for files you can try <code>README.md</code></li>
+</ul>
+<p><strong>=&gt; Watch the console output</strong></p>
+<p>It may look like this</p>
 
-<span class="gp">#</span> Settings to quiet third party logs that are too verbose
-<span class="go">log4j.logger.org.eclipse.jetty=WARN</span>
-<span class="go">log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO</span>
-<span class="go">log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>    <span class="mi">15</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">15</span> <span class="mi">15</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="mi">51</span> <span class="n">INFO</span> <span class="n">SparkUI</span><span class="p">:</span> <span class="n">Started</span> <span class="n">SparkUI</span> <span class="n">at</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">192.168</span><span class="o">.</span><span class="mf">1.115</span><span class="p">:</span><span class="mi">4040</span>
+    <span class="o">...</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">15</span> <span class="mi">15</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="mi">54</span> <span class="n">INFO</span> <span class="n">DAGScheduler</span><span class="p">:</span> <span class="n">Job</span> <span class="mi">0</span> <span class="n">finished</span><span class="p">:</span> <span class="n">count</span> <span class="n">at</span> <span class="n">ProcessFiles</span><span class="o">.</span><span class="n">scala</span><span class="p">:</span><span class="mi">42</span><span class="p">,</span> <span class="n">took</span> <span class="mf">2.156893</span> <span class="n">s</span>
+
+    <span class="c1">### README.md : count (7) took 2,251.007000 ms</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The lines starting with <code>###</code> are output from our program</p>
+<h2 id="STEP-5:--Configuring-logging">STEP 5:  Configuring logging<a class="anchor-link" href="#STEP-5:--Configuring-logging">&#182;</a></h2><h4 id="To-quickly-turn-off-the-logging:">To quickly turn off the logging:<a class="anchor-link" href="#To-quickly-turn-off-the-logging:">&#182;</a></h4><p>Redirect the logs as follows <code>2&gt; logs</code>.<br>
+All logs will be sent to <code>logs</code> file.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $  ~/spark/bin/spark-submit  --master MASTER_URL  python/processfiles.py    &lt;files to process&gt;    <span class="m">2</span>&gt;  logs
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Using-log4j-config">Using log4j config<a class="anchor-link" href="#Using-log4j-config">&#182;</a></h4><p>Spark by default logs at INFO level.  While there is a lot of useful information there, it can be quite verbose.</p>
+<p>We have a <code>logging/log4j.properties</code> file.  Inspect this file</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $    cat   logging/log4j.properties
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The file has following contents</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Set everything to be logged to the console</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">rootCategory</span><span class="o">=</span><span class="n">WARN</span><span class="p">,</span> <span class="n">console</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">appender</span><span class="o">.</span><span class="n">console</span><span class="o">=</span><span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">log4j</span><span class="o">.</span><span class="n">ConsoleAppender</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">appender</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">target</span><span class="o">=</span><span class="n">System</span><span class="o">.</span><span class="n">err</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">appender</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">layout</span><span class="o">=</span><span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">log4j</span><span class="o">.</span><span class="n">PatternLayout</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">appender</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">ConversionPattern</span><span class="o">=%</span><span class="k">d</span>{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+
+<span class="c1"># Settings to quiet third party logs that are too verbose</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">org</span><span class="o">.</span><span class="n">eclipse</span><span class="o">.</span><span class="n">jetty</span><span class="o">=</span><span class="n">WARN</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">SparkIMain</span><span class="err">$</span><span class="n">exprTyper</span><span class="o">=</span><span class="n">INFO</span>
+<span class="n">log4j</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">repl</span><span class="o">.</span><span class="n">SparkILoop</span><span class="err">$</span><span class="n">SparkILoopInterpreter</span><span class="o">=</span><span class="n">INFO</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>We provide <code>--driver-class-path logging/</code>  to spark-submit to turn off logging</p>
 <p>Here is an example</p>
-<div class="highlight"><pre><span></span>$   ~/spark/bin/spark-submit --master local<span class="o">[</span>*<span class="o">]</span>  --driver-class-path logging/ processfiles/processfiles.py   README.md
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+    $   ~/spark/bin/spark-submit --master local<span class="o">[</span>*<span class="o">]</span>  --driver-class-path logging/ processfiles/processfiles.py   README.md
 </pre></div>
 
 </div>
 </div>
+</div>
+
 </div>
     </div>
   </div>
