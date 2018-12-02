@@ -11798,10 +11798,10 @@ But here are the steps for reference.</p>
 <h2 id="Step-5:-Refresh-Data">Step 5: Refresh Data<a class="anchor-link" href="#Step-5:-Refresh-Data">&#182;</a></h2><div class="highlight"><pre><span></span>$   <span class="nb">cd</span>  ~/data<span class="p">;</span> git pull <span class="p">;</span> <span class="nb">cd</span>
 </pre></div>
 <h2 id="Step-6:-Start-Jupyter-(note-the-'cd'-command)">Step 6: Start Jupyter (note the 'cd' command)<a class="anchor-link" href="#Step-6:-Start-Jupyter-(note-the-'cd'-command)">&#182;</a></h2><div class="highlight"><pre><span></span>$    <span class="nb">cd</span> spark-labs
-$    ./run-jupyter.sh
+$    nohup ./run-jupyter.sh <span class="p">&amp;</span>
 </pre></div>
 <p>This will start Jupyter in the background.</p>
-<p>Open the Jupyter URL printed on console in browser.</p>
+<p>Go to Jupyter port (usually 8888) in your browser.</p>
 <p>Then open <strong>README-python.ipynb</strong>  notebook.</p>
 
 </div>
