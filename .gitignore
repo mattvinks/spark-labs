@@ -40,3 +40,4 @@ project/plugins/project/
 
 # python
 .ipynb_checkpoints
+*.pyc
