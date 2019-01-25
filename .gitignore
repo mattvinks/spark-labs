@@ -40,5 +40,5 @@ project/plugins/project/
 
 # python
 .ipynb_checkpoints
-__pycache__
+__pycache__/
 *.pyc
