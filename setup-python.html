@@ -11775,8 +11775,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Setup-Python">Setup Python<a class="anchor-link" href="#Setup-Python">&#182;</a></h1><p>Setup Python lab</p>
-<h2 id="Option-1-:-This-is-the-new-JupyterLab-based-setup">Option 1 : This is the new JupyterLab based setup<a class="anchor-link" href="#Option-1-:-This-is-the-new-JupyterLab-based-setup">&#182;</a></h2><h2 id="Step-1:-Access-your-VM">Step 1: Access your VM<a class="anchor-link" href="#Step-1:-Access-your-VM">&#182;</a></h2><p>Instructor will provide details.<br>
+<h1 id="Setup-Python-(v3)">Setup Python (v3)<a class="anchor-link" href="#Setup-Python-(v3)">&#182;</a></h1><p>Setup Python lab</p>
+<h2 id="Step-1:-Access-your-VM">Step 1: Access your VM<a class="anchor-link" href="#Step-1:-Access-your-VM">&#182;</a></h2><p>Instructor will provide details.<br>
 You can access the VM by IP address using a browser.</p>
 <h2 id="Step-2:-Access-Jupyter-Labs-page">Step 2: Access Jupyter Labs page<a class="anchor-link" href="#Step-2:-Access-Jupyter-Labs-page">&#182;</a></h2><p>Click on Jupyter 'Access'.<br>
 You should see a running instance of Jupyter Lab</p>
@@ -11794,37 +11794,10 @@ $   <span class="nb">cd</span>
 <h2 id="Step-6:-Get-the-data">Step 6: Get the data<a class="anchor-link" href="#Step-6:-Get-the-data">&#182;</a></h2><div class="highlight"><pre><span></span>$  <span class="nb">cd</span> ~/data<span class="p">;</span>  git pull<span class="p">;</span>   <span class="nb">cd</span>
 </pre></div>
 <h2 id="Step-7:-Open-Readme.ipynb-file">Step 7: Open <code>Readme.ipynb</code> file<a class="anchor-link" href="#Step-7:-Open-Readme.ipynb-file">&#182;</a></h2><ul>
-<li>In Jupyter Labs, navigate to <code>ml-labs-spark-python</code>  directory</li>
-<li>and open <code>README.ipynb</code></li>
+<li>In Jupyter Labs, navigate to <strong>spark-labs</strong>  directory</li>
+<li>and open <strong>README.ipynb</strong></li>
+<li>Also from <strong>README</strong> open the <strong>Testing-123</strong> notebook and run it, make sure there are no errors.</li>
 </ul>
-<hr>
-<h1 id="(Option-2)-For-older-v2-labs">(Option 2) For older v2 labs<a class="anchor-link" href="#(Option-2)-For-older-v2-labs">&#182;</a></h1><h2 id="Step-1:-Login--to-the-VM">Step 1: Login  to the VM<a class="anchor-link" href="#Step-1:-Login--to-the-VM">&#182;</a></h2><p>Instructor will provide details</p>
-<h2 id="Step-2-:-Install-Spark">Step 2 : Install Spark<a class="anchor-link" href="#Step-2-:-Install-Spark">&#182;</a></h2><div class="highlight"><pre><span></span>$   <span class="nb">cd</span>
-$   rm -rf  spark   <span class="c1"># cleanup existing spark installation (if any)</span>
-$   tar xvf   files/spark-2.3.0-bin-hadoop2.7.tgz
-$   mv  spark-2.3.0-bin-hadoop2.7    spark
-</pre></div>
-<h2 id="Step-3---Configure-Spark---Hive-Metastore-to-a-database-(OPTIONAL)">Step 3 - Configure Spark - Hive Metastore to a database (OPTIONAL)<a class="anchor-link" href="#Step-3---Configure-Spark---Hive-Metastore-to-a-database-(OPTIONAL)">&#182;</a></h2><p>This allows us to run multiple Spark notebooks simultaneously.</p>
-<h3 id="3.1---Create-the-database">3.1 - Create the database<a class="anchor-link" href="#3.1---Create-the-database">&#182;</a></h3><p>This step should be already done in VMs later than v36.<br>
-But here are the steps for reference.</p>
-<div class="highlight"><pre><span></span><span class="c1"># $    sudo -u postgres psql -c &quot;create user spark with password &#39;bingobob123&#39; ;&quot;</span>
-<span class="c1"># $    sudo -u postgres psql -c &quot;drop database spark_warehouse;&quot;</span>
-<span class="c1"># $    sudo -u postgres psql -c &quot;create database spark_warehouse with owner spark;&quot;</span>
-</pre></div>
-<h3 id="3.2---Copy-hive-site.xml-into-Spark-conf">3.2 - Copy <code>hive-site.xml</code> into Spark conf<a class="anchor-link" href="#3.2---Copy-hive-site.xml-into-Spark-conf">&#182;</a></h3><div class="highlight"><pre><span></span>$    cp  ~/config/spark/hive-site.xml    ~/spark/conf/
-</pre></div>
-<h3 id="3.3---Copy-postgress-jdbc-lib--info-Spark-lib">3.3 - Copy postgress jdbc lib  info Spark lib<a class="anchor-link" href="#3.3---Copy-postgress-jdbc-lib--info-Spark-lib">&#182;</a></h3><div class="highlight"><pre><span></span>$    cp  ~/lib/spark/postgresql-42.2.5.jar  ~/spark/jars/
-</pre></div>
-<h2 id="Step-4:-Get-the-labs">Step 4: Get the labs<a class="anchor-link" href="#Step-4:-Get-the-labs">&#182;</a></h2><div class="highlight"><pre><span></span>$  git clone --depth <span class="m">1</span>  git@github.com:elephantscale/spark-labs.git
-</pre></div>
-<h2 id="Step-5:-Refresh-Data">Step 5: Refresh Data<a class="anchor-link" href="#Step-5:-Refresh-Data">&#182;</a></h2><div class="highlight"><pre><span></span>$   <span class="nb">cd</span>  ~/data<span class="p">;</span> git pull <span class="p">;</span> <span class="nb">cd</span>
-</pre></div>
-<h2 id="Step-6:-Start-Jupyter-(note-the-'cd'-command)">Step 6: Start Jupyter (note the 'cd' command)<a class="anchor-link" href="#Step-6:-Start-Jupyter-(note-the-'cd'-command)">&#182;</a></h2><div class="highlight"><pre><span></span>$    <span class="nb">cd</span> spark-labs
-$    nohup ./run-jupyter.sh <span class="p">&amp;</span>
-</pre></div>
-<p>This will start Jupyter in the background.</p>
-<p>Go to Jupyter port (usually 8888) in your browser.</p>
-<p>Then open <strong>README-python.ipynb</strong>  notebook.</p>
 
 </div>
 </div>
