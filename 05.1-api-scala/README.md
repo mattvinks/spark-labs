@@ -5,6 +5,6 @@
 Spark API
 ======
 
-* [First Job Submission](4.1-submit.md)
-* [Map Reduce Job](4.2-mapreduce.md)
+* [First Job Submission](5.1-submit.md)
+* [Map Reduce Job](5.2-mapreduce.md)
 

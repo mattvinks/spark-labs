@@ -98,8 +98,8 @@ The VMs already have data loaded.  This for your own reference.
 
 
 ### 5 - API
-- [5.1 - Submit first application](05-api/5.1-submit.md)
-- BONUS :  [5.2 - Mapreduce using API](05-api/5.2-mapreduce.md)
+- [5.1 - Submit first application](05.1-api-scala/5.1-submit.md)
+- BONUS :  [5.2 - Mapreduce using API](05.1-api-scala/5.2-mapreduce.md)
 
 ### Practice Labs for end of day 2 & 3
 - [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/commit-logs-scala.md)
