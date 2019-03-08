@@ -11839,7 +11839,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize Spark Session</span>
@@ -11858,44 +11858,13 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Spark UI running on http://YOURIPADDRESS:4040
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log level set to INFO&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="STEP-3:-ATOP">STEP 3: ATOP<a class="anchor-link" href="#STEP-3:-ATOP">&#182;</a></h2><p>Also open another terminal and run <strong>atop</strong>.<br>
+If you are using Jupyter Labs, launch a terminal from 'Launcher'.<br>
 We will use this to monitor CPU / IO usage</p>
 
 </div>
@@ -11905,7 +11874,9 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-4:-Load-Clickstream-data">STEP 4: Load Clickstream data<a class="anchor-link" href="#STEP-4:-Load-Clickstream-data">&#182;</a></h2>
+<h2 id="STEP-4:-Load-Clickstream-data">STEP 4: Load Clickstream data<a class="anchor-link" href="#STEP-4:-Load-Clickstream-data">&#182;</a></h2><p><strong>==&gt; While the import is running take a look at <code>atop</code> terminal.  Which of the resources are we maxing out?</strong><br>
+<strong>==&gt; Measure the time taken to load JSON data; record it in the spreadsheet</strong></p>
+
 </div>
 </div>
 </div>
@@ -11935,10 +11906,16 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; While the import is running take a look at <code>atop</code> terminal.  Which of the resources are we maxing out?</strong><br>
-<strong>==&gt; Measure the time taken to load JSON data; record it in the spreadsheet</strong></p>
-<p><strong>==&gt; Find the max value of cost</strong><br>
+<h3 id="4.5---Query">4.5 - Query<a class="anchor-link" href="#4.5---Query">&#182;</a></h3><p><strong>==&gt; Find the max value of cost</strong><br>
 <strong>==&gt; While the query is running, check <code>atop</code></strong></p>
+<p>Sample output</p>
+
+<pre><code>    +---------+
+    |MAX(cost)|
+    +---------+
+    |      180|
+    +---------+</code></pre>
+<p><strong>==&gt; Note the time it took to run the query, and record it in spreadsheet</strong></p>
 
 </div>
 </div>
@@ -11969,33 +11946,9 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Sample output</p>
-
-<pre><code>    +---------+
-    |MAX(cost)|
-    +---------+
-    |      180|
-    +---------+</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Note the time it took to run the query, and record it in spreadsheet</strong></p>
-
-<pre><code>Job 1 finished: show at &lt;console&gt;:24, took `8.550481 s`</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="STEP-6-:-Save-the-logs-in-Parquet-format">STEP 6 : Save the logs in Parquet format<a class="anchor-link" href="#STEP-6-:-Save-the-logs-in-Parquet-format">&#182;</a></h2><p>We are going to use Spark's built-in parquet support to save the dataframe into parquet format</p>
+<h2 id="STEP-5-:-Save-the-logs-in-Parquet-format">STEP 5 : Save the logs in Parquet format<a class="anchor-link" href="#STEP-5-:-Save-the-logs-in-Parquet-format">&#182;</a></h2><p>We are going to use Spark's built-in parquet support to save the dataframe into parquet format</p>
+<p><strong>==&gt; Inspect <code>atop</code> terminal</strong><br>
+<strong>==&gt; Measure the time taken to 'save as parquet' and record it in spreadsheet</strong></p>
 
 </div>
 </div>
@@ -12023,17 +11976,8 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Inspect <code>atop</code> terminal</strong><br>
-<strong>==&gt; Measure the time taken to 'save as parquet' and record it in spreadsheet</strong></p>
+<h2 id="Step-6-:-Saving-ORC">Step 6 : Saving ORC<a class="anchor-link" href="#Step-6-:-Saving-ORC">&#182;</a></h2><p><strong>==&gt; Measure the time taken to save as ORC and record in spreadsheet</strong></p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-7-:-Saving-ORC">Step 7 : Saving ORC<a class="anchor-link" href="#Step-7-:-Saving-ORC">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -12060,8 +12004,10 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Measure the time taken to save as ORC and record in spreadsheet</strong></p>
-<h2 id="STEP-8-:-Querying-Parquet-Data">STEP 8 : Querying Parquet Data<a class="anchor-link" href="#STEP-8-:-Querying-Parquet-Data">&#182;</a></h2>
+<h2 id="STEP-7-:-Querying-Parquet-Data">STEP 7 : Querying Parquet Data<a class="anchor-link" href="#STEP-7-:-Querying-Parquet-Data">&#182;</a></h2><p><strong>==&gt; Note how quickly the data is loaded; measure this time and record in spreadsheet</strong><br>
+<strong>==&gt; and schema is inferred!</strong></p>
+<p>Parquet format has built-in schema, so Spark doesn't have to parse the files as needed in JSON format</p>
+
 </div>
 </div>
 </div>
@@ -12090,10 +12036,8 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Note how quickly the data is loaded; measure this time and record in spreadsheet</strong><br>
-<strong>==&gt; and schema is inferred!</strong></p>
-<p>Parquet format has built-in schema, so Spark doesn't have to parse the files as needed in JSON format</p>
-<p><strong>==&gt; Caclculate max(cost)</strong></p>
+<h3 id="7.5----Query-Parquet">7.5  - Query Parquet<a class="anchor-link" href="#7.5----Query-Parquet">&#182;</a></h3><p><strong>==&gt; Notice the time took and record in spreadsheet</strong><br>
+<strong>==&gt; Why parquet is so quick to process?</strong></p>
 
 </div>
 </div>
@@ -12121,27 +12065,8 @@ We will use this to monitor CPU / IO usage</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Notice the time took and record in spreadsheet</strong><br>
-Sample output</p>
+<h2 id="STEP-8-:-Load-ORC">STEP 8 : Load ORC<a class="anchor-link" href="#STEP-8-:-Load-ORC">&#182;</a></h2><p><strong>==&gt; Note the load time and record in spreadsheet</strong></p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Job 3 finished: show at <console>:24, took <code>0.627185 s</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Why parquet is so quick to process?</strong></p>
-<h2 id="STEP-9-:-Querying-ORC">STEP 9 : Querying ORC<a class="anchor-link" href="#STEP-9-:-Querying-ORC">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -12170,8 +12095,7 @@ Sample output</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>==&gt; Note the load time and record in spreadsheet</strong></p>
-<p><strong>==&gt; Measure query time and record in spreadsheet</strong></p>
+<h3 id="8.5---Query-ORC">8.5 - Query ORC<a class="anchor-link" href="#8.5---Query-ORC">&#182;</a></h3><p><strong>==&gt; Measure query time and record in spreadsheet</strong></p>
 
 </div>
 </div>
@@ -12199,24 +12123,46 @@ Sample output</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-10-:-Compare-Data-Sizes">Step 10 : Compare Data Sizes<a class="anchor-link" href="#Step-10-:-Compare-Data-Sizes">&#182;</a></h2><p>Open a terminal and run the following command.</p>
-<div class="highlight"><pre><span></span><span class="c1"># bytes for spreadsheet</span>
-    $    du -b  ~/data/click-stream/*
-    <span class="c1"># in Mac use `du -k`</span>
+<h2 id="Step-9-:-Compare-Data-Sizes">Step 9 : Compare Data Sizes<a class="anchor-link" href="#Step-9-:-Compare-Data-Sizes">&#182;</a></h2><p>sample output</p>
 
-    <span class="c1"># for human readable format use</span>
-    $    du -skh  ~/data/click-stream/*
-</pre></div>
-<p>Sample output</p>
-
-<pre><code>    1415178847  /Users/sujee/data/click-stream/json
-    161398938   /Users/sujee/data/click-stream/json-gz
-    105793926   /Users/sujee/data/click-stream/orc
-    118394196   /Users/sujee/data/click-stream/parquet</code></pre>
+<pre><code>1.3G    /data/click-stream/json
+118M    /data/click-stream/my-parquet
+101M    /data/click-stream/my-orc</code></pre>
 <p><strong>==&gt; Record the byte sizes in spreadsheet</strong></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># for human readable format</span>
+<span class="o">!</span>  du -skh  /data/click-stream/json  /data/click-stream/my-parquet  /data/click-stream/my-orc
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># size in bytes for spreadsheet</span>
+<span class="o">!</span> du -b /data/click-stream/json  /data/click-stream/my-parquet  /data/click-stream/my-orc
+
+<span class="c1"># in Mac use `du -k`</span>
+<span class="c1"># ! du -k /data/click-stream/json  /data/click-stream/my-parquet  /data/click-stream/my-orc</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
