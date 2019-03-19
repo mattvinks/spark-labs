@@ -1,0 +1,123 @@
+<p><link rel='stylesheet' href='assets/css/main.css'/></p>
+<h1 id="spark-labs---scala">Spark Labs - Scala</h1>
+<p>Welcome to Spark labs bundle. This is the Scala track.</p>
+<h2 id="to-instructor">To Instructor</h2>
+<p>Create a lab bundle as follows</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $    <span class="fu">git</span> archive --format=zip HEAD -o spark-labs.zip</a></code></pre></div>
+<h2 id="viewing-the-files">Viewing the files:</h2>
+<p>Markdown files are plain text files and can be viewed in any text editor.</p>
+<p>For best viewing experience we recommend the following setup</p>
+<ul>
+<li><p>Get Chrome browser from : https://www.google.com/chrome/browser/desktop/</p></li>
+<li><p>Install <strong>Markdown Preview Plus Plugin</strong> for Chrome.<br />
+Go to this url in Chrome &amp; click add to Chrome.<br />
+https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl?hl=en-US<br />
+If this link does not work, search for markdown-preview-plus in https://chrome.google.com/webstore</p></li>
+<li><p>Once installed, go to ‘Window –&gt; Extensions’ menu of Chrome ; Find ‘Markdown Preview Plus’ plugin ; set ‘Allow access to file urls’<br />
+Also go to ‘options’ of the MPP plugin and enable ‘HTML view’</p></li>
+<li><p>Now open any .html file using Chrome (File –&gt; Open) or drag-and-drop</p></li>
+</ul>
+<h2 id="editors">Editors</h2>
+<p>We recommend using a ‘programmer’s editor’ to view these files. These editors have integrated file browser and allows navigating through files quickly.</p>
+<ul>
+<li><p>For Windows : <a href="http://www.sublimetext.com/">Sublime</a>, <a href="http://notepad-plus-plus.org/">NodePad++</a>, <a href="http://www.textpad.com/">Textpad</a></p></li>
+<li><p>For Mac : <a href="http://www.sublimetext.com/">Sublime</a>, <a href="http://www.barebones.com/products/textwrangler/">TextWrangler</a></p></li>
+<li><p>For Linux : <a href="http://www.sublimetext.com/">Sublime</a>, GEdit, Vim</p></li>
+</ul>
+<p><a name="data"/></p>
+<h2 id="labs">Labs</h2>
+<pre><code>    $   git clone  --depth 1 git@github.com:elephantscale/spark-labs.git</code></pre>
+<h2 id="data">Data</h2>
+<p>The VMs already have data loaded. This for your own reference.</p>
+<p><a href="https://s3.amazonaws.com/elephantscale-public/data/datasets.zip">Link to Full Dataset</a> (Note: Large download, ~200 Meg)</p>
+<ul>
+<li>Click the above link to download or</li>
+<li>use <code>wget</code> from command line</li>
+</ul>
+<pre><code>    $    wget   &quot;https://s3.amazonaws.com/elephantscale-public/data/datasets.zip&quot;</code></pre>
+<h1 id="labs-1">Labs</h1>
+<h3 id="scala-primer">1 - Scala Primer</h3>
+<ul>
+<li><a href="01-scala/README.html">1.1 - Scala shell</a></li>
+<li>[1.2 - Functions]</li>
+<li><a href="setup1.html">Setup 1</a> - Instructor to demo first</li>
+<li><a href="01-scala/1.3-file.html">1.3 - File IO</a></li>
+<li><a href="01-scala/1.4-functions.html">1.4 - Higher Order Functions</a></li>
+<li><a href="01-scala/vending-machine/1.5-README.html">1.5 - Vending Machine class</a></li>
+<li><a href="01-scala/vending-machine/1.6-SPECS-README.html">1.6 - Unit testing with SPECS2</a></li>
+</ul>
+<h3 id="spark-intro">2 - Spark Intro</h3>
+<ul>
+<li><a href="02-intro/2.1-install-spark-scala.html">2.1 - Install and run Spark</a></li>
+<li>2.2 - Spark Shell - <a href="02-intro/2.2-shell-scala.html">Standalone</a> || <a href="02-intro/2.2H-spark-shell-hadoop.html">Hadoop version</a></li>
+</ul>
+<h3 id="rdds-datasets">3 - RDDs &amp; Datasets</h3>
+<ul>
+<li><a href="03-rdd/3.1-rdd-basics-scala.html">3.1 - RDD basics</a></li>
+<li><a href="03-rdd/3.1b-dataset-basics-scala.html">3.1b - Dataset basics</a></li>
+<li><a href="03-rdd/3.6-caching-scala.html">3.6 - Caching</a></li>
+<li><strong>Optional RDD labs provided for reference (not done in class)</strong>
+<ul>
+<li><a href="03-rdd/3.4-mapreduce.html">3.4 - Map Reduce</a></li>
+<li><a href="03-rdd/3.5-clickstream.html">3.5 - Clickstream processing</a></li>
+<li><a href="03-rdd/3.2-rdd-multi.html">3.2 - Working with multiple RDDs</a></li>
+<li><a href="03-rdd/3.3-key-value.html">3.3 - Key Value Pairs</a></li>
+</ul></li>
+</ul>
+<h3 id="dataframes-and-datasets">4 - Dataframes and Datasets</h3>
+<ul>
+<li><a href="04-dataframe/4.1-dataframe-scala.html">4.1 - Dataframes</a></li>
+<li><a href="04-dataframe/4.2-sql-scala.html">4.2 - Spark SQL</a></li>
+<li><a href="04-dataframe/4.3-dataset-scala.html">4.3 - Dataset</a></li>
+<li><a href="04-dataframe/4.4-caching-2-sql-scala.html">4.4 - Caching 2 SQL</a></li>
+<li><a href="04-dataframe/4.5-spark-and-hive-scala.html">4.5 - Spark &amp; Hive (Hadoop)</a></li>
+<li><a href="04-dataframe/4.6-data-formats-scala.html">4.6 - Data formats</a></li>
+</ul>
+<h3 id="api">5 - API</h3>
+<ul>
+<li><a href="05.1-api-scala/5.1-submit.html">5.1 - Submit first application</a></li>
+<li>BONUS : <a href="05.1-api-scala/5.2-mapreduce.html">5.2 - Mapreduce using API</a></li>
+</ul>
+<h3 id="practice-labs-for-end-of-day-2-3">Practice Labs for end of day 2 &amp; 3</h3>
+<ul>
+<li><a href="practice-labs/commit-logs-scala.html">Practice Lab 1 - Analyze Spark Commit logs</a></li>
+<li><a href="practice-labs/optimize-query-scala.html">Practice Lab 2 - Optimize SQL query</a></li>
+<li><a href="practice-labs/house-sales-scala.html">Practice Lab 3 - Analyze house sales data</a></li>
+</ul>
+<h3 id="mllib">6 - MLLib</h3>
+<ul>
+<li><a href="06-mllib/kmeans/README.html">6.1 - Kmeans</a></li>
+<li><a href="06-mllib/recs/README.html">6.2 - Recommendations</a></li>
+<li><a href="06-mllib/classification/README.html">6.3 - Classification</a></li>
+</ul>
+<h3 id="graphx">7 - GraphX</h3>
+<ul>
+<li><a href="07-graphx/7.1-influencer.html">7.1 - Influencers (Twitter)</a></li>
+<li><a href="07-graphx/7.2-shortest-path.html">7.2 - Shortest path (in LinkedIn)</a></li>
+</ul>
+<h3 id="streaming">8 - Streaming</h3>
+<ul>
+<li><a href="08-streaming/8.1-over-tcp/README.html">8.1 - Streaming over TCP</a></li>
+<li><a href="08-streaming/8.2-window/README.html">8.2 - Windowed Count</a></li>
+<li>8.3 - Kafka Streaming
+<ul>
+<li><a href="08-streaming/8.3-kafka/README.html">8.3a - Kafka Direct Streaming</a></li>
+<li><a href="08-streaming/8.3-kafka/3-kafka-structured-streaming.html">8.3b - Kafka Structured Streaming</a></li>
+</ul></li>
+<li>8.4 - Structured Streaming
+<ul>
+<li><a href="08-streaming/8.4-structured/README.html">8.4a - Structured Streaming 1</a></li>
+<li><a href="08-streaming/8.4-structured/README2.html">8.4b - Structured Streaming 2 (JSON)</a></li>
+</ul></li>
+</ul>
+<h3 id="operations">9 - Operations</h3>
+<ul>
+<li><a href="09-ops/9.1-cluster-setup.html">9.1 - Cluster setup</a></li>
+</ul>
+<h3 id="spark-and-hadoop-all-the-hadoop-labs-are-grouped-here">10 - Spark and Hadoop (all the Hadoop labs are grouped here)</h3>
+<ul>
+<li><a href="02-intro/2.2H-spark-shell-hadoop.html">2.2H - Spark Shell on Hadoop</a></li>
+<li><a href="03-rdd/3.1-rdd-basics.html">3.1 - Loading RDDs from HDFS</a></li>
+<li><a href="04-dataframe/4.2-sql.html">4.2 - Spark SQL on Hadoop</a></li>
+<li><a href="04-dataframe/4.4-spark-and-hive.html">4.4H - Spark &amp; Hive</a></li>
+</ul>

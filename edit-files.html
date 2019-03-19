@@ -1,0 +1,23 @@
+<p><link rel='stylesheet' href='assets/css/main.css'/></p>
+<p><a href="README.md">&lt;&lt; main</a></p>
+<h1 id="editing-files">Editing Files</h1>
+<p>There are 3 ways of editing files on VM.<br />
+In order of preference &amp; ease 1. Using VNC and then with Sublime editor or GEdit (<a href="#sublime">instructions</a>) 2. NoIDE web editor (<a href="#noide">instructions</a>) 3. Command line editors like vi and nano (<a href="#vi">instructions</a>)</p>
+<p><a name="sublime"/> ## Option 1 : Using Sublime or GEdit</p>
+<h3 id="login-into-web-desktop">Login into web desktop</h3>
+<p><img src="assets/images/setup1d-vnc.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h3 id="open-sublime-editor-via-desktop-shortcut">Open Sublime Editor via desktop shortcut</h3>
+<p><img src="assets/images/4.1a-sublime.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h3 id="open-gedit-editor-via-desktop-shortcut">Open GEdit Editor via desktop shortcut</h3>
+<p><img src="assets/images/setup1f.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p><a name="noide"/> ## Option 2 : Using NoIDE ### Start Noide</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="fu">nohup</span>   ~/run-noide.sh <span class="kw">&amp;</span></a></code></pre></div>
+<h3 id="goto-port-3000-in-browser">Goto port 3000 in browser</h3>
+<p>In your browser go to : http://your_ip_address:3000<br />
+Happy editing!</p>
+<p><a name="vi"/> ## Option 3 : Using command line editors like VI or Nano</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="bu">cd</span>  ~/spark-labs</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    $   <span class="ex">vi</span> file_name_to_edit</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    <span class="co"># or</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">    $   <span class="ex">nanon</span> file_to_edit</a></code></pre></div>

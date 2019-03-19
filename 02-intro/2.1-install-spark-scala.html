@@ -1,0 +1,68 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-2.1-up-and-running-with-spark">Lab 2.1 : Up and Running With Spark</h1>
+<h3 id="overview">Overview</h3>
+<p>We will be running Spark in a single node mode.</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20 mins</p>
+<h2 id="step-0-to-instructor">STEP 0: To Instructor</h2>
+<p>Please go through this lab on ‘screen’ first.</p>
+<h2 id="step-1-login-to-your-spark-node">STEP 1: Login to your Spark node</h2>
+<p>Instructor will provide details</p>
+<h2 id="step-2-installing-spark">STEP 2: Installing Spark</h2>
+<p>There is no ‘install’. Just unzip/untar and run :-) (copy paste the following commands on terminal, do not include $ in your commands)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="bu">cd</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    $   <span class="fu">rm</span> -rf  spark   # cleanup existing spark installation (if any)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    $   <span class="fu">tar</span> xvf files/spark-2.3.0-bin-hadoop2.7.tgz</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    $   <span class="fu">mv</span> spark-2.3.0-bin-hadoop2.7   spark</a></code></pre></div>
+<p>Now we have spark installed in <code>~/spark</code> directory</p>
+<h2 id="step-3-running-spark">STEP 3: Running Spark</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="ex">~/spark/sbin/start-all.sh</span></a></code></pre></div>
+<p>Verify Spark is running by ‘jps’ command</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $  <span class="ex">jps</span></a></code></pre></div>
+<p>Your output may look like this..</p>
+<pre class="console"><code>  30624 Jps
+  30431 Master
+  30565 Worker</code></pre>
+<p>you will see <strong>Master</strong> and <strong>Worker</strong> processes running. (you probably will get different values for process ids - first column )</p>
+<p>Spark UI will be at port 8080 of the host. In browser go to http://your_spark_host_address:8080 (be sure to use the ‘public’ ip address)</p>
+<p>Bingo! Now we have spark running.</p>
+<h2 id="step-4-exploring-spark-ui">STEP 4: Exploring Spark UI</h2>
+<p>You will see a similar screen shot like this</p>
+<p><img src="../assets/images/1a.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p>To explore: * Is Master and Worker running on the same node?</p>
+<ul>
+<li><p>Inspect memory &amp; CPU available for Spark worker</p></li>
+<li><p>Note the Spark master URI, it will be something like spark://host_name:7077 We will need this for later labs</p></li>
+</ul>
+<h2 id="step-5-download-spark-labs-data">STEP 5: Download Spark labs &amp; Data</h2>
+<h3 id="labs">Labs</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">    $   <span class="bu">cd</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    $   <span class="fu">git</span> clone --depth 1  git@github.com:elephantscale/spark-labs.git</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="co"># for v2 - latest</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="co"># $  cd  ~/spark-labs</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="co"># $  git checkout master</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">    <span class="co"># for 1.6 (old)</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">    <span class="co"># $  cd ~/spark-labs</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">    <span class="co"># $  git checkout v1.6</span></a></code></pre></div>
+<p>This will create a <code>spark-labs</code> directory that has all the labs.</p>
+<h3 id="data">Data</h3>
+<p>Download the dataset</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1">    <span class="co"># if  ~/data dir is missing, do the following</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="co"># $   git clone --depth 1  git@github.com:elephantscale/datasets.git  data</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">    $   <span class="bu">cd</span> ~/data</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    $   <span class="fu">git</span> pull</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">    $   <span class="bu">cd</span>   # back to home directory</a></code></pre></div>
+<p><strong>Downloading the dataset to your own machine</strong><br />
+Please see <a href="../README.md#data">README.md data section</a></p>
+<h2 id="optional-spark-sandbox">Optional: Spark Sandbox</h2>
+<p>To run Spark on your laptop, we recommend the sandbox. This Sandbox can run on Mac / Windows / Linux.</p>
+<ul>
+<li><a href="https://github.com/elephantscale/sandbox">Download Sandbox</a></li>
+<li><a href="https://github.com/elephantscale/sandbox">Tutorials</a></li>
+</ul>

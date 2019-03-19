@@ -1,0 +1,62 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="practice-lab-2-analyze-clickstream-data">Practice Lab 2 : Analyze Clickstream data</h1>
+<h3 id="overview">Overview</h3>
+<p>Deeper analytics of Clickstream data</p>
+<h3 id="depends-on">Depends On</h3>
+<ul>
+<li><a href="../04-dataframe/4.1-dataframe-scala.md">4.1 Dataframe</a></li>
+<li><a href="../04-dataframe/4.2-sql-scala.md">4.2 SQL</a></li>
+<li><a href="../04-dataframe/4.3-dataset-scala.md">4.3 Dataset</a></li>
+</ul>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<h2 id="analyze-clickstream-logs">Analyze Clickstream logs</h2>
+<h3 id="data-format">Data Format:</h3>
+<p>The data is in <a href="/data/click-stream/clickstream.json">data/click-stream/clickstream.json</a></p>
+<p>Clickstream data looks like this</p>
+<pre><code>{&quot;session&quot;: &quot;session_36&quot;, &quot;domain&quot;: &quot;youtube.com&quot;, &quot;cost&quot;: 118, &quot;user&quot;: &quot;user_9&quot;, &quot;campaign&quot;: &quot;campaign_19&quot;, &quot;ip&quot;: &quot;ip_4&quot;, &quot;action&quot;: &quot;clicked&quot;, &quot;timestamp&quot;: 1420070400000}
+
+{&quot;session&quot;: &quot;session_96&quot;, &quot;domain&quot;: &quot;facebook.com&quot;, &quot;cost&quot;: 5, &quot;user&quot;: &quot;user_5&quot;, &quot;campaign&quot;: &quot;campaign_12&quot;, &quot;ip&quot;: &quot;ip_3&quot;, &quot;action&quot;: &quot;blocked&quot;, &quot;timestamp&quot;: 1420070400864}</code></pre>
+<p>Domains data looks like this</p>
+<pre><code>{&quot;domain&quot;:&quot;amazon.com&quot;,&quot;category&quot;:&quot;SHOPPING&quot;}
+{&quot;domain&quot;:&quot;bbc.co.uk&quot;,&quot;category&quot;:&quot;NEWS&quot;}
+{&quot;domain&quot;:&quot;facebook.com&quot;,&quot;category&quot;:&quot;SOCIAL&quot;}</code></pre>
+<h2 id="read-the-data-and-export-them-as-tables">Read the data and export them as tables</h2>
+<pre><code>val clickstreamDF = spark.read.json(&quot;/data/click-stream/json&quot;)
+clickstreamDF.createOrReplaceTempView(&quot;clickstream&quot;)
+
+val domainsDF = spark.read.json(&quot;/data/click-stream/domain-info.json&quot;)
+domainsDF.createOrReplaceTempView(&quot;domains&quot;)
+</code></pre>
+<h2 id="answer-the-following-queries">Answer the following Queries</h2>
+<h4 id="find-all-distinct-domains-we-have-seen">find all distinct domains we have seen</h4>
+<h4 id="find-total-amount-cost-spent-on-each-domain.-sort-the-data-in-descending-order">find total amount (<code>cost</code>) spent on each domain. Sort the data in descending order</h4>
+<p>sample output</p>
+<pre class="console"><code>+-------------+--------+
+| domain      | cost   |
++-------------+--------+
+|facebook.com | 10,100 |
+|youtube.com  |  8,900 |
++-------------+--------+</code></pre>
+<h3 id="find-total-money-clickstream.cost-spent-per-domain.category">Find total money (clickstream.cost) spent per domain.CATEGORY</h3>
+<p>e.g<br />
+SOCIAL 100<br />
+NEWS 200</p>
+<p>Hint: ‘join’</p>
+<h3 id="optimize-the-above-query">Optimize the above query</h3>
+<p>Make the above query as fast as possible!</p>
+<p>Hints:<br />
+- convert JSON to parquet! - ???</p>
+<h4 id="calculate-clicksview-ratio-for-each-domain.-sort-the-data-in-descending-order">calculate clicks/view ratio for each domain. Sort the data in descending order</h4>
+<p>sample output</p>
+<pre class="console"><code>+-------------+---------+---------+---------+-------------------------+
+| domain      | views   |  clicks |  blocks |   clicks_per_1000_views |
+|             |         |         |         |   (=clicks*1000/views)  |
++-------------+---------+---------+---------+-------------------------+
+|facebook.com | 10,000  |   100   |     500 |        10               |
+|youtube.com  |  5,000  |    20   |    1000 |         4               |
++-------------+---------+---------+---------+-------------------------+</code></pre>
+<h4 id="which-domain-gets-most-bang-for-the-buck">Which domain gets most ‘bang for the buck’ ?</h4>
+<p>Calculate total cost spent vs. number of clicks from that domain.<br />
+Another way to think about this is, how much are we spending to get a click from a domain? (Don’t forget to factor in money spent on blocks as well!)</p>

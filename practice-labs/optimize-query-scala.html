@@ -1,0 +1,42 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<h1 id="optimize-sql-query">Optimize SQL query</h1>
+<p>We are using clickstream data.</p>
+<p><strong>Work in pairs</strong></p>
+<h2 id="step-1-inspect-clickstream-domain-data">Step 1 : Inspect clickstream / domain data</h2>
+<p>Clickstream data looks like this</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">{</span><span class="dt">&quot;session&quot;</span><span class="fu">:</span> <span class="st">&quot;session_36&quot;</span><span class="fu">,</span> <span class="dt">&quot;domain&quot;</span><span class="fu">:</span> <span class="st">&quot;youtube.com&quot;</span><span class="fu">,</span> <span class="dt">&quot;cost&quot;</span><span class="fu">:</span> <span class="dv">118</span><span class="fu">,</span> <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="st">&quot;user_9&quot;</span><span class="fu">,</span> <span class="dt">&quot;campaign&quot;</span><span class="fu">:</span> <span class="st">&quot;campaign_19&quot;</span><span class="fu">,</span> <span class="dt">&quot;ip&quot;</span><span class="fu">:</span> <span class="st">&quot;ip_4&quot;</span><span class="fu">,</span> <span class="dt">&quot;action&quot;</span><span class="fu">:</span> <span class="st">&quot;clicked&quot;</span><span class="fu">,</span> <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="dv">1420070400000</span><span class="fu">}</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="fu">{</span><span class="dt">&quot;session&quot;</span><span class="fu">:</span> <span class="st">&quot;session_96&quot;</span><span class="fu">,</span> <span class="dt">&quot;domain&quot;</span><span class="fu">:</span> <span class="st">&quot;facebook.com&quot;</span><span class="fu">,</span> <span class="dt">&quot;cost&quot;</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span> <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="st">&quot;user_5&quot;</span><span class="fu">,</span> <span class="dt">&quot;campaign&quot;</span><span class="fu">:</span> <span class="st">&quot;campaign_12&quot;</span><span class="fu">,</span> <span class="dt">&quot;ip&quot;</span><span class="fu">:</span> <span class="st">&quot;ip_3&quot;</span><span class="fu">,</span> <span class="dt">&quot;action&quot;</span><span class="fu">:</span> <span class="st">&quot;blocked&quot;</span><span class="fu">,</span> <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="dv">1420070400864</span><span class="fu">}</span></a></code></pre></div>
+<p>Domain data looks like this</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">{</span><span class="dt">&quot;domain&quot;</span><span class="fu">:</span><span class="st">&quot;amazon.com&quot;</span><span class="fu">,</span><span class="dt">&quot;category&quot;</span><span class="fu">:</span><span class="st">&quot;SHOPPING&quot;</span><span class="fu">}</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">{</span><span class="dt">&quot;domain&quot;</span><span class="fu">:</span><span class="st">&quot;bbc.co.uk&quot;</span><span class="fu">,</span><span class="dt">&quot;category&quot;</span><span class="fu">:</span><span class="st">&quot;NEWS&quot;</span><span class="fu">}</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="fu">{</span><span class="dt">&quot;domain&quot;</span><span class="fu">:</span><span class="st">&quot;facebook.com&quot;</span><span class="fu">,</span><span class="dt">&quot;category&quot;</span><span class="fu">:</span><span class="st">&quot;SOCIAL&quot;</span><span class="fu">}</span></a></code></pre></div>
+<h2 id="step-2-read-data">Step 2 : Read data</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">val</span> clickstream = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/json/&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">clickstream.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;clickstream&quot;</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">clickstream.<span class="fu">printSchema</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">clickstream.<span class="fu">count</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">clickstream.<span class="fu">show</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">val</span> domains = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/domain-info.json&quot;</span>)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">domains.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;domains&quot;</span>)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">domains.<span class="fu">printSchema</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">domains.<span class="fu">count</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">domains.<span class="fu">show</span></a></code></pre></div>
+<h2 id="step-3-find-traffic-per-domain-category">Step 3 : Find traffic per domain-category</h2>
+<p>Come up with SQL query for this.</p>
+<p>Hint: Start with sql query like</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">val</span> sql=<span class="st">&quot;&quot;&quot;select clickstream.*, domains.*</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">from clickstream join domains  </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="fu">ON</span> (clickstream.<span class="fu">domain</span> = domains.<span class="fu">domain</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">&quot;&quot;&quot;</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">joined = spark.<span class="fu">sql</span>(sql)</a></code></pre></div>
+<p>Sort the output in descending order.</p>
+<p>Sample output might be (not actual numbers)</p>
+<pre class="console"><code>SHOPPING 300
+NEWS     200
+SOCIAL   100</code></pre>
+<h2 id="step-3-ready-set-optimize">Step 3 : Ready, set, Optimize!</h2>
+<p>Now apply all the tricks you have learned so far and execute the query in fastest time possible.</p>
+<p>Be creative!</p>

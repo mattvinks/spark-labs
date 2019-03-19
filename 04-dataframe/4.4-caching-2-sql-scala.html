@@ -1,0 +1,93 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-4.4-caching-2-sql">Lab 4.4 : Caching 2 SQL</h1>
+<h3 id="overview">Overview</h3>
+<p>Understand Spark SQL Caching</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<h2 id="step-1-start-spark-shell">Step 1: Start Spark Shell</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h2 id="step-2-read-json-data">Step 2: Read JSON data</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">val</span> formatter = java.<span class="fu">text</span>.<span class="fu">NumberFormat</span>.<span class="fu">getIntegerInstance</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">val</span> t1 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">val</span> clickstreamDF = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/json&quot;</span>)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">val</span> t2 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="fu">println</span> (<span class="st">&quot;Read JSON in %s ms &quot;</span><span class="fu">.format</span>( formatter.format(t2-t1)))</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">clickstreamDF.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;clickstream&quot;</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="fu">println</span> (<span class="st">&quot;registered temp table clickstream&quot;</span>)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">spark.<span class="fu">catalog</span>.<span class="fu">listTables</span>().<span class="fu">show</span>()</a></code></pre></div>
+<h2 id="step-3-query-without-cache">Step 3 : Query without Cache</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">val</span> formatter = java.<span class="fu">text</span>.<span class="fu">NumberFormat</span>.<span class="fu">getIntegerInstance</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">spark.<span class="fu">catalog</span>.<span class="fu">clearCache</span>()</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">val</span> sql=<span class="st">&quot;&quot;&quot; select domain, count(*) as total from clickstream</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">group by domain</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">order by total</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">desc limit <span class="dv">10</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="st">&quot;&quot;&quot;</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="kw">val</span> t1 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="kw">val</span> top10_domains = spark.<span class="fu">sql</span>(sql)</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">top10_domains.<span class="fu">show</span>()</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw">val</span> t2 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="fu">println</span> (<span class="st">&quot;Query without caching in %s ms &quot;</span><span class="fu">.format</span>( formatter.format(t2-t1)))</a></code></pre></div>
+<h2 id="step-4-explain-query">Step 4 : Explain Query</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1">top10_domains.<span class="fu">explain</span>()</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">//top10_domains.explain(extended=True)</span></a></code></pre></div>
+<h2 id="step-5-cache">Step 5 : Cache</h2>
+<p>There are 3 ways to cache 1. <code>dataframe.cache()</code> : non blocking 2. <code>spark.sql(&quot;cache table TABLE_NAME&quot;)</code> : blocking 3. <code>spark.catalog.cacheTable('tableName')</code> : non blocking</p>
+<p>Try all these options and see the performance implications.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">spark.<span class="fu">catalog</span>.<span class="fu">clearCache</span>() <span class="co">// clear all tables</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">// spark.catalog.uncacheTable(&quot;clickstream&quot;)  # clear just one table</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="fu">println</span> (<span class="st">&quot;is &#39;clickstream&#39; cached : &quot;</span> + spark.<span class="fu">catalog</span>.<span class="fu">isCached</span>(<span class="st">&quot;clickstream&quot;</span>))</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw">val</span> t1 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">// we have different ways to cache,</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">// uncomment one of the following</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">//spark.sql(&quot;cache table clickstream&quot;);  // 1</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">//clickstreamDF.cache()  // 2</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">spark.<span class="fu">catalog</span>.<span class="fu">cacheTable</span>(<span class="st">&quot;clickstream&quot;</span>) <span class="co">// 3</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw">val</span> t2 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="fu">println</span> (<span class="st">&quot;Caching done in %s ms &quot;</span><span class="fu">.format</span>( formatter.format(t2-t1)))</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="fu">println</span> (<span class="st">&quot;is &#39;clickstream&#39; cached : &quot;</span> + spark.<span class="fu">catalog</span>.<span class="fu">isCached</span>(<span class="st">&quot;clickstream&quot;</span>))</a></code></pre></div>
+<h2 id="step-6-query-after-caching">Step 6 : Query after caching</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">val</span> formatter = java.<span class="fu">text</span>.<span class="fu">NumberFormat</span>.<span class="fu">getIntegerInstance</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">spark.<span class="fu">catalog</span>.<span class="fu">clearCache</span>()</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw">val</span> sql=<span class="st">&quot;&quot;&quot; select domain, count(*) as total from clickstream</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">group by domain</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">order by total</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">desc limit <span class="dv">10</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">&quot;&quot;&quot;</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="kw">val</span> t1 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="kw">val</span> top10_domains = spark.<span class="fu">sql</span>(sql)</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">top10_domains.<span class="fu">show</span>()</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="kw">val</span> t2 = System.<span class="fu">currentTimeMillis</span>()</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="fu">println</span> (<span class="st">&quot;Query after caching in %s ms &quot;</span><span class="fu">.format</span>( formatter.format(t2-t1)))</a></code></pre></div>
+<h2 id="step-7-explain-query">Step 7 : Explain Query</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1">top10_domains.<span class="fu">explain</span>()</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">//top10_domains.explain(extended=True)</span></a></code></pre></div>
+<h2 id="step-8-clear-cache">Step 8 : Clear Cache</h2>
+<p>Try the following ways to clear cache</p>
+<ol type="1">
+<li><code>spark.sql (&quot;CLEAR CACHE&quot;)</code> - removes all cache</li>
+<li><code>spark.sql (&quot;CLEAR CACHE tableName&quot;)</code> - removes one table</li>
+<li><code>spark.catalog.unCacheTable('tableName')</code> - removes one cached table</li>
+<li><code>spark.catalog.clearCache()</code> - clear all caches</li>
+<li><code>dataframe.unPersist()</code></li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">spark.<span class="fu">sql</span>(<span class="st">&quot;clear cache&quot;</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">// spark.catalog.clearCacheTable()</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">// df.unPersist()</span></a></code></pre></div>

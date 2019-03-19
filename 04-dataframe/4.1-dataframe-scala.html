@@ -1,0 +1,178 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-4.1-spark-sql-dataframes">Lab 4.1 : Spark SQL : Dataframes</h1>
+<h3 id="overview">Overview</h3>
+<p>First look at Spark SQL</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<h2 id="step-1-inspect-clickstream-data">Step 1 : Inspect Clickstream data</h2>
+<p>The data is in <a href="/data/click-stream/clickstream.json" class="uri">/data/click-stream/clickstream.json</a></p>
+<p>Clickstream data looks like this</p>
+<pre><code>{&quot;session&quot;: &quot;session_36&quot;, &quot;domain&quot;: &quot;youtube.com&quot;, &quot;cost&quot;: 118, &quot;user&quot;: &quot;user_9&quot;, &quot;campaign&quot;: &quot;campaign_19&quot;, &quot;ip&quot;: &quot;ip_4&quot;, &quot;action&quot;: &quot;clicked&quot;, &quot;timestamp&quot;: 1420070400000}
+
+{&quot;session&quot;: &quot;session_96&quot;, &quot;domain&quot;: &quot;facebook.com&quot;, &quot;cost&quot;: 5, &quot;user&quot;: &quot;user_5&quot;, &quot;campaign&quot;: &quot;campaign_12&quot;, &quot;ip&quot;: &quot;ip_3&quot;, &quot;action&quot;: &quot;blocked&quot;, &quot;timestamp&quot;: 1420070400864}</code></pre>
+<h2 id="step-2-start-spark-shell">STEP 2: Start Spark Shell</h2>
+<p>Launch Shell:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h2 id="step-3-load-clickstream-data">STEP 3: Load Clickstream data</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="co">// This import is needed to use the $-notation</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">import</span> spark.<span class="fu">implicits</span>._</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    <span class="kw">val</span> clickstreamDF = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/clickstream.json&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Spark will process the file to infer the schema ; See console output</strong></p>
+<pre class="console"><code>    clickstreamDF: org.apache.spark.sql.DataFrame = [action: string, campaign: string,
+    cost: bigint, domain: string, ip: string, session: string,
+    timestamp: bigint, user: string]</code></pre>
+<p><strong>==&gt; Monitor Spark shell UI on port 4040</strong><br />
+You may see something like this:</p>
+<p><img src="../assets/images/5.1a.png" style="border: 5px solid grey; max-width:100%;" /></p>
+<p><strong>==&gt; Q : Why is Spark not lazy loading the JASON files?</strong></p>
+<h2 id="step-4-inspecting-the-dataframe">STEP 4 : Inspecting The Dataframe</h2>
+<p><strong>==&gt; Print the schema of data frame</strong><br />
+Hint : <code>clickstreamDF.printSchema</code><br />
+Your output will look like this:</p>
+<pre class="console"><code>
+    root
+     |-- action: string (nullable = true)
+     |-- campaign: string (nullable = true)
+     |-- cost: long (nullable = true)
+     |-- domain: string (nullable = true)
+     |-- ip: string (nullable = true)
+     |-- session: string (nullable = true)
+     |-- timestamp: long (nullable = true)
+     |-- user: string (nullable = true)</code></pre>
+<p><strong>==&gt; Print / Dump the data contained within dataframe</strong><br />
+Hint : <code>clickstreamDF.show</code></p>
+<p>Your output may look like this:</p>
+<pre class="console"><code>+-------+-----------+----+-----------------+----+----------+-------------+------+
+| action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|
++-------+-----------+----+-----------------+----+----------+-------------+------+
+|clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|
+|blocked|campaign_12|   5|     facebook.com|ip_3|session_96|1420070400864|user_5|
+|clicked| campaign_3|  54|sf.craigslist.org|ip_9|session_61|1420070401728|user_8|
+...
+
+</code></pre>
+<p><strong>==&gt; Explore methods available in Dataframe</strong><br />
+1) Here is the Dataframe API : <a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.DataFrame">Scala</a> / <a href="http://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/DataFrame.html">Java</a> / <a href="http://spark.apache.org/docs/latest/api/python/pyspark.sql.html?highlight=dataframe#pyspark.sql.DataFrame">Python</a></p>
+<ol start="2" type="1">
+<li>Type <code>clickstreamDF. TAB</code> (hit the TAB key) to see all methods available on DataFrame.</li>
+</ol>
+<pre class="console"><code>
+    scala&gt; clickstreamDF.
+    agg                 apply               as                  asInstanceOf        cache
+    col                 collect             collectAsList       columns             count
+    createJDBCTable     describe            distinct            dtypes              except
+    explain             explode             filter              first               flatMap
+    foreach             foreachPartition    groupBy             head                insertInto
+    insertIntoJDBC      intersect           isInstanceOf        isLocal             javaRDD
+    join                limit               map                 mapPartitions       na
+    orderBy             persist             printSchema         queryExecution      rdd
+    registerTempTable   repartition         sample              save                saveAsParquetFile
+    saveAsTable         schema              select              selectExpr          show
+    sort                sqlContext          take                toDF                toJSON
+    toJavaRDD           toSchemaRDD         toString            unionAll            unpersist
+    where               withColumn          withColumnRenamed
+</code></pre>
+<h2 id="step-5-querying-dataframe">STEP 5 : Querying Dataframe</h2>
+<p><strong>==&gt; Show only click logs where the cost &gt; 100</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">    clickstreamDF.<span class="fu">filter</span>(<span class="fu">clickstreamDF</span>(<span class="st">&quot;cost&quot;</span>) &gt; <span class="dv">100</span>).<span class="fu">show</span>()</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    clickstreamDF.<span class="fu">filter</span>(<span class="st">&quot;cost &gt; 100&quot;</span>).<span class="fu">show</span>()</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    clickstreamDF.<span class="fu">filter</span>($<span class="st">&quot;cost&quot;</span> &gt; <span class="dv">100</span>).<span class="fu">show</span>() <span class="co">// need :  import spark.implicits._</span></a></code></pre></div>
+<p>Sample output</p>
+<pre class="console"><code>
+    +-------+-----------+----+-----------------+----+----------+-------------+------+
+    | action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|
+    +-------+-----------+----+-----------------+----+----------+-------------+------+
+    |clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|
+    |blocked|campaign_18| 110|    wikipedia.org|ip_5|session_55|1420070402592|user_6|
+    |blocked| campaign_9| 139|          cnn.com|ip_8|session_13|1420070404320|user_7|</code></pre>
+<p><strong>==&gt; Show the logs where action = clicked</strong><br />
+Hint : <code>clickstreamDF.filter(&quot;action == '???'&quot;)</code></p>
+<h2 id="step-6-explore-methods-in-column-type">Step 6 : Explore methods in Column type</h2>
+<pre><code>    val c = clickstreamDF(&quot;action&quot;)
+    // c: org.apache.spark.sql.Column = action
+
+    // to see methods on c use TAB
+    c.[TAB]</code></pre>
+<p>You will see methods avilable on on <code>org.apache.spark.sql.Column</code></p>
+<pre class="console"><code>
+scala&gt;
+    c.
+    !==            %              &amp;&amp;             *              +              -
+    /              ===            &gt;              &gt;=             and            as
+    asInstanceOf   asc            cast           contains       desc           divide
+    endsWith       eqNullSafe     equalTo        explain        geq            getField
+    getItem        gt             in             isInstanceOf   isNotNull      isNull
+    leq            like           lt             minus          mod            multiply
+    notEqual       or             plus           rlike          startsWith     substr
+    toString       unary_!        unary_-        ||</code></pre>
+<p>Use <code>===</code> or <code>equalTo</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb12-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">    clickstreamDF.<span class="fu">filter</span>(<span class="fu">clickstreamDF</span>(<span class="st">&quot;action&quot;</span>) === <span class="st">&quot;clicked&quot;</span> ).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="co">// or</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">    clickstreamDF.<span class="fu">filter</span>(<span class="fu">clickstreamDF</span>(<span class="st">&quot;action&quot;</span>).<span class="fu">equalTo</span>(<span class="st">&quot;clicked&quot;</span>)).<span class="fu">show</span></a></code></pre></div>
+<h2 id="step-7-find-all-unique-domains">Step 7: Find all unique domains</h2>
+<p>Hint : <code>distinct</code> on the right column name</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb13-1" data-line-number="1">  clickstreamDF.<span class="fu">select</span>(<span class="st">&quot;??? name of column ???&quot;</span>).<span class="fu">distinct</span></a></code></pre></div>
+<h2 id="step-8-count-the-number-of-visits-from-each-domain">Step 8 : Count the number of visits from each domain</h2>
+<p>Hint : <code>val g = clickstreamDF.groupBy(&quot;column_name&quot;)</code><br />
+* Inspect methods on <code>g</code> (use tab completion)<br />
+* Then do <code>count</code> on <code>g</code><br />
+* Then do a show<br />
+* So <code>clickstreamDF.groupBy().count.show</code></p>
+<h2 id="step-9-joining-dataframes">STEP 9 : Joining Dataframes</h2>
+<p>Let’s load another data set <code>domain info</code><br />
+The data is in <code>data/click-stream/domain-info.json</code><br />
+The data looks like this:</p>
+<pre class="console"><code>
+    {&quot;domain&quot;:&quot;amazon.com&quot;,&quot;category&quot;:&quot;SHOPPING&quot;}
+    {&quot;domain&quot;:&quot;bbc.co.uk&quot;,&quot;category&quot;:&quot;NEWS&quot;}
+    {&quot;domain&quot;:&quot;facebook.com&quot;,&quot;category&quot;:&quot;SOCIAL&quot;}
+    ...</code></pre>
+<p><strong>==&gt; Load the dataframe</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb15-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">    <span class="kw">val</span> domainsDF = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/domain-info.json&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Join both dataframes</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb16-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="kw">val</span> joined = clickstreamDF.<span class="fu">join</span>(domainsDF,  <span class="fu">clickstreamDF</span>(<span class="st">&quot;domain&quot;</span>) === <span class="fu">domainsDF</span>(<span class="st">&quot;domain&quot;</span>))</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">    <span class="co">// see the results</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">    joined.<span class="fu">show</span></a></code></pre></div>
+<p><strong>==&gt; Inspect the results, here is a sample</strong></p>
+<pre class="console"><code>
+    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
+    | action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|   category|           domain|
+    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
+    |clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|      VIDEO|      youtube.com|
+    |blocked| campaign_2|   7|      youtube.com|ip_2|session_93|1420070412960|user_1|      VIDEO|      youtube.com|
+    |blocked|campaign_17|  20|       amazon.com|ip_4|session_13|1420070406048|user_1|   SHOPPING|       amazon.com|</code></pre>
+<p><strong>==&gt; Note some rows are missing. Which ones? Why?</strong></p>
+<p><strong>==&gt; Do an outer join</strong><br />
+Hint : provide a third argument <code>outer</code> to the join statement<br />
+e.g <code>val joinedOuter = clickstreamDF.join(domainsDF,  ......,    &quot;outer&quot;)</code></p>
+<p><strong>==&gt; Inspect the output, might look like this</strong></p>
+<p><strong>==&gt; Can you explain the null values?</strong></p>
+<pre class="console"><code>
+    // joinedOuter.show
+
+    // result ==&gt;
+
+    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
+    | action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|   category|           domain|
+    +-------+-----------+----+-----------------+----+----------+-------------+------+-----------+-----------------+
+    |blocked| campaign_9| 139|          cnn.com|ip_8|session_13|1420070404320|user_7|       null|             null|
+    |   null|       null|null|             null|null|      null|         null|  null|     SOCIAL|      twitter.com|
+    |clicked| campaign_6|  15|comedycentral.com|ip_9|session_49|1420070403456|user_4|       null|             null|
+</code></pre>
+<h2 id="step-10-understand-query-execution">Step 10 : Understand Query Execution</h2>
+<p>We will use <code>explain</code> keyword to see how Spark is optimizing and executing the query.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb19-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">clickstreamDF.<span class="fu">filter</span>(<span class="st">&quot;cost &gt; 100&quot;</span>).<span class="fu">explain</span>(extended=<span class="kw">true</span>)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">joined.<span class="fu">explain</span>(extended=<span class="kw">true</span>)</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">joinedOuter.<span class="fu">explain</span>(extended=<span class="kw">true</span>)</a></code></pre></div>

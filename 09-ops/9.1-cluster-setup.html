@@ -1,0 +1,60 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-9.1---cluster-install---generic">Lab 9.1 - Cluster install - Generic</h1>
+<h3 id="overview">Overview</h3>
+<p>Setup and configure Spark as a cluster (standalone)</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>30-60 mins</p>
+<h2 id="step-1-select-nodes">STEP 1: Select nodes</h2>
+<p>Instructor will provide additional nodes for setup</p>
+<h2 id="step-2-shutdown-spark">STEP 2: Shutdown Spark</h2>
+<p>If Spark is running on current node, shut it down</p>
+<pre><code>$   ~/spark/sbin/stop-all.sh</code></pre>
+<h2 id="step-3-configure-master-node">STEP 3: Configure Master Node</h2>
+<p>Let’s say our Spark cluster is comprised of 3 nodes.</p>
+<pre><code>master
+slave1
+slave2</code></pre>
+<h3 id="sparkconfslaves">3.1 ~/spark/conf/slaves</h3>
+<p>Edit (or create) <code>~/spark/conf/slaves</code> file add hostnames - one per line.<br />
+For Amazon cloud be sure to use <em>internal ip address</em></p>
+<pre><code>master ip address
+slave1 ip address
+slave2 ip address</code></pre>
+<p><strong>Note:</strong> We are also doubling master as a slave in this test cluster.</p>
+<h3 id="sparkconfspark-env.sh">3.2 ~/spark/conf/spark-env.sh</h3>
+<p><strong>=&gt; Create <code>~/spark/conf/spark-env.sh</code> file</strong></p>
+<pre><code>$   cp ~/spark/conf/spark-env.sh.template   ~/spark/conf/spark-env.sh</code></pre>
+<p>Add the following content to <code>~/spark/conf/spark-env.sh</code></p>
+<pre><code>#!/usr/bin/env bash
+# use external IP
+SPARK_MASTER_IP=public_ip_address_of_master_host
+# e.g 
+#SPARK_MASTER_IP=ec2-54-159-193-182.compute-1.amazonaws.com</code></pre>
+<h2 id="step-4-distribute-files">STEP 4: Distribute Files</h2>
+<p>It is time to distribute Spark files to all nodes in the cluster.<br />
+We will be using <code>~/spark-labs/scripts/copy-files.sh</code> script to do this.</p>
+<h3 id="hosts-file">4.1 <code>~/hosts</code> file</h3>
+<p>Copy <code>~/spark/conf/slaves</code> files as <code>~/hosts</code> file</p>
+<pre><code>$   cp  ~/spark/conf/slaves     ~/hosts</code></pre>
+<h3 id="copy-files">4.2 copy files</h3>
+<pre><code>$    ~/spark-labs/scripts/copy-files.sh</code></pre>
+<h2 id="step-5-start-the-cluster">STEP 5: Start The Cluster</h2>
+<p>Now that we have the files distributed, ….</p>
+<pre><code>$   ~/spark/sbin/start-all.sh</code></pre>
+<p>Note the console output, it will say along the lines of ‘starting worker’</p>
+<h2 id="step-6-inspect-master-ui">STEP 6: Inspect Master UI</h2>
+<p>Go to <code>http://master_host:8080</code> to see the master UI.<br />
+You should see 3 nodes active.</p>
+<p>See screen shot below<br />
+<img src="../assets/images/9.1a-cluster.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<h2 id="step-7-start-spark-shell">STEP 7: Start Spark Shell</h2>
+<pre><code>$   ~/spark/bin/spark-shell   --master  spark_master_url
+
+# e.g.
+$   ~/spark/bin/spark-shell   --master  spark://ec2-54-159-193-182.compute-1.amazonaws.com:7077</code></pre>
+<p>See screen shot below</p>
+<p><img src="../assets/images/9.1b-cluster.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p>Submit a few applications</p>

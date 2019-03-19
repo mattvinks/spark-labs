@@ -1,0 +1,134 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-4.6-data-formats-json-vs.parquet-vs.orc">Lab 4.6 : Data formats (JSON vs. Parquet vs. ORC)</h1>
+<h3 id="overview">Overview</h3>
+<p>Comparing different data formats for Dataframes. We will evaluate JSON, Parquet and ORC format.</p>
+<p>Background reads: - <a href="https://spark.apache.org/docs/latest/sql-programming-guide.html">Spark data frames</a> - JSON format - <a href="https://en.wikipedia.org/wiki/JSON">wikipedia</a> - <a href="http://json.org/">json.org</a> - Parquet format - <a href="https://parquet.apache.org/">Parquet project</a> - <a href="https://github.com/Parquet/parquet-format">parquet github</a> - <a href="http://www.slideshare.net/larsgeorge/parquet-data-io-philadelphia-2013">presentation</a> - ORC format + <a href="https://orc.apache.org/">ORC project</a> + <a href="http://www.semantikoz.com/blog/orc-intelligent-big-data-file-format-hadoop-hive/">ORC explained</a> + <a href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_performance_tuning/content/hive_perf_best_pract_use_orc_file_format.html">ORC performance</a></p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<h3 id="step-1-clickstream-data">STEP 1: Clickstream data</h3>
+<p>There is about 1G+ clickstream data stored in <code>/data/click-stream/json</code> directory.</p>
+<h3 id="optional">Optional</h3>
+<p><strong>If you don’t have this data</strong>, you can generate it as follows</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="bu">cd</span>  /data/click-stream/</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    $   <span class="ex">python</span> gen-clickstream-json.py</a></code></pre></div>
+<p><strong>=&gt; Inspect json logs</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $    <span class="fu">head</span> /data/click-stream/json/2015-01-01.json</a></code></pre></div>
+<h3 id="step-2-benchmarking-spreadsheet">STEP 2: Benchmarking Spreadsheet</h3>
+<p>Download and inspect <a href="Benchmarking_Dataformats.xlsx" class="uri">Benchmarking_Dataformats.xlsx</a>.<br />
+<strong>We will be filling out the values in this spreadsheet, as we execute commands on Spark Shell.</strong></p>
+<p>It will look like this (click on the image for larger version)</p>
+<p><a href="../assets/images/5.3a.png"><img src="../assets/images/5.3a-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<h3 id="step-3-start-spark-shell-atop">STEP 3: Start Spark Shell &amp; ATOP</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    <span class="co"># start spark shell with more memory</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    $    <span class="ex">~/spark/bin/spark-shell</span> --executor-memory 2g  --driver-memory 1g</a></code></pre></div>
+<p>Set the log level to INFO (so we can measure time taken for each job)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1">    scala&gt;</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">            sc.<span class="fu">setLogLevel</span>(<span class="st">&quot;INFO&quot;</span>)</a></code></pre></div>
+<p>Also open another terminal and run <code>atop</code>.<br />
+We will use this to monitor CPU / IO usage</p>
+<h3 id="step-4-setup-sql-imports">STEP 4: Setup SQL Imports</h3>
+<p><strong>This is not necessary in Spark Shell, but needed in Spark applications</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1">    <span class="co">// this is used to implicitly convert an RDD to a DataFrame.</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    <span class="kw">import</span> spark.<span class="fu">implicits</span>._</a></code></pre></div>
+<h3 id="step-5-load-clickstream-data">STEP 5: Load Clickstream data</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb6-1" data-line-number="1">    <span class="co">// load all the files in the dir</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="kw">val</span> clicksJson = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/json/&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; While the import is running take a look at <code>atop</code> terminal. Which of the resources are we maxing out?</strong><br />
+<strong>==&gt; Measure the time taken to load JSON data; record it in the spreadsheet</strong></p>
+<p><strong>==&gt; Find the max value of cost</strong><br />
+<strong>==&gt; While the query is running, check <code>atop</code></strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1">    <span class="kw">val</span> maxCost = clicksJson.<span class="fu">agg</span>(<span class="fu">max</span>(<span class="st">&quot;cost&quot;</span>))</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    maxCost.<span class="fu">show</span></a></code></pre></div>
+<p>Sample output</p>
+<pre class="console"><code>    +---------+
+    |MAX(cost)|
+    +---------+
+    |      180|
+    +---------+</code></pre>
+<p><strong>==&gt; Note the time it took to run the query, and record it in spreadsheet</strong></p>
+<pre class="console"><code>    Job 1 finished: show at &lt;console&gt;:24, took `8.550481 s`</code></pre>
+<h3 id="step-6-save-the-logs-in-parquet-format">STEP 6 : Save the logs in Parquet format</h3>
+<p>We are going to use Spark’s built-in parquet support to save the dataframe into parquet format</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb10-1" data-line-number="1">    clicksJson.<span class="fu">write</span>.<span class="fu">parquet</span>(<span class="st">&quot;/data/click-stream/my-parquet&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Inspect <code>atop</code></strong><br />
+<strong>==&gt; Measure the time taken to ‘save as parquet’ and record it in spreadsheet</strong><br />
+<strong>==&gt; Once the job is completed, inspect the <code>/data/click-stream/my-parquet</code> directory</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1">    $   <span class="fu">ls</span> -la   /data/click-stream/my-parquet</a></code></pre></div>
+<p>Output might look like this</p>
+<pre class="console"><code>    -rw-r--r--  1 sujee  staff     0B Jul 19 12:40 _SUCCESS
+    -rw-r--r--  1 sujee  staff   1.8M Jul 19 12:39 part-r-00000-9ceb13fe-a57c-4af1-993e-d998d6c41008.gz.parquet
+    -rw-r--r--  1 sujee  staff   1.8M Jul 19 12:39 part-r-00001-9ceb13fe-a57c-4af1-993e-d998d6c41008.gz.parquet</code></pre>
+<h2 id="step-7-saving-orc">Step 7 : Saving ORC</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb13-1" data-line-number="1">    clicksJson.<span class="fu">write</span>.<span class="fu">orc</span>(<span class="st">&quot;/data/click-stream/my-orc&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Measure the time taken to save as ORC and record in spreadsheet</strong></p>
+<h2 id="step-8-querying-parquet-data">STEP 8 : Querying Parquet Data</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb14-1" data-line-number="1">    <span class="kw">val</span> clicksParquet = spark.<span class="fu">read</span>.<span class="fu">parquet</span>(<span class="st">&quot;/data/click-stream/my-parquet&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Note how quickly the data is loaded; measure this time and record in spreadsheet</strong><br />
+<strong>==&gt; and schema is inferred!</strong></p>
+<p>Parquet format has built-in schema, so Spark doesn’t have to parse the files as needed in JSON format</p>
+<p><strong>==&gt; Caclculate max(cost)</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb15-1" data-line-number="1">    clicksParquet.<span class="fu">agg</span>(<span class="fu">max</span>(<span class="st">&quot;cost&quot;</span>)).<span class="fu">show</span>  <span class="co">// same as before</span></a></code></pre></div>
+<p><strong>==&gt; Notice the time took and record in spreadsheet</strong><br />
+Sample output</p>
+<pre class="console"><code>    Job 3 finished: show at &lt;console&gt;:24, took `0.627185 s`</code></pre>
+<p><strong>==&gt; Why parquet is so quick to process?</strong></p>
+<h2 id="step-9-querying-orc">STEP 9 : Querying ORC</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb17-1" data-line-number="1">    <span class="kw">val</span> clicksORC = spark.<span class="fu">read</span>.<span class="fu">orc</span>(<span class="st">&quot;/data/click-stream/my-orc&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Note the load time and record in spreadsheet</strong></p>
+<p><strong>==&gt; Measure query time and record in spreadsheet</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb18-1" data-line-number="1">    clicksORC.<span class="fu">agg</span>(<span class="fu">max</span>(<span class="st">&quot;cost&quot;</span>)).<span class="fu">show</span>  <span class="co">// same as before</span></a></code></pre></div>
+<h2 id="step-10-compare-data-sizes">Step 10 : Compare Data Sizes</h2>
+<p>Enter the size in bytes in spreadsheet**</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" data-line-number="1">    <span class="co"># bytes for spreadsheet</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">    $    <span class="fu">du</span> -b  /data/click-stream/*</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">    <span class="co"># in Mac use `du -k`</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">    <span class="co"># for human readable format use</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">    $    <span class="fu">du</span> -skh  /data/click-stream/*</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">    <span class="co"># or</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">    $    <span class="fu">du</span> -h  /data/click-stream/*</a></code></pre></div>
+<p>Sample output</p>
+<pre class="console"><code>    1415178847  /Users/sujee/data/click-stream/json
+    161398938   /Users/sujee/data/click-stream/json-gz
+    105793926   /Users/sujee/data/click-stream/my-orc
+    118394196   /Users/sujee/data/click-stream/my-parquet</code></pre>
+<p><strong>==&gt; Record the byte sizes in spreadsheet</strong></p>
+<h3 id="discussion-analyze-discuss-results">Discussion : Analyze / discuss results</h3>
+<pre><code>Here are numbers from my run:
+
+|format   | storage size |  loading time | query time : max(cost)|
+|---------|:-------------|:--------------|:---------------------:|
+| json    |  1.3 G       |  8.3 s        |   4.6 s               |
+| json.gz |  154 M       |  8.5 s        |   4.1 s               |
+| parquet |  101 M       |    0 s        |   0.23 s              |
+| ORC     |  113 M       |    0 s        |   0.76 s              |</code></pre>
+<p><strong>==&gt; Also discuss your findings from <code>atop</code>. Which resource ‘ceiling’ we are hitting first? CPU / Memory / Disk ?</strong></p>
+<h3 id="bonus-1-compressed-json">BONUS 1 : Compressed JSON</h3>
+<p>We are going to store JSON files in compressed gzip format</p>
+<p><strong>==&gt; Compress the files</strong></p>
+<pre><code>$    cd   /data/click-stream
+$   ./compress-json.sh</code></pre>
+<p>This will create compressed JSON in <code>json-gz</code> directory</p>
+<p><strong>==&gt; Inspect directory sizes</strong></p>
+<pre><code>    # bytes for spreadsheet
+    $    du -b json    json-gz   my-parquet  my-orc
+
+    # human readable format
+    $    du -skh  json    json-gz   my-parquet   my-orc</code></pre>
+<p>Sample output</p>
+<pre><code>1.3G    json
+154M    json-gz
+ 77M    my-parquet</code></pre>
+<p><strong>==&gt; Load compressed json files in Spark shell and do the same processing</strong><br />
+<strong>==&gt; Look at <code>atop</code> window to see resource usage</strong></p>
+<pre><code>// note the parsing time
+val clicksJgz = spark.read.json(&quot;/data/click-stream/json-gz&quot;)
+
+// calculate the max cost
+// notice the time took
+clicksJgz.agg(max(&quot;cost&quot;)).show
+
+// output : Job 7 finished: show at console:22, took 8.066727 s</code></pre>

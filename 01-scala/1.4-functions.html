@@ -1,0 +1,104 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-1.4-higher-order-functions">Lab 1.4 : Higher Order Functions</h1>
+<h3 id="overview">Overview</h3>
+<p>Write and use higher order functions.<br />
+We are going to use IntelliJ to implement the lab.</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20 mins</p>
+<h2 id="step-1-start-intellij">Step 1 : Start IntelliJ</h2>
+<p><img src="../assets/images/intellij1.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="step-2-create-a-new-scala-project">Step 2 : Create A New Scala Project</h2>
+<ul>
+<li>Click <code>New Project</code> or <code>File -&gt; New Project</code></li>
+<li>Select <code>~/spark-labs/01-scala/</code> directory</li>
+<li>Set Project Name to <code>timer</code></li>
+<li>Make sure <code>Java SDK</code> has a value</li>
+<li>Make sure <code>Scala SDK</code> has a value
+<ul>
+<li>If the value is missing click on <code>create</code> button to select a Scala SDK. Any version is fine, latest 2.11.x is recommended.</li>
+</ul></li>
+</ul>
+<p><img src="../assets/images/intellij_new_project.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p>You may want to setup views as follows</p>
+<p><img src="../assets/images/intellij_views.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="step-3-create-a-scala-object-mytimer">Step 3 : Create a Scala Object ‘MyTimer’</h2>
+<p>Let’s create a file called <code>MyTimer.scala</code>.<br />
+* <code>Right Click on src</code> –&gt; <code>New</code> –&gt; <code>Scala class</code> * Give it name : <code>MyTimer</code> * Select type : <code>Object</code></p>
+<p><img src="../assets/images/intellij_new_scala_class.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p><img src="../assets/images/intellij_new_scala_class2.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="step-4-add-a-timeit-function">Step 4 : Add a ‘timeit’ function</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">object</span> MyTimer {</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    <span class="kw">def</span> timeit[R](block: =&gt; R): R = {</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">        <span class="co">// look up &#39;java System class nano time&#39;</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">        <span class="co">// http://docs.oracle.com/javase/8/docs/api/java/lang/System.html</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">        <span class="co">// TODO-1  : mark the time</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">        <span class="kw">val</span> t1 = System.??? </a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">        <span class="kw">val</span> result = block    <span class="co">// call-by-name, save the result</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">        <span class="co">// TODO-2  : mark the time again</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">        <span class="kw">val</span> t2 = System.???</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">        <span class="fu">println</span>(<span class="st">&quot;### timeit() : Elapsed time:  %,d  ms&quot;</span><span class="fu">.format</span>( (t2 - t1) /1000000 ) )</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">        result <span class="co">// return the result</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">    }</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">}</a></code></pre></div>
+<h2 id="step-5-create-a-test-class">Step 5 : Create a Test Class</h2>
+<p>Let’s create a file called <code>TestTimer.scala</code>.<br />
+Hint : <code>New --&gt; Scala Class</code><br />
+Make sure it is an <code>Object</code></p>
+<p>Let’s measure the time taken for <code>sleepy</code> function.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">import</span> MyTimer._</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">object</span> TestTimer {</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">    <span class="kw">def</span> <span class="fu">sleepy</span> (duration : Int) = {</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">        Thread.<span class="fu">sleep</span>(duration)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">        <span class="fu">println</span> (<span class="st">&quot;yawn... slept for &quot;</span> + duration)</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">        duration</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">    }</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">    <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]): Unit = {</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">      <span class="kw">val</span> a = MyTimer.<span class="fu">timeit</span>(<span class="fu">sleepy</span>(<span class="dv">300</span>))</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">      <span class="fu">println</span> (<span class="st">&quot;result 1 : &quot;</span> + a)</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">    }</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">}</a></code></pre></div>
+<h2 id="step-6-run-the-testtimer">Step 6 : Run the TestTimer</h2>
+<ul>
+<li>Right click on TestTimer</li>
+<li>Choose Run</li>
+</ul>
+<p><img src="../assets/images/intellij_run_class.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p>You will output like this</p>
+<pre class="console"><code>    yawn ... slept for 300
+    ### timeit() : elapsed time : 660 ms
+    result 1 : 300</code></pre>
+<h2 id="step-7-time-the-following-operations">Step 7 : Time the following operations</h2>
+<p>Make needed changes to TestTimer.scala</p>
+<h4 id="how-long-the-operation-12-takes">How long the operation <code>1+2</code> takes</h4>
+<p>Hint:</p>
+<pre><code>    timeit { 1 + 2}</code></pre>
+<h4 id="how-long-does-it-take-to-calculate-squares-of-million-numbers-1-to-1000000">How long does it take to calculate squares of million numbers (1 to 1000000)</h4>
+<p>Hint :</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1">    <span class="kw">val</span> x = <span class="dv">1</span> to <span class="dv">1000000</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    timeit { x.<span class="fu">map</span>(???) }  <span class="co">// TODO : figure out code for squaring</span></a></code></pre></div>
+<h2 id="lab-end">Lab End</h2>
+<p>Following are for reference only</p>
+<h2 id="how-to-compile-and-run-using-command-line-utilities">How to compile and run using command line utilities</h2>
+<pre><code>    $   scalac  MyTimer.scala TestTimer.scala</code></pre>
+<p>To run</p>
+<pre><code>    $   scala TestTimer</code></pre>
+<h2 id="quick-testing-on-scala-shell">Quick Testing on Scala Shell</h2>
+<p>Here is a handy way to test using Scala Shell…</p>
+<p>Copy / Paste the Timer code into Scala Shell</p>
+<pre><code>scala&gt;
+    copy paste MyTimer.scala code here
+    ...
+
+    defined module MyTimer</code></pre>
+<p>Now do testing:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb9-1" data-line-number="1">scala&gt;</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    MyTimer.<span class="fu">timeit</span> { <span class="dv">1</span> + <span class="dv">2</span>}</a></code></pre></div>

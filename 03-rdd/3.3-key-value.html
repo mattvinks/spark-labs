@@ -1,0 +1,168 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-3.3-keyvalue-pair-rdds">Lab 3.3 : Key/Value Pair RDDs</h1>
+<h3 id="overview">Overview</h3>
+<p>Learn to work with</p>
+<h3 id="depends-on">Depends On</h3>
+<p><a href="2-rdd-multi.md">3.2 multi RDD operations</a></p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<table style="width:40%;">
+<colgroup>
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Meetup Recommendation Take 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>In the previous lab we created datasets using <code>parallelize</code> keyword. In this lab we are going to load key/value RDDs from files.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="analyzing-meetup-data">Analyzing Meetup Data</h2>
+<h2 id="step-1-start-spark-shell">Step 1 : Start Spark Shell</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    $   <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h2 id="step-2-load-data">Step 2: Load data</h2>
+<p>The file <a href="/data/meetup/meetup.csv" class="uri">/data/meetup/meetup.csv</a> has following contents</p>
+<pre><code>    u1,m1
+    u2,m2
+    u1,m2
+    u3,m1
+    u2,m3
+    u2,m4
+    u3,m5
+    u1,m3
+    u2,m5
+    u4,m6
+    u5,m1</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1">    <span class="kw">val</span> meetups = sc.<span class="fu">textFile</span>(<span class="st">&quot;/data/meetup/meetup.csv&quot;</span>)</a></code></pre></div>
+<p><strong>=&gt; Print the content of variable <code>meetups</code></strong><br />
+Hint : <code>collect</code><br />
+Hint to print line by line : <code>meetups.foreach(println)</code></p>
+<p><code>meetups</code> is an RDD of <code>Array[String]</code></p>
+<h2 id="step-3-creating-a-key-value-pair-rdd">Step 3 : Creating a key-value pair RDD</h2>
+<p>Use <code>map</code> to create pair RDD</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1">    <span class="kw">val</span> userMeetupsKV = meetups.<span class="fu">map</span>(line =&gt; {</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">                    <span class="kw">val</span> tokens = line.<span class="fu">split</span>(<span class="st">&quot;,&quot;</span>) <span class="co">// split the line</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                    <span class="kw">val</span> user = <span class="fu">tokens</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                    <span class="kw">val</span> meetup = <span class="fu">tokens</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                    (user, meetup) <span class="co">// create a KV pair (user, meetup)</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">                    })</a></code></pre></div>
+<p><strong>=&gt; See the ‘RDD lineage’ of <code>userMeetupsKV</code></strong><br />
+Hint : <code>userMeetupsKV.toDebugString</code></p>
+<pre><code># read from bottom up
+    (2) MapPartitionsRDD[2] at map at &lt;console&gt;:23 []
+     |  MapPartitionsRDD[1] at textFile at &lt;console&gt;:21 []
+     |  data/meetup/meetup.csv HadoopRDD[0] at textFile at &lt;console&gt;:21 []
+</code></pre>
+<p><strong>=&gt; Print the contents of <code>userMeetupsKV</code></strong></p>
+<p><strong>=&gt; What is resulting RDD type from this?</strong></p>
+<pre><code>    val x = meetups.map(line =&gt; line.split(&quot;,&quot;))</code></pre>
+<h2 id="step-4-rdd-operations">Step 4 : RDD Operations</h2>
+<p><strong>=&gt; Find all meetups per user</strong><br />
+Hint : <code>groupByKey</code></p>
+<p><strong>=&gt; Print the lineage of grouped RDD</strong><br />
+Hint : <code>toDebugString</code></p>
+<pre><code>    scala&gt; userMeetupsKV.groupByKey.toDebugString
+    res5: String =
+    (2) ShuffledRDD[5] at groupByKey at &lt;console&gt;:26 []
+     +-(2) MapPartitionsRDD[2] at map at &lt;console&gt;:23 []
+        |  MapPartitionsRDD[1] at textFile at &lt;console&gt;:21 []
+        |  data/meetup/meetup.csv HadoopRDD[0] at textFile at &lt;console&gt;:21 []</code></pre>
+<p><strong>=&gt; See DAG for groupby execution</strong><br />
+Execute the following in Shell</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">    scala&gt; userMeetupsKV.<span class="fu">groupByKey</span>.<span class="fu">collect</span></a></code></pre></div>
+<p>And inspect the <strong>Spark Shell UI (port 4040)</strong> and look at the <strong>DAG</strong> for this execution. You might see something like this.<br />
+Notice how <code>groupByKey</code> is done in another stage.</p>
+<p><img src="../assets/images/3.3a.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><strong>=&gt; Find meetups for user ‘u1’</strong><br />
+Hint : <code>filter</code><br />
+<code>rdd.filter{case (k,v) =&gt; k == &quot;u1&quot;}</code></p>
+<p><strong>=&gt; Find number of meetups per user</strong><br />
+Hint : <code>countByKey</code></p>
+<p><strong>=&gt; Find all unique meetups in the dataset</strong><br />
+Hint : <code>values</code> and <code>distinct</code></p>
+<p><strong>=&gt; Sort the output of above</strong><br />
+Hint : <code>sorted</code></p>
+<table style="width:40%;">
+<colgroup>
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">More RDD Operations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">## Step 5 : Create an RDD with meetup as key For some operations we need to swap key and value pair. Here is how…</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">```scala // from original dataset val meetups = sc.textFile(“/data/meetup/meetup.csv”) val meetupUsersKV = meetups.map(line =&gt; { val tokens = line.split(“,”) // split the line (tokens(1), tokens(0)) // (meetup, user) })</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">// swapping an already existing KV RDD val meetupUsersKV = userMeetupsKV.map{case(k,v) =&gt; (v,k)} ```</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>=&gt; Find all users for each meetup</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>=&gt; Find number of users for each meetup</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>=&gt; Sort the meetup by most popular to least</strong> Hint : We need to sort the results. One option is converting the Map to a List and sorting it. Try this <code>meetupUserCount.toSeq.sortWith((a,b) =&gt; a._2 &gt; b._2)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="join-operations">Join Operations</h2>
+<h2 id="step-6-load-users-dataset">Step 6 : Load Users Dataset</h2>
+<p>The file <a href="/data/meetup/users.csv" class="uri">/data/meetup/users.csv</a> contains users data in the following format</p>
+<pre><code>    userid, gender, languages(note - separated by ;)
+
+    u1,M,Java;Ruby
+    u2,F,Scala;Python;Erlang
+    u3,M,Java;Scala
+    u4,F,C++;PHP;Go
+    u5,M,Scala;Python
+    u6,M,Go;Shell;C++
+    u7,F,PHP;Ruby
+    u8,F,Python;Erlang
+    u9,M,Java;C++
+    u10,M,Java</code></pre>
+<p><strong>=&gt; Load the user data set</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb10-1" data-line-number="1">    <span class="co">// ===== Scala =====</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="kw">val</span> users = sc.<span class="fu">textFile</span>(<span class="st">&quot;/data/meetup/users.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="co">// create user RDD : user -&gt; gender</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="kw">val</span> usersKV = users.<span class="fu">map</span>(line =&gt; {</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">                        <span class="kw">val</span> tokens = line.<span class="fu">split</span>(<span class="st">&quot;,&quot;</span>)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">                        <span class="kw">val</span> userName = <span class="fu">tokens</span>(<span class="dv">0</span>) <span class="co">// first</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">                        <span class="kw">val</span> gender = <span class="fu">tokens</span>(<span class="dv">1</span>) <span class="co">// second</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">                        <span class="kw">val</span> langs = <span class="fu">tokens</span>(<span class="dv">2</span>).<span class="fu">split</span>(<span class="st">&quot;;&quot;</span>) <span class="co">// third, create lang array</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">                        <span class="co">// TODO : just return user and gender</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">                        (???, ???)</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">                        })</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">    usersKV.<span class="fu">collect</span></a></code></pre></div>
+<h2 id="step-7-join-user-data-and-meetup-data">Step 7 : Join User data and Meetup data</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb11-1" data-line-number="1">    <span class="co">// ===== Scala =====</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">    <span class="kw">val</span> joinedUsersMeetups = usersKV.<span class="fu">join</span>(userMeetupsKV)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    joinedUsersMeetups.<span class="fu">collect</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">    <span class="co">//  Array[(String, (String, String))] = Array((u5,(M,m1)), (u3,(M,m1)),</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">    <span class="co">// ...</span></a></code></pre></div>
+<p><strong>=&gt; Inspect the RDD type for <code>joinedUsersMeetups</code></strong></p>
+<h2 id="step-8-meetups-and-gender">Step 8 : Meetups and Gender</h2>
+<p>Using <code>joinedUsersMeetups</code> RDD, create a new RDD as gender as key and meetup as value</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb12-1" data-line-number="1">    <span class="co">// ===== Scala =====</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">    <span class="co">// gender -&gt; meetup</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="kw">val</span> genderMeetups = joinedUsersMeetups.<span class="fu">map</span>{</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">        <span class="kw">case</span> (user, (gender, meetup)) =&gt; (???, ???)  <span class="co">// TODO : return the correct values</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">        }</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">    genderMeetups.<span class="fu">collect</span></a></code></pre></div>
+<p><strong>=&gt; Calculate how many Male / Females attend meetups (overall distribution)</strong></p>
+<h2 id="bonus-lab">Bonus Lab</h2>
+<p>Create an RDD with meetup as key and gender as value.<br />
+What kind of interesting facts you can find from this RDD?</p>

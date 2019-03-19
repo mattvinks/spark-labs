@@ -1,0 +1,12 @@
+<p><link rel='stylesheet' href='assets/css/main.css'/></p>
+<h1 id="hadoop-spark-setup">Hadoop / Spark setup</h1>
+<h3 id="to-be-completed-by-instructor">To be completed by Instructor</h3>
+<h2 id="execute-the-setup-script">1 - Execute the setup script</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    <span class="co"># change MYNAME</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    $  <span class="bu">cd</span>  ~/spark-labs/scripts/</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    $  <span class="ex">./setup-clickstream.sh</span></a></code></pre></div>
+<h2 id="verify-data-in-hdfs-ui">2 - Verify data in HDFS UI</h2>
+<h2 id="jupyter-server-start">3 - Jupyter server start</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="va">PYSPARK_PYTHON=</span>python3 <span class="va">PYSPARK_DRIVER_PYTHON=</span>jupyter <span class="va">PYSPARK_DRIVER_PYTHON_OPTS=</span>notebook <span class="ex">~/spark/bin/pyspark</span></a></code></pre></div>
+<p>Access http://URL:8888</p>

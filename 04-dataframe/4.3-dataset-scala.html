@@ -1,0 +1,95 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-4.3-dataset">Lab 4.3 : Dataset</h1>
+<h3 id="overview">Overview</h3>
+<p>Get comfortable with Spark Dataset (and RDD / Dataframe)</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<h2 id="step-1-start-spark-shell">Step 1: Start Spark Shell</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h2 id="step-2-imports">Step 2: Imports</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">// This is used to implicitly convert an RDD to a DataFrame.</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">import</span> spark.<span class="fu">implicits</span>._</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">sql</span>._</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">sql</span>.<span class="fu">types</span>._</a></code></pre></div>
+<h2 id="step-3-use-csv-reader">Step 3: Use CSV Reader</h2>
+<p>Here is <a href="/data/people/people2.csv" class="uri">/data/people/people2.csv</a></p>
+<pre><code>name,gender,age
+John,M,35
+Jane,F,40
+Mike,M,18
+Sue,F,19</code></pre>
+<p>Load it using CSV loader</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">val</span> peopleDF = spark.<span class="fu">read</span>.</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">               <span class="fu">option</span>(<span class="st">&quot;header&quot;</span>, <span class="st">&quot;true&quot;</span>).</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">               <span class="co">// option(&quot;inferSchema&quot;, &quot;true&quot;).</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">               <span class="fu">csv</span>(<span class="st">&quot;/data/people/people2.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">peopleDF.<span class="fu">columns</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">peopleDF.<span class="fu">printSchema</span></a></code></pre></div>
+<p><strong>==&gt; What is the type for <code>peopleDF</code> ?</strong></p>
+<h2 id="step-4-supplying-schema-using-structfield">Step 4: Supplying schema using <code>StructField</code></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">// == read DF using csv reader with schema</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">// TODO : correctly assign the types : StringType / IntegerType</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">val</span> nameField = <span class="fu">StructField</span>(<span class="st">&quot;name&quot;</span>, StringType)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">val</span> genderField = <span class="fu">StructField</span>(<span class="st">&quot;gender&quot;</span>, ???)  <span class="co">// StringType</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw">val</span> ageField = <span class="fu">StructField</span>(<span class="st">&quot;age&quot;</span>, ???)  <span class="co">// IntegerType</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw">val</span> weightField = <span class="fu">StructField</span>(<span class="st">&quot;weight&quot;</span>, ???) <span class="co">// FloatType</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="kw">val</span> peopleSchema = <span class="fu">StructType</span>(Array(nameField, genderField, ageField, weightField))</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">val</span> peopleDF2 = spark.<span class="fu">read</span>.</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">                <span class="fu">option</span>(<span class="st">&quot;header&quot;</span>, <span class="st">&quot;true&quot;</span>).</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">                <span class="fu">schema</span>(peopleSchema).</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">                <span class="fu">csv</span>(<span class="st">&quot;/data/people/people2.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">peopleDF2.<span class="fu">printSchema</span></a></code></pre></div>
+<h2 id="step-5-reading-rdd-with-schema">Step 5: Reading RDD with schema</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">// TODO : assign types  (String / Integer / Float)</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> <span class="fu">Person</span> (</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    name: ???,</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">    gender: ???,</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    age:???</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">    weight:???</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  )</a></code></pre></div>
+<p>Read RDD as text first</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">val</span> p = spark.<span class="fu">sparkContext</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/people/people.csv&quot;</span>)</a></code></pre></div>
+<p>Then parse it into <code>Person</code> class</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">val</span> peopleRDD = p.<span class="fu">map</span> (line =&gt; {</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">        <span class="kw">val</span> tokens = line.<span class="fu">split</span>(<span class="st">&quot;,&quot;</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">        <span class="kw">val</span> name = <span class="fu">tokens</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">        <span class="kw">val</span> gender = <span class="fu">tokens</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">        <span class="kw">val</span> age = <span class="fu">tokens</span>(<span class="dv">2</span>).<span class="fu">toInt</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">        <span class="kw">val</span> weight = <span class="fu">tokens</span>(<span class="dv">3</span>).<span class="fu">toFloat</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">        <span class="co">// TODO : fill in Person class</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">        <span class="kw">new</span> <span class="fu">Person</span> (name, gender, ???, ???)</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">      })</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">peopleRDD.<span class="fu">collect</span>.<span class="fu">foreach</span>(println)</a></code></pre></div>
+<h2 id="step-6-conversion-across-rdd-dataframe-dataset">Step 6: Conversion across RDD / Dataframe / Dataset</h2>
+<p><strong>==&gt; Convert RDD to Dataset</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">// TODO use `toDS` function</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">// Hint : see slides for code snippets</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">val</span> peopleDS = peopleRDD.???</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">peopleDS.<span class="fu">show</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">// another approach</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">// TODO : supply the class name and RDD</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw">val</span> peopleDS2 = spark.<span class="fu">createDataset</span>[?? <span class="kw">class</span> name ??](?? RDD ??)</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">peopleDS2.<span class="fu">show</span></a></code></pre></div>
+<p><strong>==&gt; Access underlying RDD from <code>peopleDS</code> </strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb10-1" data-line-number="1">peopleDS.???</a></code></pre></div>
+<h2 id="step-7-type-safe-operations-on-dataset">Step 7: Type safe operations on Dataset</h2>
+<p><strong>==&gt; Find all people with age &gt; 20 </strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">// &#39;age&#39; is treated like Integer</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">peopleDS.<span class="fu">filter</span>(_.<span class="fu">age</span> &gt; ???).<span class="fu">show</span></a></code></pre></div>
+<p><strong>==&gt; Print names in UPPERCASE</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co">// Hint : search for how to convert Scala string to uppercase</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">peopleDS.<span class="fu">map</span>( p =&gt; p.<span class="fu">name</span>.???).<span class="fu">show</span></a></code></pre></div>
+<h2 id="step-8-dataset---dataframe---rdd">Step 8 : Dataset -&gt; Dataframe -&gt; RDD</h2>
+<p><strong>==&gt; Convert Dataset to Dataframe</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">val</span> df2 = peopleDS.<span class="fu">toDF</span></a></code></pre></div>
+<p><strong>==&gt; convert Dataframe to Dataset</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">val</span> ds2 = df2.<span class="fu">as</span>[?? Class Name ??]</a></code></pre></div>
+<p><strong>==&gt; Access underlying RDD within Dataframe</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb15-1" data-line-number="1">df2.<span class="fu">rdd</span></a></code></pre></div>

@@ -1,0 +1,113 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-3.6-rdd-caching">Lab 3.6 : RDD Caching</h1>
+<h3 id="overview">Overview</h3>
+<p>Understanding RDD caching</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>15-20 mins</p>
+<h3 id="step-1-inspect-data">STEP 1: Inspect data</h3>
+<p>Under <code>/data/text/twinkle</code> directory we have created some large data files for you. Verify this by doing</p>
+<pre><code>    $    l   /data/text/twinkle</code></pre>
+<p>You should see files like ‘100M.data’, ‘500M.data’ … so on. Your output might look like this<br />
+<img src="../assets/images/3.1a.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<h4 id="optional-step">Optional Step</h4>
+<p>You can generate more data if you’d like.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $    <span class="bu">cd</span> ~/data/text/twinkle</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    $    <span class="ex">./create-data-files.sh</span></a></code></pre></div>
+<p>This script will generate a bunch of data files at various sizes (1M, 10M, 100M, 500M and 1G) Verify the data files and their sizes by doing a</p>
+<pre><code>$   ls -lh</code></pre>
+<h3 id="step-2-start-spark-server-shell">STEP 2: Start Spark Server / Shell</h3>
+<pre><code>$  ~/spark/sbin/start-all.sh</code></pre>
+<p>Starting Shell (with 4G memory)</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">    $  <span class="ex">~/spark/bin/spark-shell</span>   --executor-memory 4G  --master <span class="op">&lt;</span>spark master uri<span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    <span class="co">#                                                           ^^^^^^^^^^^^^^^^</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="co">#                                                            update this to match your spark server</span></a></code></pre></div>
+<p>Also set the logging level to INFO (so Spark will print out job execution times on console)</p>
+<pre><code>    scala&gt;
+            sc.setLogLevel(&quot;INFO&quot;)</code></pre>
+<h3 id="step-3-recording-caching-times">STEP 3: Recording Caching times</h3>
+<p>Download and inspect the Excel worksheet : <a href="caching-worksheet.xlsx">caching-worksheet</a>.<br />
+We are going to fill in the values here to understand how caching performs.</p>
+<p>It looks like this: <img src="../assets/images/3.6a.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<h3 id="step-4-load-rdd">STEP 4: Load RDD</h3>
+<p>Load a big file (e.g 500M.data)</p>
+<pre><code>    // scala
+    val f = sc.textFile(&quot;/data/text/twinkle/500M.data&quot;)</code></pre>
+<p><strong>=&gt; Count the number of lines in this file</strong><br />
+Hint : <code>count()</code></p>
+<p><strong>=&gt; Notice the time took</strong><br />
+Look for output like this in Spark Shell console</p>
+<pre class="console"><code>Job 1 finished: count at &lt;console&gt;:30, took __3.792822__ s</code></pre>
+<p><strong>=&gt; Do the same count() operation a few times until the execution time ‘stablizes’</strong><br />
+<strong>=&gt; Record the time in spreadsheet.</strong><br />
+<strong>=&gt; Can you explain the behavior of count() execution time ?</strong></p>
+<h3 id="step-5-cache">STEP 5: Cache</h3>
+<p><strong>=&gt; Cache the file using <code>cache()</code> action.</strong></p>
+<pre><code>f.cache()</code></pre>
+<p><strong>=&gt; Run the <code>count()</code> again. Notice the time. Can you explain this behavior ? :-)</strong></p>
+<p><strong>=&gt; Run count() a few more times and note the execution times.</strong><br />
+<strong>=&gt; Record the time in spreadsheet.</strong><br />
+<strong>=&gt; Do the timings make sense?</strong></p>
+<h3 id="step-6-understanding-cache-storage">STEP 6: Understanding Cache storage</h3>
+<p>Go to spark shell UI @ port 4040<br />
+<strong>=&gt; Inspect ‘storage’ tab</strong></p>
+<p><img src="../assets/images/3.6b.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><strong>=&gt; Can you see the cached RDD? What is the memory size?</strong><br />
+<strong>=&gt; What are the implications?</strong></p>
+<h3 id="step-7-cache-a-larger-file">STEP 7: Cache a larger file</h3>
+<p><strong>=&gt; Try to cache 1G.data file and do count()</strong><br />
+Is caching successful ? If not, try starting Spark shell with more memory</p>
+<h3 id="step-8-caching-rdd-vs.dataframe">Step 8 : Caching RDD vs. Dataframe</h3>
+<p>We will load the same data using RDD API and Dataframe API will compare cache performance.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb10-1" data-line-number="1">    <span class="co">// RDD</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="kw">val</span> rdd = sc.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/100M.data&quot;</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    rdd.<span class="fu">cache</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    rdd.<span class="fu">count</span>  <span class="co">// force caching</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">    <span class="co">// dataset</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">    <span class="kw">val</span> ds = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/100M.data&quot;</span>)</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">    ds.<span class="fu">cache</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">    ds.<span class="fu">count</span>  <span class="co">// force caching</span></a></code></pre></div>
+<p>Now check the ‘Storage’ tab in Spark Shell UI (port 4040).</p>
+<p>Here is a sample output.</p>
+<p><img src="../assets/images/3.6c-rdd-ds-cache.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><strong>Try with random data</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">// create a file with some random bits</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">import</span> sys.<span class="fu">process</span>._</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">&quot;dd if=/dev/urandom of=/data/100M-rand  bs=1M count=100&quot;</span>!</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">// RDD</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw">val</span> rdd = sc.<span class="fu">textFile</span>(<span class="st">&quot;/data/100M-rand&quot;</span>)</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">rdd.<span class="fu">cache</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">rdd.<span class="fu">count</span>  <span class="co">// force caching</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">// dataset</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="kw">val</span> ds = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/100M-rand&quot;</span>)</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">ds.<span class="fu">cache</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14">ds.<span class="fu">count</span>  <span class="co">// force caching</span></a></code></pre></div>
+<p>** ==&gt; Discuss your findings **</p>
+<h3 id="step-9-reducing-memory-footprint">Step 9 : Reducing memory footprint</h3>
+<p>There are various levels of memory caching. Here are a couple:</p>
+<ul>
+<li>Raw caching (<code>rdd.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY)</code>)<br />
+</li>
+<li>Serialized Caching (<code>rdd.persist(org.apache.spark.storage.StorageLevel.MEMORY_ONLY_SER)</code>)</li>
+</ul>
+<p><strong>=&gt; Try both options <code>f.persist(....)</code> . Monitor memory consumption in storage tab</strong></p>
+<p><strong>NOte: Caching level can not be changed after an RDD cached. You have to ‘uncache / unpersist’ the RDD and then cache it again</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb12-1" data-line-number="1">        rdd.<span class="fu">persist</span>(org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">storage</span>.<span class="fu">StorageLevel</span>.<span class="fu">MEMORY_ONLY</span>) <span class="co">// same as rdd.cache()</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">        rdd.<span class="fu">unpersist</span>()</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">        rdd.<span class="fu">persist</span>(org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">storage</span>.<span class="fu">StorageLevel</span>.<span class="fu">MEMORY_ONLY_SER</span>)</a></code></pre></div>
+<h3 id="group-discussion">Group discussion</h3>
+<ul>
+<li>mechanics of caching</li>
+<li>implications of caching vs memory</li>
+</ul>
+<h3 id="further-reading">Further Reading</h3>
+<ul>
+<li><a href="http://sujee.net/2015/01/22/understanding-spark-caching/">Understanding Spark Caching by Sujee Maniyam</a></li>
+</ul>

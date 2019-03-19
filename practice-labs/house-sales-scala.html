@@ -1,0 +1,39 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<h1 id="house-sales-analytics">House Sales Analytics</h1>
+<h2 id="step-1-inspect-house-sales-data">Step 1 : Inspect House Sales data</h2>
+<p><a href="/data/house-prices/house-sales-sample.csv">sample house sales data</a></p>
+<pre><code>      ID    Date SalePrice PropertyID  PropertyType Bedrooms Bathrooms SqFtTotLiving SqFtLot YrBuilt ZipCode
+ 1     1 9/16/14    280000    1000102     Multiplex        6      3.00          2400    9373    1991   98002
+ 2     2 6/16/06   1000000    1200013 Single Family        4      3.75          3764   20156    2005   98166
+ 3     3 1/29/07    745000    1200019 Single Family        4      1.75          2060   26036    1947   98166
+ 4     4 2/25/08    425000    2800016 Single Family        5      3.75          3200    8618    1966   98168
+ 5     5 3/29/13    240000    2800024 Single Family        4      1.75          1720    8620    1948   98168
+ 6     6 3/30/09    349900    3600090     Townhouse        2      1.50           930    1012    2008   98144
+ 7     7 8/28/13    327500    3800004 Single Family        3      1.50          1750   34465    1961   98178
+ 8     8 5/24/07    347000    3800009 Single Family        4      1.75          1860   14659    1963   98178
+ 9     9 9/22/06    220400    6600055 Single Family        2      1.00           990    5324    1930   98032
+10    10 8/22/06    437500    7200080     Multiplex        4      2.00          1980   10585    1924   98055
+# ... with 27,053 more rows</code></pre>
+<h2 id="step-2-read-csv">Step 2 : Read CSV</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">val</span> house_sales = spark.<span class="fu">read</span>.</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">                  <span class="fu">option</span>(<span class="st">&quot;header&quot;</span>, <span class="st">&quot;true&quot;</span>).</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">                  <span class="fu">csv</span>(<span class="st">&quot;/data/house-prices/house-sales-simplified.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">house_sales.<span class="fu">printSchema</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">house_sales.<span class="fu">show</span></a></code></pre></div>
+<p>Register as temptable for SQL queries</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1">house_sales.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;house_sales&quot;</span>)</a></code></pre></div>
+<h2 id="step-3-calculate-sale-numbers-per-bedrooms">Step 3: Calculate sale numbers per bedrooms</h2>
+<p>sample output (not actual numbers)</p>
+<pre><code>    bedrooms    count
+        1        100
+        2        150
+        3        200</code></pre>
+<p>Hint 1 : <code>groupby</code><br />
+Hint 2 : or use SQL :-)</p>
+<h2 id="step-4-get-a-sense-of-data">Step 4: Get a ‘sense’ of data</h2>
+<p>We use <code>describe</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1">house_sales.<span class="fu">describe</span>(<span class="st">&quot;SalePrice&quot;</span>, <span class="st">&quot;Bedrooms&quot;</span>).<span class="fu">show</span>()</a></code></pre></div>
+<h2 id="step-5-find-prices-per-bedrooms">Step 5 : Find prices per bedrooms</h2>
+<p>Find avg, min, max prices for each bedrooms</p>
+<h2 id="step-6-find-the-most-expensive-zip-code">Step 6 : Find the most expensive zip code</h2>

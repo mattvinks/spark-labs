@@ -1,0 +1,73 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-4.2-spark-sql-sql">Lab 4.2 : Spark SQL : SQL</h1>
+<h3 id="overview">Overview</h3>
+<p>Using SQL statements with Spark SQL.</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">STEP 1: Start Spark Shell</td>
+</tr>
+</tbody>
+</table>
+<h4 id="in-standalone-env.">In Standalone env.</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h4 id="in-hadoop-env">In Hadoop env</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $  <span class="ex">spark-shell</span></a></code></pre></div>
+<h3 id="step-2-load-clickstream-data">STEP 2: Load Clickstream data</h3>
+<p><strong>==&gt; Create a dataframe</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1">    <span class="kw">val</span> clickstreamDF = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/clickstream.json&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Register dataframe as a table</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">    clickstreamDF.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;clickstream&quot;</span>)</a></code></pre></div>
+<h3 id="step-3-see-all-tables">Step 3: See all tables</h3>
+<p>Use <a href="https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.catalog.Catalog">spark.catalog</a> class</p>
+<p>Output may look like this:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1">  spark.<span class="fu">catalog</span>.<span class="fu">listTables</span>.<span class="fu">show</span></a></code></pre></div>
+<pre class="console"><code>+-----------+--------+-----------+---------+-----------+
+|       name|database|description|tableType|isTemporary|
++-----------+--------+-----------+---------+-----------+
+|clickstream|    null|       null|TEMPORARY|       true|
++-----------+--------+-----------+---------+-----------+</code></pre>
+<p>We see ‘clickstream’ is registered as a TEMP table.</p>
+<h3 id="step-4-querying-using-sql">STEP 4: Querying using SQL</h3>
+<p><strong>==&gt; Select all logs</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1">    <span class="kw">val</span> logs = spark.<span class="fu">sql</span>(<span class="st">&quot;select * from clickstream&quot;</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    <span class="co">// &#39;logs&#39; is a dataframe</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    logs.<span class="fu">show</span></a></code></pre></div>
+<p>Output might be like</p>
+<pre><code>+-------+-----------+----+-----------------+----+----------+-------------+------+
+| action|   campaign|cost|           domain|  ip|   session|    timestamp|  user|
++-------+-----------+----+-----------------+----+----------+-------------+------+
+|clicked|campaign_19| 118|      youtube.com|ip_4|session_36|1420070400000|user_9|
+|blocked|campaign_12|   5|     facebook.com|ip_3|session_96|1420070400864|user_5|
+|clicked| campaign_3|  54|sf.craigslist.org|ip_9|session_61|1420070401728|user_8|
+...</code></pre>
+<p><strong>==&gt; Find records with only clicks</strong></p>
+<p><strong>==&gt; Count records from each domain, sort the output by most to least</strong></p>
+<h3 id="step-4-joining-datasets">STEP 4: Joining Datasets</h3>
+<p><strong>==&gt; Load <code>domains</code> dataset and register it to table <code>domains</code></strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb9-1" data-line-number="1">    <span class="kw">val</span> domainsDF = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/domain-info.json&quot;</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    domainsDF.<span class="fu">show</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    domainsDF.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;domains&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Join <code>clickstream</code> and <code>domains</code></strong><br />
+Hint : Here is the join query syntax for joining two tables A, B by matching A.x = B.y</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb10-1" data-line-number="1">    spark.sql(<span class="ot">&quot;select A.*, B.* from A  join B  ON (A.x = B.y)&quot;</span>)</a></code></pre></div>
+<p><strong>==&gt; Count traffic per domain category (news, social ..etc)</strong><br />
+Hint : query the joined datasets</p>
+<h3 id="step-5-explore-ui">STEP 5: Explore UI</h3>
+<p>(Your DAG visualization may be slightly different from what we show here)</p>
+<p><img src="../assets/images/5.2c.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><img src="../assets/images/5.2d.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><img src="../assets/images/5.2e.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<h2 id="step-6-understand-query-execution">Step 6 : Understand Query Execution</h2>
+<p>We will use <code>explain</code> keyword to see how Spark is optimizing and executing the query.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb11-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">spark.<span class="fu">sql</span>(<span class="st">&quot;select * from clickstream where cost &gt; 100&quot;</span>).<span class="fu">explain</span>(extended=<span class="kw">true</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">spark.<span class="fu">sql</span>(<span class="st">&quot;join query here&quot;</span>).<span class="fu">explain</span>(extended=<span class="kw">true</span>)</a></code></pre></div>

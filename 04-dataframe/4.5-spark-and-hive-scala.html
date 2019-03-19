@@ -1,0 +1,71 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<h1 id="spark-and-hive">4.5: Spark And Hive</h1>
+<p><img src="../assets/images/spark-and-hadoop-1.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p><img src="../assets/images/spark-and-hadoop-2.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="step-1-open-two-terminal-sessions-to-hadoop-node">Step 1 : Open Two Terminal Sessions to Hadoop Node</h2>
+<p>Instructor will demonstrate how.</p>
+<h2 id="step-2-in-terminal-1-start-hive-shell">Step 2 : In Terminal 1 : Start Hive Shell</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="ex">hive</span></a></code></pre></div>
+<p>Inspect the tables and run a query on ‘clickstream’ table.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb2-1" data-line-number="1">    hive&gt;</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">        show <span class="kw">tables</span>;</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">          <span class="co">-- x_clickstream,  x_domains</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">        <span class="kw">select</span> * <span class="kw">from</span> x_clickstream <span class="kw">limit</span> <span class="dv">10</span>;</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">        <span class="kw">select</span> action, <span class="fu">count</span>(*) <span class="kw">as</span> total <span class="kw">from</span> x_clickstream <span class="kw">group</span> <span class="kw">by</span> action;</a></code></pre></div>
+<h2 id="step-3-in-terminal-2-start-spark-shell">Step 3 : In Terminal 2 Start Spark shell</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $    <span class="ex">spark-shell</span>  --name <span class="st">&quot;MYNAME spark shell&quot;</span></a></code></pre></div>
+<h3 id="controlling-the-ui-options">Controlling the UI options</h3>
+<p>Spark Shell by default publishes a UI on port number 4040.<br />
+How ever when multiple apps are running, and port 4040 already taken, Spark Shell will try to find an open port (4041, 4042 ..etc)</p>
+<p>Specifying a custom port</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">    $   <span class="ex">spark-shell</span>  --conf spark.ui.port=4060</a></code></pre></div>
+<p>Turn off UI altogether</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">    $   <span class="ex">spark-shell</span>  --conf spark.ui.enabled=false</a></code></pre></div>
+<p>Type this in Spark Shell</p>
+<pre><code>    sc.setLogLevel(&quot;WARN&quot;)</code></pre>
+<p>Go to http://localhost:4040 in the browser.</p>
+<h2 id="step-4-inspect-hive-tables">Step 4 : Inspect Hive Tables</h2>
+<p>Do this in Spark-Shell</p>
+<h3 id="spark-v1">Spark v1</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">scala&gt;</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="co">// hive top level tables</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    sqlContext.<span class="fu">tableNames</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">    <span class="kw">val</span> t = sqlContext.<span class="fu">table</span>(<span class="st">&quot;x_clickstream&quot;</span>)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">    t.<span class="fu">printSchema</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">    t.<span class="fu">show</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">    sqlContext.<span class="fu">sql</span>(<span class="st">&quot;select * from x_clickstream limit 10&quot;</span>).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">    sqlContext.<span class="fu">sql</span>(<span class="st">&quot;select action, count(*) as total from x_clickstream group by action&quot;</span>).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">    <span class="co">// accessing Hive databases (access using DBName.TabeName)</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">    <span class="co">// TODO : fix &#39;db_name&#39; accordingly (&#39;default&#39;)</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">    <span class="kw">val</span> t2 = sqlContext.<span class="fu">table</span>(<span class="st">&quot;db_name.x_domains&quot;</span>)</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">    t2.<span class="fu">printSchema</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">    t2.<span class="fu">show</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">    sqlContext.<span class="fu">sql</span>(<span class="st">&quot;select * from db_name.x_domains limit 10&quot;</span>).<span class="fu">show</span></a></code></pre></div>
+<h3 id="spark-v2">Spark v2</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">scala&gt;</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="co">// hive tables</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">    spark.<span class="fu">catalog</span>.<span class="fu">listDatabases</span>.<span class="fu">show</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">    spark.<span class="fu">catalog</span>.<span class="fu">listTables</span>(<span class="st">&quot;default&quot;</span>).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">    <span class="co">// ## change MYNAME</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">    spark.<span class="fu">catalog</span>.<span class="fu">listTables</span>(<span class="st">&quot;MYNAME_db&quot;</span>).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">    spark.<span class="fu">sql</span>(<span class="st">&quot;select * from x_clickstream limit 10&quot;</span>).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">    spark.<span class="fu">sql</span>(<span class="st">&quot;select action, count(*) as total from x_clickstream group by action&quot;</span>).<span class="fu">show</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">    <span class="co">// accessing Hive databases (access using DBName.TabeName)</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">    <span class="co">// TODO : fix &#39;MY_db&#39; accordingly (&#39;default&#39;)</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">    spark.<span class="fu">sql</span>(<span class="st">&quot;select * from MY_db.x_domains limit 10&quot;</span>).<span class="fu">show</span></a></code></pre></div>
+<h2 id="step-5-inspect-yarn-resource-manager-ui">Step 5 : Inspect YARN Resource Manager UI</h2>
+<p>Inspect Yarn RM UI. Instructor will provide details.<br />
+<strong>=&gt; Do you see the spark shell running as a YARN app? why or why not?</strong></p>
+<h2 id="step-6-run-spark-on-the-hadoop-cluster">Step 6: Run Spark on the Hadoop cluster</h2>
+<p>When starting Spark shell, let’s connect to the cluster as follows.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1">  $   <span class="ex">spark-shell</span>  --master yarn</a></code></pre></div>
+<p><strong>=&gt; Inspect the YARN UI to see if Spark app is connected</strong></p>

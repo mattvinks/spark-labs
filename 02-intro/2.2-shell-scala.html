@@ -1,0 +1,171 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-2.2-spark-shell">Lab 2.2: Spark Shell</h1>
+<h3 id="overview">Overview</h3>
+<p>Get familiar with Spark shell<br />
+- <a href="2.2-shell.md">Standalone version</a> - <a href="2.2H-spark-shell-hadoop.md">Hadoop version</a></p>
+<h3 id="builds-on">Builds on</h3>
+<p><a href="2.1-install-spark.md">2.1-install-spark</a></p>
+<h3 id="run-time">Run time</h3>
+<p>approx. 20-30 minutes</p>
+<h3 id="notes">Notes</h3>
+<h2 id="step-1-download-spark-labs">STEP 1: Download Spark labs</h2>
+<p>If you had done this already, you can go to next step.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="bu">cd</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    $   <span class="fu">git</span> clone  --depth 1  git@github.com:elephantscale/spark-labs.git</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    <span class="co"># by default labs are for Spark v2</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="co"># for v2</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="co"># $  cd  ~/spark-labs</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">    <span class="co"># $  git  checkout master</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    <span class="co"># for 1.6</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">    <span class="co"># $  cd ~/spark-labs</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">    <span class="co"># $  git checkout v1.6</span></a></code></pre></div>
+<p>Download the dataset</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    <span class="co"># if  ~/data dir is missing, do the following</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="co"># $   git clone --depth 1  git@github.com:elephantscale/datasets.git</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    $   <span class="bu">cd</span> ~/data</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">    $   <span class="fu">git</span> pull</a></code></pre></div>
+<p><strong>Downloading the dataset to your own machine</strong><br />
+Please see <a href="../README.md#data">README.md data section</a></p>
+<h2 id="step-2-launch-spark-shell">STEP 2: Launch Spark shell</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="co">## spark shell is in bin/ dir</span></a></code></pre></div>
+<p>Console output will look like</p>
+<pre><code>Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  &#39;_/
+   /___/ .__/\_,_/_/ /_/\_\   version 1.6.0
+      /_/
+
+Using Scala version 2.10.5 (Java HotSpot(TM) 64-Bit Server VM, Java 1.7.0_72)
+Type in expressions to have them evaluated.
+Type :help for more information.
+Spark context available as sc.
+...
+scala&gt;
+</code></pre>
+<h2 id="step-3-exploring-spark-shell-ui">STEP 3: Exploring Spark shell UI</h2>
+<p>Spark shell UI is available on port 4040.</p>
+<p>In browser go to : http://your_machine_address:4040 (use ‘public’ ip of machine)</p>
+<p>Here is a sample screen shot:</p>
+<p><img src="../assets/images/2a.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p><strong>==&gt; Explore stage, storage, environment and executor tabs</strong></p>
+<p><strong>==&gt; Take note of ‘Event Timeline’, we will use this for monitoring our jobs later</strong></p>
+<p><strong>==&gt; Check spark master on port 8080, Do you the Spark shell application connected? Why (not)?</strong></p>
+<h2 id="step-3-spark-context">STEP 3: Spark context</h2>
+<p>Within Spark shell, variable <code>sc</code> is the SparkContext.<br />
+Type <code>sc</code> in scala prompt and see what happens.<br />
+Your output might look like this…</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    scala&gt; sc</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    res0: org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">SparkContext</span> = org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">SparkContext</span>@5019fb90</a></code></pre></div>
+<p>To see all methods in sc variable, type <code>sc.</code> (don’t forget the DOT) and type <code>TAB</code>. This will show all the available methods on <code>sc</code> variable.</p>
+<p>Try the following:</p>
+<p><strong>==&gt; Print the name of application name</strong> <code>sc.appName</code></p>
+<p><strong>==&gt; Find the ‘Spark master’ for the shell</strong> <code>sc.master</code></p>
+<h2 id="step-4-load-a-file">STEP 4: Load a file</h2>
+<p>We have data files under <code>/data</code> (also <code>~/data</code>).<br />
+Use test file : <code>/data/text/twinkle/sample.txt</code> .<br />
+The file has a favorite nursery rhyme</p>
+<pre class="console"><code>twinkle twinkle little star
+how I wonder what you are
+up above the world so high
+like a diamond in the sky
+twinkle twinkle little star</code></pre>
+<p>Let’s load the file:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1">    <span class="kw">val</span> f = sc.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/sample.txt&quot;</span>)</a></code></pre></div>
+<h4 id="answer-the-following-questions">answer the following questions:</h4>
+<p><strong>==&gt; What is the ‘type’ of f ?</strong><br />
+hint : type <code>f</code> on the console</p>
+<p><strong>==&gt; Inspect Spark Shell UI on port 4040, do you see any processing done? Why (not)?</strong></p>
+<p><strong>==&gt; Print the first line / record from RDD</strong><br />
+hint : <code>f.first()</code></p>
+<p><strong>==&gt; Again, inspect Spark Shell UI on port 4040, do you see any processing done? Why (not)?</strong></p>
+<p><strong>==&gt; Print first 3 lines of RDD</strong><br />
+hint : <code>f.take(???)</code> (provide the correct argument to take function)</p>
+<p><strong>==&gt; Again, inspect Spark Shell UI on port 4040, do you see any processing done? Why (not)?</strong></p>
+<p><strong>==&gt; Print all the content from the file</strong><br />
+hint : <code>f.collect()</code></p>
+<p><strong>==&gt; How many lines are in the file?</strong><br />
+hint : <code>f.count()</code></p>
+<p><strong>==&gt; Inspect the ‘Jobs’ section in Shell UI (in browser)</strong><br />
+Also inspect the event time line</p>
+<p><img src="../assets/images/2b.png" style="border: 5px solid grey; max-width:100%;" /></p>
+<p><strong>==&gt; Inspect the ‘Executor’ section in Shell UI (in browser)</strong></p>
+<p><img src="../assets/images/2c.png" style="border: 5px solid grey; max-width:100%;" /></p>
+<h2 id="step-5-spark-session-only-in-v2-and-later">Step 5 : Spark Session (Only in V2 and later)</h2>
+<p>Try to load file using Spark Session</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">scala&gt;</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="kw">val</span> f2 = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/sample.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">    <span class="co">// Note the type of f is Dataset not RDD</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="co">// f: org.apache.spark.sql.Dataset[String] = [value: string]</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">    f2.<span class="fu">count</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">    f2.<span class="fu">collect</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">    f2.<span class="fu">collect</span>.<span class="fu">foreach</span>(println)</a></code></pre></div>
+<p>We can also get <code>SparkContext</code> from <code>SparkSession</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb9-1" data-line-number="1">scala&gt;</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    spark.<span class="fu">sparkContext</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    <span class="co">// org.apache.spark.SparkContext = org.apache.spark.SparkContext@69c6e5</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">    sc</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="co">//  org.apache.spark.SparkContext = org.apache.spark.SparkContext@69c6e5</span></a></code></pre></div>
+<p><strong>==&gt; Quit spark-shell session <code>Control + D</code></strong></p>
+<h2 id="step-6-connecting-shell-and-spark-server">STEP 6: Connecting Shell and Spark server</h2>
+<p><strong>==&gt; Quit spark-shell session, if you haven’t done so yet.. <code>Control + D</code></strong></p>
+<h3 id="start-spark-server">6.1 Start Spark Server</h3>
+<p>If Spark server is not running, start it as</p>
+<pre><code>    $ ~/spark/sbin/start-all.sh</code></pre>
+<p>Use <code>jps</code> command to inspect the java process. Your output might look like this.</p>
+<pre class="console"><code>
+    731 Master
+    902 Jps
+    831 Worker</code></pre>
+<p>Spark master UI is available on port 8080. In browser go to : http://your_machine_address:8080 (use ‘public’ ip of machine)</p>
+<p>Here is a sample screen shot:</p>
+<p><img src="../assets/images/2d.png" style="border: 5px solid grey; max-width:100%;" /></p>
+<h3 id="now-start-spark-shell">6.2 Now start spark shell</h3>
+<pre><code>    $ ~/spark/bin/spark-shell</code></pre>
+<p>Once the shell starts, check the <em>server</em> UI on port 8080.</p>
+<p><strong>==&gt; Do you see the shell connected as an application? why (not) ?</strong></p>
+<h3 id="connect-spark-shell-with-the-spark-server.">6.3 Connect Spark shell with the Spark server.</h3>
+<p>Make a note of Spark server uri (e.g <code>spark://host_name:7077</code>)</p>
+<p><strong>==&gt; Restart spark shell as follows</strong></p>
+<pre><code>    $   ~/spark/bin/spark-shell   --master  spark-server-uri
+                                            ^^^^^^^^^^^^^^^^
+                                        update this to match your spark server
+
+    $   ~/spark/bin/spark-shell   --master  spark://localhost:7077</code></pre>
+<p>On an Amazon server you may have to use the internal ip for the spark server, such as</p>
+<pre><code>    ~/spark/bin/spark-shell  --master spark://your_host_name:7077</code></pre>
+<p>On the ES VM you may have to use the localhost.localdomain. In all cases, follow what the spark master UI tells you.</p>
+<p><strong>==&gt; Once the shell started, check both UIs</strong></p>
+<h4 id="spark-server-ui-at-port-8080">spark server UI at port 8080</h4>
+<h2 id="section"><img src="../assets/images/2e.png" style="border: 5px solid grey; max-width:100%;" /></h2>
+<h4 id="spark-shell-ui-at-port-4040">spark shell UI at port 4040</h4>
+<p><img src="../assets/images/2f.png" style="border: 5px solid grey; max-width:100%;" /></p>
+<h2 id="step-7-redo-step-4-in-the-new-shell">STEP 7: Redo step (4) in the new shell</h2>
+<p>Now our shell is connected to a server <strong>==&gt; Load file and test it as in Step (4)</strong></p>
+<h2 id="tip-dealing-with-logs">Tip : Dealing With Logs</h2>
+<p>Spark Shell by default prints logs at warning (WARN) level. If you want to change the logging level, do this at Spark shell</p>
+<pre><code>    sc.setLogLevel(&quot;INFO&quot;)</code></pre>
+<p>If you don’t want to see any logs, you can start Spark shell as follows. All the logs will be sent to ‘logs’ file.</p>
+<pre><code>    $    ~/spark/bin/spark-shell  2&gt; logs</code></pre>
+<h2 id="bonus-lab-1-start-multiple-shells">BONUS Lab 1 : Start multiple Shells</h2>
+<ul>
+<li>Using one terminal, start a shell and connect to master using <strong>Step 6.3</strong></li>
+<li>Using second terminal (open one if you need to), start another shell connecting to the same master</li>
+<li>Check the master UI (port 8080). You would see some thing like this, can you explain the behavior?</li>
+</ul>
+<p><img src="../assets/images/2g.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="tips-and-tricks-to-run-linux-command-without-leaving-the-shell">TIPS and TRICKS: To run Linux command without leaving the shell</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb17-1" data-line-number="1">    <span class="kw">import</span> sys.<span class="fu">process</span>._</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">    <span class="kw">val</span> result = <span class="st">&quot;ls -al&quot;</span>!</a></code></pre></div>

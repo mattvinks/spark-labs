@@ -1,0 +1,119 @@
+<p><link rel='stylesheet' href='../assets/css/main.css'/></p>
+<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-3.1b-dataset-basics-operations">Lab 3.1b : Dataset Basics operations</h1>
+<ul>
+<li><a href="3.1b-dataset-basics.md">Standalone version</a></li>
+<li><a href="3.1H-dataset-hadoop.md">Hadoop version</a></li>
+</ul>
+<h3 id="overview">Overview</h3>
+<ul>
+<li>Working with Datasets</li>
+<li>Learning basic operations like filter / map / count</li>
+<li>work with larger sized data</li>
+<li>Save computed Dataset</li>
+</ul>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>30-40 mins</p>
+<h2 id="step-1-fire-up-spark-shell">STEP 1: Fire up Spark shell</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h2 id="step-2-load-a-simple-text-file">STEP 2: Load a simple text file</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1">scala&gt;</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="kw">val</span> f = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/sample.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    <span class="co">// v1.6</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">    <span class="co">//val f = sc.textFile(&quot;/data/text/twinkle/sample.txt&quot;)</span></a></code></pre></div>
+<p><strong>=&gt; what is the ‘type’ of f ?</strong><br />
+Hint : just type <code>f</code> in the shell Here is a possible output</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1">    scala&gt; f</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    f: org.<span class="fu">apache</span>.<span class="fu">spark</span>.<span class="fu">sql</span>.<span class="fu">Dataset</span>[String] = [value: string]</a></code></pre></div>
+<h2 id="step-3-filter">STEP 3: Filter</h2>
+<p>Let’s find how many lines contain the word ‘twinkle’ We will use the ‘filter’ function</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1">    <span class="kw">val</span> filtered = f.<span class="fu">filter</span>(line =&gt; line.<span class="fu">contains</span>(<span class="st">&quot;twinkle&quot;</span>))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="co">// short hand version</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="kw">val</span> filtered = f.<span class="fu">filter</span>(_.<span class="fu">contains</span>(<span class="st">&quot;twinkle&quot;</span>))</a></code></pre></div>
+<p>After entering the above in Spark-shell…<br />
+<strong>=&gt; Goto Spark shell UI </strong><br />
+<strong>=&gt; Inspect the ‘Stages’ section in the UI.</strong><br />
+<strong>=&gt; How is the filter executed? Can you explain the behavior?</strong></p>
+<p><strong>=&gt; Count how many lines contain the word ‘twinkle’</strong><br />
+hint : apply <code>count()</code> to <code>filtered</code> variable</p>
+<p>Here is a sample output</p>
+<pre class="console"><code>15/03/31 23:19:30 INFO DAGScheduler: Stage 0 (count at &lt;console&gt;:17) finished in 0.074 s
+15/03/31 23:19:30 INFO DAGScheduler: Job 0 finished: count at &lt;console&gt;:17, took 0.141676 s
+res1: Long = 2  &lt;--- this is the result of count()</code></pre>
+<p><strong>=&gt; Check the Stages in UI, what do you see?</strong><br />
+<strong>=&gt; How long did the job take?</strong><br />
+<strong>=&gt; Print out all the lines containing the word ‘twinkle’</strong><br />
+Hint : <code>collect()</code><br />
+Here is a sample output</p>
+<pre class="console"><code>res2: Array[String] = Array(twinkle twinkle little star, twinkle twinkle little star)</code></pre>
+<p><strong>=&gt; Checkout ‘DAG’ visualization</strong><br />
+Note this is different than what we saw with RDDs.<br />
+<img src="../assets/images/3.1d.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p><strong>==&gt; Try <code>explain</code> keyword</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb7-1" data-line-number="1">    f.<span class="fu">explain</span></a></code></pre></div>
+<pre class="console"><code>*FileScan text [value#17] Batched: false, Format: Text,
+Location: InMemoryFileIndex[file:/Users/sujee/data/text/twinkle/100M.data],
+PartitionFilters: [], PushedFilters: [], ReadSchema: struct&lt;value:string&gt;</code></pre>
+<p><strong>=&gt; Quit Spark-shell using ‘exit’ or pressing Control+D</strong></p>
+<h2 id="step-4-large-data-sets">STEP 4: Large data sets</h2>
+<p><strong>==&gt; Quit previous spark-shell session, if you haven’t done so yet.. <code>Control + D</code></strong></p>
+<p>We have some large data sets of ‘twinkle’ data generated in <code>/data/text/twinkle</code> directory.</p>
+<p><strong>=&gt; Verify the data files and their sizes by doing a</strong></p>
+<pre><code>    $   l /data/text/twinkle</code></pre>
+<p>Your output might look like this</p>
+<p><img src="../assets/images/3.1a.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<p>We are going to use these files in spark</p>
+<p><strong>=&gt; [Optional] You can use the following script to generate more data if you need to</strong></p>
+<pre><code>$   cd  /data/text/twinkle
+$   ./create-data-files.sh</code></pre>
+<p>This script will generate a bunch of data files at various sizes (1M, 10M, 100M, 500M and 1G)</p>
+<h2 id="step-5-start-shell-with-more-memory">STEP 5: Start shell With More Memory</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span>  --executor-memory 1G  --driver-memory 1G</a></code></pre></div>
+<h2 id="step-6-process-a-large-file">STEP 6: Process a large file</h2>
+<p><strong>=&gt; In Spark Shell, load <code>/data/text/twinkle/100M.data</code></strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb12-1" data-line-number="1">scala&gt;</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">    <span class="kw">val</span> f = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/100M.data&quot;</span>)</a></code></pre></div>
+<p><strong>=&gt; Count number of lines that have the word “diamond”</strong><br />
+hint : <code>filter</code> and <code>count</code></p>
+<p><strong>=&gt; How many ‘tasks’ are used in the above calculation</strong><br />
+Hint : Check spark shell UI</p>
+<p><img src="../assets/images/3.1b.png" style="border: 5px solid grey; max-width:100%;" /></p>
+<p><strong>=&gt; Can you explain the number of tasks?</strong><br />
+Hint : check number of partitions in Dataset using <code>getNumPartitions</code> or <code>partitions.length</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb13-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">    # v2</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">    f.<span class="fu">rdd</span>.<span class="fu">getNumPartitions</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">    # V1<span class="fl">.6</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">    f.<span class="fu">getNumPartitions</span></a></code></pre></div>
+<p><strong>=&gt; Count number of lines that does NOT have the word ‘diamond’</strong><br />
+Hint : use negative operator !<br />
+<code>f.filter(line =&gt; ! line.contains(&quot;diamond&quot;))</code></p>
+<p><strong>=&gt; Verify both counts add up to the total line count</strong></p>
+<p><strong>=&gt; Notice the time taken for each operation</strong></p>
+<p><strong>=&gt; Try the above with larger data files : 500M.data … 1G.data</strong> - note the times taken - how many tasks?</p>
+<h2 id="step-7-loading-multiple-files">STEP 7: Loading multiple files</h2>
+<p>**=&gt; Load all *.data files under /data/text/twinkle directory**</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb14-1" data-line-number="1">    <span class="kw">val</span> f = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/*.data&quot;</span>)</a></code></pre></div>
+<p><strong>=&gt; Do a count() on </strong><br />
+Notice the partition count and time taken to execute Verify partition count from Spark-Shell UI</p>
+<h2 id="step-8-saving-the-dataset">STEP 8: Saving the Dataset</h2>
+<p>Continuing with the big Dataset created on step (5)….</p>
+<p><strong>=&gt; Create a new Dataset by filtering first Dataset for word ‘diamond’</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb15-1" data-line-number="1">    <span class="kw">val</span> filtered = f.<span class="fu">filter</span>(_.<span class="fu">contains</span>(<span class="st">&quot;diamond&quot;</span>))</a></code></pre></div>
+<p><strong>=&gt; Save the new Dataset into a directory</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb16-1" data-line-number="1">    filtered.<span class="fu">write</span>.<span class="fu">text</span>(<span class="st">&quot;MYNAME_out1&quot;</span>)  <span class="co">// adjust MYNAME accordingly</span></a></code></pre></div>
+<p><strong>=&gt; Inspect the console output during the run.</strong></p>
+<p>Inspect the output directory In standalone Spark env, you can use</p>
+<pre><code>    $    ls -lh   MYNAME_out1
+    $   less  out1/part-00000*</code></pre>
+<p>In Hadoop Spark env, you can use</p>
+<pre><code>    $    hdfs dfs -ls    MYNAME_out1</code></pre>
+<p><strong>=&gt; What do you see as output?</strong></p>
+<h2 id="bonus-lab-merging-partitions-into-a-single-one">Bonus Lab: Merging partitions into a single one</h2>
+<p>When we saved data in the above section, there are multiple files created in output directory. Can you just create one output file?<br />
+Hint : see the API for <code>coalesce or repartition</code></p>

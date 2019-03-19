@@ -1,0 +1,93 @@
+<p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
+<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-8.2---spark-streaming-windowed-calculations">Lab 8.2 - Spark Streaming Windowed Calculations</h1>
+<h3 id="overview">Overview</h3>
+<p>Submit a job for Spark Streaming and doing ‘windowed count’</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>30-40 mins</p>
+<table>
+<tbody>
+<tr class="odd">
+<td>STEP 1: Edit source file</td>
+</tr>
+</tbody>
+</table>
+<p>Go to the project root directory</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $    <span class="bu">cd</span> ~/spark-labs/08-streaming/8.2-window</a></code></pre></div>
+<p><strong>Inspect file : <code>src/main/scala/x/WindowedCount.scala</code></strong></p>
+<table>
+<tbody>
+<tr class="odd">
+<td>STEP 2: Compile the project</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="ex">sbt</span> package</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="co"># to do a clean rebuild use</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="co">#  sbt clean package</span></a></code></pre></div>
+<p>Make sure there are no errors and there is output in <code>target</code> dir.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $  <span class="fu">ls</span> -l   target/scala-2.11</a></code></pre></div>
+<p>You should see output like follows</p>
+<pre class="console"><code>drwxr-xr-x  3 tfox  staff   102B Apr 16 09:59 classes/
+-rw-r--r--  1 tfox  staff    13K Apr 16 09:59 windowedcount_2.11-1.0.jar</code></pre>
+<p><code>windowed-count_2.11-1.0.jar</code> is our code compiled.</p>
+<table style="width:24%;">
+<colgroup>
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>STEP 3: Run Netcat Server (Terminal #2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Open another terminal into Spark node (terminal #2)</td>
+</tr>
+<tr class="even">
+<td>Use <code>nc</code> command to move text you type in terminal #2 to port 10000 Open an terminal and run this command at prompt</td>
+</tr>
+<tr class="odd">
+<td>```bash $ nc -lk 10000</td>
+</tr>
+<tr class="even">
+<td># if this gives an error like ‘Protocol not available’ use this # $ ~/bin/nc -lk 10000 ```</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-4-run-the-application-terminal-1">STEP 4: Run The Application (Terminal #1)</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowedcount_2.11-1.0.jar</a></code></pre></div>
+<table>
+<tbody>
+<tr class="odd">
+<td>STEP 5: Test by typing text Netcat Terminal #2</td>
+</tr>
+</tbody>
+</table>
+<p>In the Terminal #2, copy and paste the following lines (these are lines from our clickstream data)</p>
+<pre><code>1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
+1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
+1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
+1420070405184,ip_4,user_9,blocked,bbc.co.uk,campaign_20,27,session_94</code></pre>
+<p>Inspect the output from Spark streaming on terminal #1</p>
+<p>You should see something similar to this screen shot. (Click on image to see larger version)<br />
+<a href="../../assets/images/8.2-streaming-small.png"><img src="../../assets/images/8.2-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<table>
+<tbody>
+<tr class="odd">
+<td>STEP 6: Enable Window Count</td>
+</tr>
+</tbody>
+</table>
+<p>** ==&gt; Edit the file : <code>src/main/scala/x/WindowedCount.scala</code> **</p>
+<p>** ==&gt; fix TODO-1 to enable Window count**</p>
+<p>** ==&gt; Build and run the program**</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $   <span class="ex">sbt</span> package</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    $    <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowed-count_2.11-1.0.jar</a></code></pre></div>
+<p><strong>=&gt; Paste some logs in netcat window (terminal #2)</strong></p>
+<p><strong>=&gt; Hit Contrl+C in terminal #2 to terminate Spark streaming</strong></p>
+<p><strong>=&gt; Inspect some files, what do you see?</strong></p>

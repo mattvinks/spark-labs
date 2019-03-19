@@ -1,0 +1,88 @@
+<p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
+<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="lab-1.6-write-unit-tests-using-specs2-framework">Lab 1.6 : Write Unit Tests Using SPECS2 Framework</h1>
+<h3 id="overview">Overview</h3>
+<p>Write Unit Tests</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>40 mins</p>
+<h2 id="recommended-setup-in-order-of-preference">Recommended Setup (In order of preference)</h2>
+<ul>
+<li>If you are using an IDE (like IntelliJ) please open the project as an SBT project.</li>
+<li>If you are using a UI editor like ‘Sublime’ open the ‘project root directory’ in editor (so you can navigate to all files easily).</li>
+<li>If using command line, please open 2 terminals - 1 for editing files and other for running commands.</li>
+</ul>
+<h2 id="step-0-instructor">Step 0 : Instructor</h2>
+<ul>
+<li>Get the lab started on your screen.</li>
+<li>Show how to complete TODO-1 (upto STEP 5) on screen.</li>
+<li>Then let the class complete rest of the TODO items.</li>
+</ul>
+<h2 id="step-1-project-directory">Step 1 : Project Directory</h2>
+<p>Project directory is : <code>~/spark-labs/01-scala/vending-machine</code></p>
+<p>Here is the project hierarchy:</p>
+<p><img src="../../assets/images/1.5b.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="step-2-open-project-in-intellij">Step 2 : Open Project in IntelliJ</h2>
+<ul>
+<li>File -&gt; Open</li>
+<li>Navigate to : <code>~/spark-labs/01-scala/vending-machine</code> directory</li>
+<li>Select <code>build.sbt</code> file</li>
+<li>Make sure <code>Use Auto Import</code> is checked</li>
+</ul>
+<p><strong>See screen shots below</strong></p>
+<p><img src="../../assets/images/1.5c.png" style="border: 5px solid grey ; max-width:100%;" /> <img src="../../assets/images/1.5d.png" style="border: 5px solid grey ; max-width:100%;" /> <img src="../../assets/images/1.5e.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<p>Final project should look like this:</p>
+<p><img src="../../assets/images/1.5f.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="step-3-vendingmachine-test">Step 3 : VendingMachine Test</h2>
+<ul>
+<li>Inspect the file <code>src/test/scala/x/VendingMachineTest.scala</code>.<br />
+</li>
+<li>This file has bunch of skeleton unit tests defined already.</li>
+<li>Run this file by ‘Right Click -&gt; Run’</li>
+<li>Watch the test console output</li>
+</ul>
+<p>The tests will probably fail ! We need to make sure our implementation is correct.</p>
+<h2 id="step-4-fix-test-cases">Step 4 : Fix test cases</h2>
+<p>Here is how we fix TODO-1.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb1-1" data-line-number="1">    ...</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    <span class="st">&quot;accept additinal inventory&quot;</span> in {</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">      <span class="kw">val</span> machine = <span class="kw">new</span> MyVendingMachine</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">      machine.<span class="fu">addStockItem</span>(<span class="st">&quot;candy&quot;</span>, <span class="dv">2</span>, <span class="dv">5</span>) mustEqual <span class="dv">5</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">      machine.<span class="fu">addStockItem</span>(<span class="st">&quot;candy&quot;</span>, <span class="dv">2</span>, <span class="dv">2</span>) mustEqual <span class="dv">7</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    }</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  ...</a></code></pre></div>
+<p>Be sure to remove <code>1 mustEqual 0</code> at the end of all tests!!</p>
+<p>Save and run the test.</p>
+<h2 id="lab-ends-here">===== Lab Ends Here =====</h2>
+<h2 id="to-use-sbt-command-line-utility">To Use SBT Command Line Utility</h2>
+<p>Using one terminal, launch SBT from project root directory.</p>
+<pre><code>    $   cd   ~/spark-labs/01-scala/vending-machine
+
+    $   sbt
+</code></pre>
+<p>You would enter SBT prompt like follows:</p>
+<pre class="console"><code>    [info] Loading global plugins from /Users/sujee/.sbt/0.13/plugins
+    [info] Loading project definition from /Users/sujee/ElephantScale/spark-labs/01-scala/vending-machine/project
+    [info] Set current project to vending-machine (in build file:/Users/sujee/ElephantScale/spark-labs/01-scala/vending-machine/)
+
+    &gt; </code></pre>
+<h3 id="quick-tip-arrange-sbt-edit-windows">Quick Tip: Arrange SBT &amp; Edit windows</h3>
+<p>Here is a tip to arrange terminal windows.</p>
+<p><img src="../../assets/images/1.5a.png" style="border: 5px solid grey ; max-width:100%;" /></p>
+<h2 id="run-the-test">Run The Test</h2>
+<p>On your SBT terminal type</p>
+<pre><code>    sbt&gt;
+        test
+        [info] MyVendingMachineTest
+        [info] + accept additional inventory</code></pre>
+<p>Now ‘accept additional inventory’ test is passing !</p>
+<h2 id="sbt-tidbits">SBT tidbits</h2>
+<p>You can issue sbt commands from shell as follows</p>
+<pre><code>    $   sbt  clean compile test</code></pre>
+<p>For iterative development, sbt shell is much faster !</p>
+<pre><code>    $   sbt
+    &gt; clean
+    &gt; compile 
+    &gt; test
+    &gt; test</code></pre>

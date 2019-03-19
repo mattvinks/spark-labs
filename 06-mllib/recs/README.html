@@ -1,0 +1,62 @@
+<p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
+<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<h1 id="mllib-recommendations-lab">MLlib Recommendations Lab</h1>
+<h3 id="introduction">Introduction</h3>
+<p>This lab explores a well known dataset from the Czech dating website libimseti.cz. We’ll just call it the “dating” dataset. :)</p>
+<p>Normally we talk of users and items as different entities, but in dating websites we relate users to one another.</p>
+<p>In our example, we’re going to ignore the gender and orientation of each user in doing the recommendations. The dating dataset does include a file which identifies the gender of each participant, but for simplicity we’re not handling it here. This isn’t as bad as it sounds, as most users likely will rate only one gender of dating site participants, and will no doubt receive recommendations from the same gender. Naturally there are always exceptions.</p>
+<p>The checked in version is a tiny subset of the actual, as only the first 9999 users are included. Furthermore, the ratings outside the subset are ignored, so a good portion of users have no data.</p>
+<h3 id="step-1-inspect-data">Step 1 : Inspect Data</h3>
+<ul>
+<li>Sample Data : <a href="../../data/dating/sample.txt">data/dating/sample.txt</a></li>
+<li>Rating data file : <a href="../../data/dating/ratings.txt">data/dating/ratings.txt</a></li>
+</ul>
+<p>(browsers may not display the data properly, open the data in text editor)</p>
+<p>Here is what the file looks like:</p>
+<pre><code>    user1, user2, rating (1-10)
+
+    1,133,8
+    1,720,6
+    1,971,10
+    1,1095,7
+    1,1616,10
+    1,1978,7
+    1,2145,8</code></pre>
+<h3 id="step-2-start-spark-shell">Step 2 : Start Spark Shell</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $    <span class="bu">cd</span>  ~/spark-labs/6-mllib/recs</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    $    <span class="ex">~/spark/bin/spark-shell</span></a></code></pre></div>
+<h3 id="step-3-execute-the-recommendation-script">Step 3 : Execute the recommendation script</h3>
+<p>We recommend you run the <a href="dating_solution.scala" class="uri">dating_solution.scala</a> file step by step to understand what is going on. This is a complete solution file.</p>
+<p>[<em>Optional</em>] You may choose to edit the file <a href="dating.scala" class="uri">dating.scala</a> and complete TODO items and run it as well.</p>
+<h3 id="step-1-transform-the-rating-object-to-a-tuple-of-user-item">Step 1: Transform the Rating object to a tuple of User, Item</h3>
+<pre><code>$    cd  ~/spark-labs/6-mllib/recs
+
+## edit the file  dating.scala
+$  vi dating.scala
+# or 
+$ nano dating.scala</code></pre>
+<p>There are two TODO items you should complete in the scala code before attempting to run the code.</p>
+<p>The first one is as follows:</p>
+<pre><code>// Get rid of rating to test model&#39;s effectiveness
+// TODO: TRANSFORM Rating -&gt; Tuple of (user, item)
+// (i.e., get rid of the rating.</code></pre>
+<p>val usersItems = ???? // TODO complete this item</p>
+<p>###Step 2: Use the predict method to map the outpu to user,item The second one is as follows:</p>
+<pre><code>// Do a test prediction
+// TODO call model.predict() on userItems, and then map the output of that
+to (user, item), rating
+
+val recs = ??? // TODO:  COMPLETE THIS</code></pre>
+<h3 id="step-3-running-the-data">Step 3: Running the data</h3>
+<pre><code>~/spark/bin/spark-shell -i dating.scala</code></pre>
+<p>Once you run this, the recommendations for all users will be put in an array called recsForEachUser()</p>
+<p>you can find recommendations for a particular user by typing the following:</p>
+<p>scala&gt; recsForEachUser(4)<br />
+res4: Array[Int] = Array(7964, 6499, 6269, 9287)</p>
+<p>Beware: some numbers aren’t represented (e.g. 3)</p>
+<h3 id="step-4-running-on-some-of-your-own-data">Step 4: Running on some of your own data</h3>
+<p>Create a file called personalratings.txt. Include some test data as preferences. We have included a samle personalratings.txt for you you can refer to it.</p>
+<pre><code>val personaldata = sc.textFile(&quot;personalratings.txt&quot;)
+val personalratings = data.map(_.split(&#39;,&#39;) match { case Array(user, item, rating) =&gt;
+    Rating(user.toInt, item.toInt, rating.toDouble)
+  })</code></pre>

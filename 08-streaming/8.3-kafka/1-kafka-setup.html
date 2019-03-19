@@ -1,0 +1,63 @@
+<p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
+<p><a href="../../README.md">&lt;&lt; back to main index</a> /<br />
+<a href="README.md">&lt;&lt; back to kafka streaming index</a></p>
+<h1 id="lab-8.3a-kafka-setup">Lab 8.3a: Kafka Setup</h1>
+<h3 id="overview">Overview</h3>
+<p>Setting up Kafka</p>
+<h3 id="depends-on">Depends On</h3>
+<p>None</p>
+<h3 id="run-time">Run time</h3>
+<p>30-40 mins</p>
+<h2 id="step-1-untar-kafka">STEP 1: Untar Kafka</h2>
+<p>For this it is recommended that you have 3-4 terminal sessions open</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">$    <span class="bu">cd</span>  #  cd to home dir</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">$    <span class="fu">tar</span> xvf files/kafka_2.11-0.11.0.0.tgz</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">$    <span class="fu">mv</span> kafka_2.11-0.11.0.0/ kafka</a></code></pre></div>
+<p>Now Kafka is in ~/kafka directory</p>
+<h2 id="step-2-start-zookeeper-in-terminal-1">Step 2 : Start zookeeper (in terminal 1)</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">$    <span class="ex">~/kafka/bin/zookeeper-server-start.sh</span> -daemon  ~/kafka/config/zookeeper.properties</a></code></pre></div>
+<p>This will start ZK in background.</p>
+<p>Do <code>jps</code> command to see if ZK is running</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">$  <span class="ex">jps</span></a></code></pre></div>
+<p>Verify that you have <code>QuorumPeerMain</code> in the output</p>
+<h2 id="step-3-start-kafka-server-terminal-2">Step 3 : Start Kafka Server (terminal-2)</h2>
+<p>On another terminal….</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">$   <span class="ex">~/kafka/bin/kafka-server-start.sh</span>   -daemon  ~/kafka/config/server.properties</a></code></pre></div>
+<p>This will start Kafka server in the background.</p>
+<p>Do <code>jps</code> again make sure we ses both Kafka and zookeeper running</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">$ <span class="ex">jps</span></a></code></pre></div>
+<pre class="console"><code>Kafka
+QuorumPeerMain
+</code></pre>
+<h2 id="step-4-create-kafka-topicsterminal-3">Step 4 : Create Kafka topics(terminal-3)</h2>
+<p>Open another terminal and let’s create a topic.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">$  <span class="ex">~/kafka/bin/kafka-topics.sh</span> --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic clickstream</a></code></pre></div>
+<p>Read through the parameters.. most are self explanatory</p>
+<p>You should see output like this…</p>
+<pre><code>Created topic &quot;clickstream&quot;.</code></pre>
+<p>** ==&gt; Verify topic created**</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1">$   <span class="ex">~/kafka/bin/kafka-topics.sh</span> --list --zookeeper localhost:2181</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># should see &#39;clickstream&#39; in output</span></a></code></pre></div>
+<p>** ==&gt; Describe topic**</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1">$   <span class="ex">~/kafka/bin/kafka-topics.sh</span> --describe --zookeeper localhost:2181 --topic clickstream</a></code></pre></div>
+<p>You may see output like…</p>
+<pre class="console"><code>Topic:clickstream    PartitionCount:1    ReplicationFactor:1 Configs:
+    Topic: clickstream  Partition: 0    Leader: 0   Replicas: 0 Isr: 0</code></pre>
+<h2 id="step-5-testing-kafka">STEP 5: Testing Kafka</h2>
+<p>Now that Kafka is running and configured, let’s send some test messages through.</p>
+<p>** ==&gt; Start a Kafka console producer (terminal-3)**</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1">$    <span class="ex">~/kafka/bin/kafka-console-producer.sh</span> --broker-list localhost:9092 --topic clickstream</a></code></pre></div>
+<p>Now what ever we type in this terminal will be stored in Kafka.</p>
+<p>** ==&gt; Start a Kafka console consumer (terminal-4)**<br />
+Open another terminal and start the consumer application</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1">$   <span class="ex">~/kafka/bin/kafka-console-consumer.sh</span> --bootstrap-server localhost:9092 --topic clickstream</a></code></pre></div>
+<p>You should have a setup like this screen shot. (Click on the image to see the full size)</p>
+<p><a href="../../assets/images/8.3-kafka1.png"><img src="../../assets/images/8.3-kafka1.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<p>** ==&gt; Feed some data into Kafka producer terminal, and see it will show up in consumer terminal**<br />
+Try pasting the following</p>
+<pre><code>a
+b
+c
+hello world</code></pre>

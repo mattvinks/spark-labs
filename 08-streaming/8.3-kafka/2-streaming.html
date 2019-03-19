@@ -1,0 +1,82 @@
+<p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
+<p><a href="../../README.md">&lt;&lt; back to main index</a> /<br />
+<a href="README.md">&lt;&lt; back to kafka streaming index</a></p>
+<h1 id="lab-8.3b-kafka-streaming">Lab 8.3b: Kafka Streaming</h1>
+<h3 id="overview">Overview</h3>
+<p>Setting up Kafka</p>
+<h3 id="depends-on">Depends On</h3>
+<p><a href="1-kafka-setup.md">Kafka setup</a></p>
+<h3 id="run-time">Run time</h3>
+<p>1hr - 1.5 hrs</p>
+<table style="width:42%;">
+<colgroup>
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">STEP 1: Get Kafka running</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Follow <a href="1-kafka-setup.md">Kafka Streaming guide</a> and have kafka running.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="step-2-edit-source-file">STEP 2: Edit source file</h2>
+<p>Go to the project root directory</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $    <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a></code></pre></div>
+<p><strong>=&gt; Edit the file : <code>src/main/scala/x/KafkaDirectStreaming.scala</code></strong><br />
+<strong>There are no TODO items to fix at this point</strong></p>
+<h2 id="step-3-build-the-project">STEP 3: Build the project</h2>
+<p>We will use <code>sbt</code> to build the project.</p>
+<p>** ==&gt; Inspect the <code>build.sbt</code> file**</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="co">#  compile</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    $   <span class="ex">sbt</span> clean compile</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="co"># Create an assembly (fat jar) using</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">    $   <span class="ex">sbt</span> assembly</a></code></pre></div>
+<p><strong>=&gt; Inspect generated jar files</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $ <span class="fu">ls</span> -l   target/scala-2.11/</a></code></pre></div>
+<p>output may look like…</p>
+<pre class="console"><code>drwxr-xr-x 3 sujee staff 102 Jan 20 22:31 classes/
+-rw-r--r-- 1 sujee staff 24M Jan 20 22:31 kafka-streaming-assembly-1.0.jar</code></pre>
+<p><strong>=&gt; Notice the size difference in both jars. What accounts for the ’fat jar’s size?</strong></p>
+<p>We are going to use the assembly jar to run Kafka streaming.</p>
+<h2 id="step-4-running-kafka-streaming">STEP 4: Running Kafka streaming</h2>
+<p>Make sure you have Kafka up and running. For reference * Terminal #1 : zookeeper * Terminal #2 : Kafka broker * Terminal #3 : Kafka console producer (we will paste data here) * Terminal #4 : Ran Kafka consumer</p>
+<p>Here is the screen shot (click on image to see full size image)</p>
+<p><a href="../../assets/images/8.3a-streaming-small.png"><img src="../../assets/images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<p><strong>=&gt; Stop Kafka consumer by hitting <code>Ctrl + C</code> in Terminal #4</strong></p>
+<p><strong>=&gt; Launch kafka streaming application as follows</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">  $    <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   --driver-class-path logging/  --class x.KafkaDirectStreaming  target/scala-2.11/kafka-streaming-assembly-1.0.jar  localhost:9092  clickstream</a></code></pre></div>
+<p>Parameters explained: * <strong>localhost:9092</strong> - kafka broker * <strong>clickstream</strong> - topic</p>
+<h2 id="step-5-feed-some-data-into-producer-window-terminal-3">STEP 5: Feed some data into producer window (Terminal #3)</h2>
+<p><strong>=&gt; Try typing / pasting the following text in terminal #3</strong></p>
+<pre><code>foo
+bar
+baz</code></pre>
+<p><strong>=&gt; Notice the kafka streaming console</strong></p>
+<pre class="console"><code>-------------------------------------------
+Time: 1429859630000 ms
+-------------------------------------------
+(null,foo)
+(null,bar)
+(null,hello world)</code></pre>
+<p>Your setup might look like the following picture (click on the image to see full size image)</p>
+<p><a href="../../assets/images/8.3b-streaming-small.png"><img src="../../assets/images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<h2 id="step-6-continue-fixing-the-todo-items-1-4">STEP 6: Continue fixing the TODO items 1-4</h2>
+<ul>
+<li>Edit the file</li>
+<li>build using <code>$   sbt assembly</code></li>
+<li>run</li>
+</ul>
+<p>Test with following lines</p>
+<pre><code>1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
+1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
+1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
+1420070404320,ip_9,user_5,clicked,foxnews.com,campaign_2,173,session_24</code></pre>

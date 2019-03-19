@@ -20,8 +20,23 @@ jupyter nbconvert ${notebooks}
 sed 's/ipynb/html/g' < README-python.html > a.html
 mv -f a.html  README-python.html
 
+## convert ipynb notebooks into HTML
+md_files=$(find . -type f -name "*.md" | grep -v ".ipynb_checkpoints" )
+
+echo "converting md files --> html"
+for md_file in $md_files
+do
+    #echo $md_file
+    output_file="${md_file%\.*}.html"
+    #echo $output_file
+    pandoc $md_file -f markdown -t html -o  $output_file
+done
+
+sed 's/\.md/\.html/g' < README-scala.html  | sed 's/\>md\</\>html\</g'  > a.html
+mv -f a.html  README-scala.html
+
 # create a zipfile
 
 zip_file_name=$(basename `pwd`)
 rm -f *.zip
-zip -x '*.DS_Store*'  -x "*.log" -x "*out/*" -x '*.git*'  -x '*zip*'  -x '*metastore_db*' -x '*out' -x '*.ipynb_checkpoints*' -x '*not-using*' -r "$zip_file_name" .
+zip -q -x '*.DS_Store*'  -x "*.log" -x "*out/*" -x '*.git*'  -x '*zip*'  -x '*metastore_db*' -x '*out' -x '*.ipynb_checkpoints*' -x '*not-using*' -r "$zip_file_name" .
