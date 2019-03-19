@@ -38,26 +38,16 @@
 <li><p>Note the Spark master URI, it will be something like spark://host_name:7077 We will need this for later labs</p></li>
 </ul>
 <h2 id="step-5-download-spark-labs-data">STEP 5: Download Spark labs &amp; Data</h2>
-<h3 id="labs">Labs</h3>
+<h3 id="get-labs">Get Labs</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">    $   <span class="bu">cd</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">    $   <span class="fu">git</span> clone --depth 1  git@github.com:elephantscale/spark-labs.git</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="co"># for v2 - latest</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="co"># $  cd  ~/spark-labs</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="co"># $  git checkout master</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">    <span class="co"># for 1.6 (old)</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">    <span class="co"># $  cd ~/spark-labs</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">    <span class="co"># $  git checkout v1.6</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    $   <span class="fu">git</span> clone --depth 1  git@github.com:elephantscale/spark-labs.git</a></code></pre></div>
 <p>This will create a <code>spark-labs</code> directory that has all the labs.</p>
 <h3 id="data">Data</h3>
 <p>Download the dataset</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1">    <span class="co"># if  ~/data dir is missing, do the following</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="co"># $   git clone --depth 1  git@github.com:elephantscale/datasets.git  data</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">    $   <span class="bu">cd</span> ~/data</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">    $   <span class="fu">git</span> pull</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">    $   <span class="bu">cd</span>   # back to home directory</a></code></pre></div>
+<a class="sourceLine" id="cb6-4" data-line-number="4">    $   <span class="bu">cd</span> ~/data <span class="kw">;</span> <span class="fu">git</span> pull <span class="kw">;</span> <span class="bu">cd</span> </a></code></pre></div>
 <p><strong>Downloading the dataset to your own machine</strong><br />
 Please see <a href="../README.md#data">README.md data section</a></p>
 <h2 id="optional-spark-sandbox">Optional: Spark Sandbox</h2>
