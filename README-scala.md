@@ -68,10 +68,9 @@ The VMs already have data loaded.  This for your own reference.
 - [5.1 - Submit first application](05.1-api-scala/5.1-submit.md)
 - BONUS :  [5.2 - Mapreduce using API](05.1-api-scala/5.2-mapreduce.md)
 
-### Practice Labs for end of day 2 & 3
+### Practice Labs for end of day 2
 - [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/commit-logs-scala.md)
 - [Practice Lab 2 - Optimize SQL query](practice-labs/optimize-query-scala.md)
-- [Practice Lab 3 - Analyze house sales data](practice-labs/house-sales-scala.md)
 
 
 ### 6 - MLLib
@@ -101,3 +100,10 @@ The VMs already have data loaded.  This for your own reference.
 - [3.1 - Loading RDDs from HDFS](03-rdd/3.1-rdd-basics.md)
 - [4.2 - Spark SQL on Hadoop](04-dataframe/4.2-sql.md)
 - [4.4H - Spark & Hive](04-dataframe/4.4-spark-and-hive.md)
+
+
+### Practice Labs 
+- [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/commit-logs-scala.md)
+- [Practice Lab 2 - Optimize SQL query](practice-labs/optimize-query-scala.md)
+- [Practice Lab 3 - Analyze house sales data](practice-labs/house-sales-scala.md)
+- [Practice Lab 3 - Analyze clickstream data](practice-labs/clickstream-scala.md)
