@@ -43,12 +43,15 @@ public class MapSideJoin {
 		Dataset<Row> storesDF = spark.read()
 				.json("/data/joins/store_locations.json");
 
-		//## TODO 1 - Set stateDf as a broadcast variable so that,
-		//it will be shared across the nodes in the cluster
-		//hint broadcast method available in sparkcontext
+		// ## TODO 1 - Set stateDf as a broadcast variable so that,
+		// it will be shared across the nodes in the cluster
+		// Hint broadcast method available in sparkcontext
 		// Create a DataFrame of US state data with the broadcast variables.
 		
 		//Broadcast<???> stateDFBroadcasted = ??????;
+
+		// More hint
+		// Broadcast<Dataset<Row>> stateDFBroadcasted = sparkContext.broadcast(stateDf);
 
 		// Join the DataFrames to get an aggregate count of stores in each US Region
 		System.out.println("###Number of stores in each US region :");
