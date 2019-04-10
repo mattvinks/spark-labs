@@ -1,6 +1,6 @@
 
 
-Lab 6.2 Mapside Join
+Lab 05.3 Mapside Join
 =========================================================
 
 ### Overview
@@ -22,11 +22,11 @@ instead of sending large table data over network, we can just broadcast the smal
 Go to the project root directory
 
 ```bash
-    $    cd ~/spark-labs/06-api-java
+    $    cd ~/spark-labs/05.3-api-optimize
 ```
 
 
-**=> Edit file : `~/spark-labs/06-api-java/src/main/java/spark/basic/MapSideJoin.java`**  
+**=> Edit file : `src/main/java/spark/basic/MapSideJoin.java`**  
 **=> And fix the TODO items**
 
 
@@ -130,7 +130,7 @@ drwxrwxr-x 2 sujee staff      4096 Jan 23 19:08 test-classes
 ## STEP 3: Test Application in Local Master Mode
 
 ```bash
-    $  cd  ~/spark-labs/06-api-java
+    $  cd  ~/spark-labs/05.3-api-optimize
 
     $   ~/spark/bin/spark-submit --class 'spark.basic.MapSideJoin' --master local[*]  target/spark.basic-2.11-jar-with-dependencies.jar
 ```
