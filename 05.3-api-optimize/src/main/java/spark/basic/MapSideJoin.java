@@ -37,11 +37,11 @@ public class MapSideJoin {
 
 		//Dataframe containing US states details 
 		Dataset<Row> stateDf = spark.read()
-				.json("us_states.json");
+				.json("/data/joins/us_states.json");
 
 		// Create a DataFrame based on the store locations.
 		Dataset<Row> storesDF = spark.read()
-				.json("store_locations.json");
+				.json("/data/joins/store_locations.json");
 
 		//## TODO 1 - Set stateDf as a broadcast variable so that,
 		//it will be shared across the nodes in the cluster
