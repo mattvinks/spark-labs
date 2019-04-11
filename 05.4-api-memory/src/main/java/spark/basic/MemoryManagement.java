@@ -60,8 +60,7 @@ public class MemoryManagement {
 		System.out.println(javaSparkContext.getConf().toDebugString());
 		System.out.println("Started processing...");
 
-		// TODO:specify the absolute zip file path here
-		String zipFilePath = "***Absolute zip file path***";
+		String zipFilePath = "/data/2008/2008.zip";
 
 		// Reading Zip file into java pair rdd
 		JavaPairRDD<String, PortableDataStream> binDataPairRdd = javaSparkContext.binaryFiles(zipFilePath,
