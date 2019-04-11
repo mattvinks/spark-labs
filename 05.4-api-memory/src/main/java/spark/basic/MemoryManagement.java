@@ -60,7 +60,7 @@ public class MemoryManagement {
 		System.out.println(javaSparkContext.getConf().toDebugString());
 		System.out.println("Started processing...");
 
-		String zipFilePath = "/data/2008/2008.zip";
+		String zipFilePath = getThatFile();
 
 		// Reading Zip file into java pair rdd
 		JavaPairRDD<String, PortableDataStream> binDataPairRdd = javaSparkContext.binaryFiles(zipFilePath,
@@ -81,5 +81,14 @@ public class MemoryManagement {
 		long rowsCount = csvRows.count();
 		System.out.println("Number of rows in the file:" + rowsCount);
 		javaSparkContext.close();
+	}
+	private String getThatFile() {
+		String FILE_URL = "https://s3.amazonaws.com/elephantscale-public/data/2008/2008.zip";
+		String FILE_NAME = "2008.zip";
+		int CONNECT_TIMEOUT =
+		FileUtils.copyURLToFile(
+				new URL(FILE_URL),
+				new File(FILE_NAME));
+		return FILE_NAME;
 	}
 }
