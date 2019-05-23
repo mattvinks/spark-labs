@@ -35,11 +35,11 @@ public class Shuffling {
 		//Use big dataset "netflix-user-ratings.csv"
 		//Hint : repartition with 2 partitions and persist it.
 		Dataset<Row> userRatings = spark.read().option("header", true)
-				.csv("/home/vishnu/MailDownloads/ElephantScale/datasets/netflix/netflix-user-ratings-10k.csv");
+				.csv("/data/netflix/netflix-user-ratings-10k.csv");
 				//.??????
 
 		Dataset<Row> movieTitles = spark.read().option("header", true)
-				.csv("/home/vishnu/MailDownloads/ElephantScale/datasets/netflix/movie-titles.csv");
+				.csv("/data/netflix/movie-titles.csv");
 
 		//Here we are joining movieTitles and ratings to get total number of reviews by the users for a each movie  
 		//Here only our first shuffling takes place in userRatings since we are applying an action(join) here and 
@@ -57,7 +57,7 @@ public class Shuffling {
 		//Here shuffling is not performed since the df(userRatings) is already shuffled and partitioned
 		//Performance is improved here since shuffling does not take place
 		Dataset<Row> movieOscars = spark.read().option("header", true)
-				.csv("/home/vishnu/MailDownloads/ElephantScale/datasets/netflix/movie-oscars.csv");
+				.csv("data/netflix/movie-oscars.csv");
 		movieOscars.createTempView("oscarDetailsTable");
 		
 		Dataset<Row> oscarMoviesOnDf = spark.sql("Select * from oscarDetailsTable where Oscar = true");
