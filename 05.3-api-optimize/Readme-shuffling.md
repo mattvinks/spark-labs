@@ -26,11 +26,11 @@ It affects join results.
 Go to the project root directory
 
 ```bash
-    $    cd ~/spark-labs/06-api-java
+    $    cd <lab-folder>
 ```
 
 
-**=> Edit file : `~/spark-labs/06-api-java/src/main/java/spark/basic/Shuffling.java`**  
+**=> Edit file : `src/main/java/spark/basic/Shuffling.java`**  
 **=> And fix the TODO items**
 
 
@@ -103,7 +103,7 @@ The file will look follows:
 
 ```bash
     # be in the project root level directory
-    $   cd   ~/spark-labs/06-api-java
+    $   cd   <lab-folder>
 
     $   mvn package
 
