@@ -22,7 +22,7 @@ instead of sending large table data over network, we can just broadcast the smal
 Go to the project root directory
 
 ```bash
-    $    cd ~/spark-labs/05.3-api-optimize
+    $    cd <project-directory>
 ```
 
 

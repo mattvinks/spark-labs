@@ -26,7 +26,7 @@ It affects join results.
 Go to the project root directory
 
 ```bash
-    $    cd <lab-folder>
+    $    cd <project-directory>
 ```
 
 
