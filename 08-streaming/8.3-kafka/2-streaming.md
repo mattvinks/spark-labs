@@ -110,7 +110,7 @@ Your setup might look like the following picture
 
 <a href="../../assets/images/8.3b-streaming-small.png"><img src="../../assets/images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
-## STEP 6: Continue fixing the TODO items 1-4
+## STEP 6: Fix the TODO items 1
 
 * Edit the file
 * build using `$   sbt assembly`
