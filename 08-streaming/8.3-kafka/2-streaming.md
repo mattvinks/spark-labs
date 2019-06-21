@@ -14,6 +14,8 @@ Setting up Kafka
 
 ### Run time
 1hr - 1.5 hrs
+# These labs assume Spark 2.2
+* For a different version of Spark, adjust the libraries
 
 
 -----------------------------
