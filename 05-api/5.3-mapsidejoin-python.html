@@ -1,0 +1,76 @@
+<h1 id="lab-05.3-mapside-join-python">Lab 05.3 Mapside Join Python</h1>
+<h3 id="overview">Overview</h3>
+<p>Broadcast Variables In cases if we need to join large tables(fact tables) with smaller ones(dimension tables), instead of sending large table data over network, we can just broadcast the smaller table to all nodes to perform a map-side/broadcast join.</p>
+<p>Here we will be loading sample datasets of US state store location</p>
+<h3 id="depends-on">Depends On</h3>
+<p>Should contain more than one node in the cluster for wide shuffle to happen</p>
+<h3 id="run-time">Run time</h3>
+<p>20-30 mins</p>
+<h2 id="step-1-edit-source-file">STEP 1: Edit source file</h2>
+<p>Go to the project root directory</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $    <span class="bu">cd</span> <span class="op">&lt;</span>project-directory<span class="op">&gt;</span></a></code></pre></div>
+<p><strong>=&gt; Edit file : <code>python/mapsidejoin.py</code></strong><br />
+<strong>=&gt; And fix the TODO items</strong></p>
+<h2 id="step-3-test-application-in-local-master-mode">STEP 3: Test Application in Local Master Mode</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span>  --master local[*]  python/mapsidejoin.py </a></code></pre></div>
+<p><strong>==&gt; Checkout the Shell UI (4040)</strong></p>
+<p><strong>==&gt; Hit Enter key to terminate the program</strong></p>
+<p><strong>==&gt; Turn off the logs by sending logs by <code>2&gt; logs</code> </strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --master local[*]  python/mapsidejoin.py  <span class="op">2&gt;</span> logs</a></code></pre></div>
+<p>Now let’s submit the application to Spark server</p>
+<h2 id="step-4-start-spark-server">STEP 4: Start Spark Server</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">    $  <span class="ex">~/spark/sbin/start-all.sh</span></a></code></pre></div>
+<p><strong>=&gt; Check the Spark Server UI at port 8080.</strong><br />
+<strong>=&gt; Note the Spark master URL.</strong></p>
+<p><img src="../assets/images/4.1b.png" style="border: 5px solid grey; max-width:100%;"/></p>
+<h2 id="step-5-submit-the-application">STEP 5: Submit the application</h2>
+<p>Use the following command to submit the job</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">    $  <span class="bu">cd</span>  ~/spark-labs/05-api</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    $   <span class="ex">~/spark/bin/spark-submit</span> --master MASTER URL python/mapsidejoin.py  <span class="op">2&gt;</span>logs</a></code></pre></div>
+<ul>
+<li>MASTER URL : substitute your spark master url</li>
+</ul>
+<p><strong>=&gt; Watch the console output</strong></p>
+<p>It may look like this</p>
+<pre class="console"><code>###Number of stores in each US region :
++-------------+-----+
+|census_region|count|
++-------------+-----+
+|      Midwest|   77|
+|        South|  117|
+|         West|  222|
+|    Northeast|   59|
++-------------+-----+
+</code></pre>
+<p>The lines starting with <code>###</code> are output from our program</p>
+<h2 id="step-6-configuring-logging">STEP 6: Configuring logging</h2>
+<h4 id="to-quickly-turn-off-the-logging">To quickly turn off the logging:</h4>
+<p>Redirect the logs as follows <code>2&gt; logs</code>.<br />
+All logs will be sent to <code>logs</code> file.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $  <span class="ex">~/spark/bin/spark-submit</span> --master MASTER_URL   python/mapsidejoin.py <span class="op">2&gt;</span>  logs</a></code></pre></div>
+<h4 id="using-log4j-config">Using log4j config</h4>
+<p>Spark by default logs at INFO level. While there is a lot of useful information there, it can be quite verbose.</p>
+<p>We have a <code>logging/log4j.properties</code> file. Inspect this file</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1">    $    <span class="fu">cat</span>   logging/log4j.properties</a></code></pre></div>
+<p>The file has following contents</p>
+<pre><code># Set everything to be logged to the console
+log4j.rootCategory=WARN, console
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.target=System.err
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+
+# Settings to quiet third party logs that are too verbose
+log4j.logger.org.eclipse.jetty=WARN
+log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO
+log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
+
+## set log levels for our loggers
+## everything under &#39;x&#39; package
+#log4j.logger.x=INFO
+## specific file
+#log4j.logger.spark.basic.MapSideJoin=DEBUG</code></pre>
+<p>We provide <code>--driver-class-path logging/</code> to spark-submit to turn off logging</p>
+<p>Here is an example</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --master local[*]  --driver-class-path logging/ python/mapsidejoin.py </a></code></pre></div>

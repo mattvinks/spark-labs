@@ -1,0 +1,47 @@
+<p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
+<p><a href="../../README.html">&lt;&lt; back to main index</a> /<br />
+<a href="README.html">&lt;&lt; back to kafka streaming index</a></p>
+<h1 id="lab-8.3b-kafka-direct-streaming">Lab 8.3b: Kafka Direct Streaming</h1>
+<h3 id="overview">Overview</h3>
+<p>Run a Kafka Direct Streaming job using pyspark</p>
+<h3 id="depends-on">Depends On</h3>
+<p><a href="1-kafka-setup.html">Kafka setup</a></p>
+<h3 id="run-time">Run time</h3>
+<p>1hr - 1.5 hrs # These labs assume Spark 2.4.3 * For a different version of Spark, adjust the libraries</p>
+<h2 id="step-1-get-kafka-running">STEP 1: Get Kafka running</h2>
+<p>Follow <a href="1-kafka-setup.html">Kafka Streaming guide</a> and have kafka running.</p>
+<h2 id="step-2-running-kafka-streaming">STEP 2: Running Kafka streaming</h2>
+<p>Make sure you have Kafka up and running. For reference * Terminal #1 : zookeeper * Terminal #2 : Kafka broker * Terminal #3 : Kafka console producer (we will paste data here) * Terminal #4 : Ran Kafka consumer</p>
+<p>Here is the screen shot (click on image to see full size image)</p>
+<p><a href="../../assets/images/8.3a-streaming-small.png"><img src="../../assets/images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<p><strong>=&gt; Stop Kafka consumer by hitting <code>Ctrl + C</code> in Terminal #4</strong></p>
+<h2 id="step-3-run-the-python-file">STEP 3: Run the python file</h2>
+<p>Go to the project root directory</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a></code></pre></div>
+<p>Run the python file <strong>python/kafka_direct_streaming.py</strong> using spark submit command</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span>  --master local[2] --driver-class-path logging/ --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.3 python/kafka_direct_streaming.py  localhost:9092  clickstream</a></code></pre></div>
+<p>Parameters explained: * <strong>localhost:9092</strong> - kafka broker * <strong>clickstream</strong> - topic</p>
+<h2 id="step-4-feed-some-data-into-producer-window-terminal-3">STEP 4: Feed some data into producer window (Terminal #3)</h2>
+<p><strong>=&gt; Try typing / pasting the following text in terminal #3(producer terminal)</strong></p>
+<pre><code>foo
+bar
+baz</code></pre>
+<p><strong>=&gt; Notice the kafka streaming console</strong></p>
+<pre class="console"><code>-------------------------------------------
+Time: 2019-07-22 12:07:40
+-------------------------------------------
+foo
+bar
+baz</code></pre>
+<h2 id="step-5-fix-the-todo-items-1">STEP 5: Fix the TODO items 1</h2>
+<ul>
+<li>Edit the file python/kafka_direct_streaming.py</li>
+<li>Run using the spark-submit command</li>
+</ul>
+<p>Test with following lines</p>
+<pre><code>1420070400000,ip_1,user_5,clicked,facebook.com,campaign_6,139,session_98
+1420070400864,ip_2,user_3,viewed,facebook.com,campaign_4,35,session_98
+1420070401728,ip_8,user_8,clicked,youtube.com,campaign_12,115,session_92
+1420070402592,ip_1,user_2,blocked,wikipedia.org,campaign_5,129,session_91
+1420070403456,ip_7,user_7,viewed,funnyordie.com,campaign_11,12,session_13
+1420070404320,ip_9,user_5,clicked,foxnews.com,campaign_2,173,session_24</code></pre>

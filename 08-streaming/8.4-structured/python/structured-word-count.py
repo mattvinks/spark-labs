@@ -2,10 +2,14 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode
 from pyspark.sql.functions import split
 
+# Initialize Spark
 spark = SparkSession \
     .builder \
     .appName("Structed Streaming ") \
     .getOrCreate()
+
+# Set loglevel to Error
+spark.sparkContext.setLogLevel("ERROR")
 
 lines = spark \
     .readStream \
@@ -32,3 +36,5 @@ query = wordCounts \
     .start()
 
 query.awaitTermination()
+
+spark.stop()

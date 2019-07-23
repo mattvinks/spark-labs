@@ -14,7 +14,7 @@ ssc = StreamingContext(sc, ???)
 lines = ssc.socketTextStream("localhost", ???)
 lines.pprint()
 
-## TODO-3 : filter for lines that has 'x'
+## TODO-3 : filter for lines that has 'xxx'
 # x = lines.filter(lambda line : "???" in line)
 # x.pprint()
 

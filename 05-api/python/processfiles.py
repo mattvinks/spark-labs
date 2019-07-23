@@ -25,7 +25,7 @@ for file in sys.argv[1:]:
     #f = ???(file)
 
     t1 = time.perf_counter()
-    ## TODO-2 : Count the number of lines
+    ## TODO-3 : Count the number of lines
     ## Hint : count
     count = f.???()
     t2 = time.perf_counter()

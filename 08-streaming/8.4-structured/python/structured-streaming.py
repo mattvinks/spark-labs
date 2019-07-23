@@ -2,11 +2,16 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode
 from pyspark.sql.functions import split
 
+# Initialize Spark
 spark = SparkSession \
     .builder \
-    .appName("Structed Streaming ") \
+    .appName("Structed Streaming") \
     .getOrCreate()
 
+# Set loglevel to Error
+spark.sparkContext.setLogLevel("ERROR")
+
+"""
 ## TODO-1 : read from socket 10000
 lines = spark \
     .readStream \
@@ -21,9 +26,9 @@ query1 = lines \
     .format("console") \
     .start()
 
+# query1.awaitTermination()
 
-# wait for ever
-query1.awaitTermination()
+
 
 ## TODO-2  :filter lines that has 'x'
 # x = lines.filter(lines["value"].contains("x"))
@@ -36,4 +41,7 @@ query1.awaitTermination()
 #         .start()
 # query2.awaitTermination()
 
+
+# wait forever until user terminate manually
+spark.streams.awaitAnyTermination() 
 spark.stop()
