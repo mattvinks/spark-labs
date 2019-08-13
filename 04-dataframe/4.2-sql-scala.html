@@ -1,5 +1,5 @@
 <p><link rel='stylesheet' href='../assets/css/main.css'/></p>
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../README.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-4.2-spark-sql-sql">Lab 4.2 : Spark SQL : SQL</h1>
 <h3 id="overview">Overview</h3>
 <p>Using SQL statements with Spark SQL.</p>
@@ -50,7 +50,7 @@
 ...</code></pre>
 <p><strong>==&gt; Find records with only clicks</strong></p>
 <p><strong>==&gt; Count records from each domain, sort the output by most to least</strong></p>
-<h3 id="step-4-joining-datasets">STEP 4: Joining Datasets</h3>
+<h3 id="step-5-joining-datasets">STEP 5: Joining Datasets</h3>
 <p><strong>==&gt; Load <code>domains</code> dataset and register it to table <code>domains</code></strong></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb9-1" data-line-number="1">    <span class="kw">val</span> domainsDF = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;/data/click-stream/domain-info.json&quot;</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">    domainsDF.<span class="fu">show</span></a>
@@ -60,12 +60,12 @@ Hint : Here is the join query syntax for joining two tables A, B by matching A.x
 <div class="sourceCode" id="cb10"><pre class="sourceCode sql"><code class="sourceCode sql"><a class="sourceLine" id="cb10-1" data-line-number="1">    spark.sql(<span class="ot">&quot;select A.*, B.* from A  join B  ON (A.x = B.y)&quot;</span>)</a></code></pre></div>
 <p><strong>==&gt; Count traffic per domain category (news, social ..etc)</strong><br />
 Hint : query the joined datasets</p>
-<h3 id="step-5-explore-ui">STEP 5: Explore UI</h3>
+<h3 id="step-6-explore-ui">STEP 6: Explore UI</h3>
 <p>(Your DAG visualization may be slightly different from what we show here)</p>
 <p><img src="../assets/images/5.2c.png" style="border: 5px solid grey; max-width:100%;"/></p>
 <p><img src="../assets/images/5.2d.png" style="border: 5px solid grey; max-width:100%;"/></p>
 <p><img src="../assets/images/5.2e.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<h2 id="step-6-understand-query-execution">Step 6 : Understand Query Execution</h2>
+<h2 id="step-7-understand-query-execution">Step 7 : Understand Query Execution</h2>
 <p>We will use <code>explain</code> keyword to see how Spark is optimizing and executing the query.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb11-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">spark.<span class="fu">sql</span>(<span class="st">&quot;select * from clickstream where cost &gt; 100&quot;</span>).<span class="fu">explain</span>(extended=<span class="kw">true</span>)</a>

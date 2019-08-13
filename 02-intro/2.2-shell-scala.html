@@ -1,11 +1,11 @@
 <p><link rel='stylesheet' href='../assets/css/main.css'/></p>
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../README.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-2.2-spark-shell">Lab 2.2: Spark Shell</h1>
 <h3 id="overview">Overview</h3>
 <p>Get familiar with Spark shell<br />
-- <a href="2.2-shell.md">Standalone version</a> - <a href="2.2H-spark-shell-hadoop.md">Hadoop version</a></p>
+- <a href="2.2-shell-scala.html">Standalone version</a> - <a href="2.2H-spark-shell-hadoop.html">Hadoop version</a></p>
 <h3 id="builds-on">Builds on</h3>
-<p><a href="2.1-install-spark.md">2.1-install-spark</a></p>
+<p><a href="2.1-install-spark-scala.html">2.1-install-spark</a></p>
 <h3 id="run-time">Run time</h3>
 <p>approx. 20-30 minutes</p>
 <h3 id="notes">Notes</h3>
@@ -19,7 +19,7 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">    $   <span class="bu">cd</span> ~/data<span class="kw">;</span> <span class="fu">git</span> pull<span class="kw">;</span>  <span class="bu">cd</span></a></code></pre></div>
 <p><strong>Downloading the dataset to your own machine</strong><br />
-Please see <a href="../README.md#data">README.md data section</a></p>
+Please see <a href="../README.html#data">README.html data section</a></p>
 <h2 id="step-2-launch-spark-shell">STEP 2: Launch Spark shell</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-shell</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="co">## spark shell is in bin/ dir</span></a></code></pre></div>
@@ -28,14 +28,13 @@ Please see <a href="../README.md#data">README.md data section</a></p>
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  &#39;_/
-   /___/ .__/\_,_/_/ /_/\_\   version 1.6.0
+   /___/ .__/\_,_/_/ /_/\_\   version 2.4.3
       /_/
 
-Using Scala version 2.10.5 (Java HotSpot(TM) 64-Bit Server VM, Java 1.7.0_72)
+Using Scala version 2.11.12 (OpenJDK 64-Bit Server VM, Java 1.8.0_222)
 Type in expressions to have them evaluated.
 Type :help for more information.
-Spark context available as sc.
-...
+
 scala&gt;
 </code></pre>
 <h2 id="step-3-exploring-spark-shell-ui">STEP 3: Exploring Spark shell UI</h2>

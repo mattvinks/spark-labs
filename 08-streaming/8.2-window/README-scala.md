@@ -2,8 +2,7 @@
 
 [<< back to main index](../../README.md)
 
-Lab 8.2 - Spark Streaming Windowed Calculations
-==================================
+# Lab 8.2 - Spark Streaming Windowed Calculations
 
 ### Overview
 Submit a job for Spark Streaming and doing 'windowed count'
@@ -15,9 +14,7 @@ None
 30-40 mins
 
 
----------------------
-STEP 1: Edit source file
----------------------
+## STEP 1: Edit source file
 Go to the project root directory
 ```bash
     $    cd ~/spark-labs/08-streaming/8.2-window
@@ -26,9 +23,7 @@ Go to the project root directory
 **Inspect file : `src/main/scala/x/WindowedCount.scala`**  
 
 
---------------------------
-STEP 2: Compile the project
---------------------------
+## STEP 2: Compile the project
 
 ```bash
     $   sbt package
@@ -50,9 +45,7 @@ drwxr-xr-x  3 tfox  staff   102B Apr 16 09:59 classes/
 
 `windowed-count_2.11-1.0.jar`  is our code compiled.
 
-----------------
-STEP 3: Run Netcat Server (Terminal #2)
-----------------
+## STEP 3: Run Netcat Server (Terminal #2)
 Open another terminal into Spark node (terminal #2)
 
 Use `nc` command to move text you type in terminal #2 to port 10000
@@ -66,18 +59,17 @@ Open an terminal and run this command at prompt
 ```
 
 
---------------------------
-STEP 4: Run The Application  (Terminal #1)
---------------------------
+## STEP 4: Run The Application  (Terminal #1)
 ```bash
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowedcount_2.11-1.0.jar
+    $   ~/spark/bin/spark-submit  --master local[2] \
+      --driver-class-path logging/  \
+      --class x.WindowedCount \
+      target/scala-2.11/windowedcount_2.11-1.0.jar
 ```
 
 
 
--------------------------
-STEP 5:  Test by typing text Netcat Terminal #2
--------------------------
+## STEP 5:  Test by typing text Netcat Terminal #2
 
 In the Terminal #2, copy and paste the following lines (these are lines from our clickstream data)
 ```
@@ -96,17 +88,18 @@ You should see something similar to this screen shot.
 <a href="../../assets/images/8.2-streaming-small.png"><img src="../../assets/images/8.2-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 
---------------------------
-STEP 6: Enable Window Count
----------------------------
-** ==> Edit the file : `src/main/scala/x/WindowedCount.scala` **  
+## STEP 6: Enable Window Count
+**==> Edit the file : `src/main/scala/x/WindowedCount.scala`**  
 
-** ==> fix TODO-1 to enable Window count**
+**==> fix TODO-1 to enable Window count**
 
-** ==> Build and run the program**
+**==> Build and run the program**
 ```bash
     $   sbt package
-    $    ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.WindowedCount target/scala-2.11/windowed-count_2.11-1.0.jar
+    $    ~/spark/bin/spark-submit  --master local[2]   \
+        --driver-class-path logging/  \
+        --class x.WindowedCount \
+        target/scala-2.11/windowed-count_2.11-1.0.jar
 ```
 
 **=> Paste some logs in netcat window (terminal #2)**

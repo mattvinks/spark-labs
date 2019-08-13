@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>7.1-influencer</title>
+<title>churn_svm</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,74 +13116,51 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<link rel='stylesheet' href='../assets/css/main.css'/>
-
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
-<h1 id="7.1-:-Find-Influencers-on-Twitter">7.1 : Find Influencers on Twitter<a class="anchor-link" href="#7.1-:-Find-Influencers-on-Twitter">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Find 'influencers' on Twitter graph</p>
+<h1 id="Lab-:-Classification-with-MLlib">Lab : Classification with MLlib<a class="anchor-link" href="#Lab-:-Classification-with-MLlib">&#182;</a></h1><h3 id="OverView">OverView<a class="anchor-link" href="#OverView">&#182;</a></h3><p>We will be running a binary classifier using a Support Vector Machine (SVM)</p>
 <h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p>None</p>
-<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20 mins</p>
-<h3 id="Lab-Setup">Lab Setup<a class="anchor-link" href="#Lab-Setup">&#182;</a></h3><p>This lab uses the GraphFrames spark package.  It is currently NOT part of the default spark framework.</p>
-<p>We use this for two reasons:</p>
-<ol>
-<li><p>GraphFrames likely will be the basis of future graph processing in spark.</p>
-</li>
-<li><p>RDD-based graphx has no python API, whereas GraphFrames does have a python API. <br>As this jupyter notebook is python that makes it required.</p>
-</li>
-</ol>
-<p>So, to run this we have two choices</p>
-<p><strong>option 1 : Jupyter</strong></p>
-<p><strong>Note:</strong> 
-Jupyter lab will be already running on the port 8888.
-So, kill the process first.</p>
-<div class="highlight"><pre><span></span>$ sudo netstat -plnt <span class="p">|</span> grep <span class="m">8888</span>
-The process id will be shown in the output.Replace process id in the <span class="nb">kill</span> <span class="nb">command</span>
+<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>30 mins</p>
+<h2 id="STEP-1:-Examine-the-Churn-Dataset">STEP 1: Examine the Churn Dataset<a class="anchor-link" href="#STEP-1:-Examine-the-Churn-Dataset">&#182;</a></h2><p>The churn dataset is located in /data/churn/ directory.  There is already
+broken out a churntest.csv and a churntrain.csv.  Normally, we split
+up the dataset but in this case it's done for you.</p>
+<p>Note the outcome variable is simply called "churn".  If the customer leaves,
+churn is 1, if not, 0. The outcome variable happens to be the last variable in the dataset.</p>
+<p>The other variables are as follows:</p>
+<ul>
+<li>0:"id": Id</li>
+<li>1:"state": what state (2 letter abberviation)</li>
+<li>2:"account_length":  Length of customer account</li>
+<li>3:"area_code" a string containing the area code </li>
+<li>4:"international_plan", whether or not international plan</li>
+<li>5:"voice_mail_plan", whether or not voice mail plan</li>
+<li>6:"number_vmail_messages", an integer with the number of voice mails</li>
+<li>7:"total_day_minutes" an integer with total daytime minutes used</li>
+<li>8:"total_day_calls" an integer with the total number of daytime calls</li>
+<li>9:"total_day_charge": the charge for the daytime calls</li>
+<li>10:"total_eve_minutes: total number of evening minutes used</li>
+<li>11:"total_eve_calls": total numbe of evening calls</li>
+<li>12:"total_eve_charge": total charge for evening calls</li>
+<li>13:"total_night_minutes": total number of night minutes used</li>
+<li>14:"total_night_calls": total number of nigh calls</li>
+<li>15:"total_night_charge": total chage for nights</li>
+<li>16:"total_intl_minutes": total international minutes used</li>
+<li>17:"total_intl_calls", total number of international calls</li>
+<li>18:"total_intl_charge": total charge for international calls.</li>
+<li>19:"number_customer_service_calls" integer number of times called customer service </li>
+<li>20:"churn" Outcome Variable  yes/no churn or did not churn</li>
+</ul>
 
-$ sudo <span class="nb">kill</span> -9 process id
-</pre></div>
-<div class="highlight"><pre><span></span>$ <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3 <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>jupyter <span class="nv">PYSPARK_DRIVER_PYTHON_OPTS</span><span class="o">=</span>notebook ~/spark/bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11
-</pre></div>
-<p><strong>option 2 : PySpark (command line)</strong></p>
-<div class="highlight"><pre><span></span>$ <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  ~/spark/bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11
-</pre></div>
-<p>Replace the version on graphframes with your latest.</p>
-<p>With that said, let's start:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-1:-Build-the-following-twitter-graph">Step 1: Build the following twitter graph<a class="anchor-link" href="#Step-1:-Build-the-following-twitter-graph">&#182;</a></h2><p>Here is some real world data:
-<img src="../assets/images/7.1a.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<p>We are using data from a real Twitter account, if you want, you can use yours</p>
-<h4 id="Import-the-necessary-libraries">Import the necessary libraries<a class="anchor-link" href="#Import-the-necessary-libraries">&#182;</a></h4>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># %AddDeps graphframes graphframes 0.7.0-spark2.4-s_2.11</span>
-<span class="c1"># %lsmagic</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize Spark Session</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">top_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../&quot;</span><span class="p">))</span>
+<span class="n">top_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../../&quot;</span><span class="p">))</span>
 <span class="k">if</span> <span class="n">top_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top_dir</span><span class="p">)</span>
 
@@ -13196,13 +13173,42 @@ $ sudo <span class="nb">kill</span> -9 process id
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Initializing Spark...
+Spark found in :  /home/ubuntu/spark
+Spark config:
+	 spark.app.name=TestApp
+	spark.master=local[*]
+	executor.memory=2g
+	spark.sql.warehouse.dir=/tmp/tmp5vgz50an
+	some_property=some_value
+Spark UI running on port 4045
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">graphframes</span> <span class="k">import</span> <span class="o">*</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.mllib.classification</span> <span class="k">import</span> <span class="n">SVMWithSGD</span>
+<span class="kn">from</span> <span class="nn">pyspark.mllib.regression</span> <span class="k">import</span> <span class="n">LabeledPoint</span>
+<span class="kn">from</span> <span class="nn">pyspark.mllib.linalg</span> <span class="k">import</span> <span class="n">Vectors</span>
+<span class="kn">from</span> <span class="nn">pyspark.mllib.evaluation</span> <span class="k">import</span> <span class="n">BinaryClassificationMetrics</span>
 </pre></div>
 
     </div>
@@ -13213,7 +13219,10 @@ $ sudo <span class="nb">kill</span> -9 process id
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Construct-the-array-of-vertices">Construct the array of vertices<a class="anchor-link" href="#Construct-the-array-of-vertices">&#182;</a></h4><p>Data structure: twitter handle, number of followers, gender of the tweeter</p>
+<h2 id="STEP-2:-Prepare-the-data:">STEP 2: Prepare the data:<a class="anchor-link" href="#STEP-2:-Prepare-the-data:">&#182;</a></h2><p>MLLib Vectors only accepts numeric data.  This dataset has some non-numeric fields.  Note which fields are non-numeric.</p>
+<p>Create a function called get_labeled_point to parse the data. It should return
+type Labeledpoint. which should have the outcome variable churn,
+and a Vectors.dense of all the other variables</p>
 
 </div>
 </div>
@@ -13223,17 +13232,54 @@ $ sudo <span class="nb">kill</span> -9 process id
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vertices</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;@markkerzner&quot;</span><span class="p">,</span> <span class="mi">309</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>  <span class="c1"># (Id, Name, no of followers, gender)</span>
-        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;@mjbrender&quot;</span><span class="p">,</span> <span class="mi">3101</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;@dridisahar1&quot;</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;@dez_blanchfield &quot;</span><span class="p">,</span> <span class="mi">38600</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;@ch_doig &quot;</span><span class="p">,</span> <span class="mi">519</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;@Sunitha_Packt &quot;</span><span class="p">,</span> <span class="mi">332</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;@WibiData &quot;</span><span class="p">,</span> <span class="mi">2477</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">)</span>  <span class="c1"># Name here is company, so gender is neutral</span>
-<span class="p">],</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;followers&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">])</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_labeled_point</span><span class="p">(</span><span class="n">csv_line_data</span><span class="p">):</span>
+<span class="c1">#     TODO: drop the non-numeric fields, convert the rest to double. </span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="err">?</span><span class="o">??</span>
+<span class="c1">#     TODO Return Labeledpoint:  Outcome variable, Vectors.dense(all other variables)</span>
+    <span class="k">return</span> <span class="n">LabeledPoint</span><span class="p">(</span><span class="err">???</span><span class="p">,</span> <span class="err">???</span><span class="p">)</span>    
+</pre></div>
 
-<span class="n">vertices</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load and parse the data</span>
+<span class="n">trainingData</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;../../../data/churn/churntrain.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_labeled_point</span><span class="p">)</span>
+<span class="n">testData</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="s2">&quot;../../../data/churn/churntest.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_labeled_point</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Run training algorithm to build the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SVMWithSGD</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">trainingData</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Clear the default threshold.</span>
+<span class="n">model</span><span class="o">.</span><span class="n">clearThreshold</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13244,7 +13290,7 @@ $ sudo <span class="nb">kill</span> -9 process id
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Construct-the-array-of-edges">Construct the array of edges<a class="anchor-link" href="#Construct-the-array-of-edges">&#182;</a></h4><p>On this step, these are all my followers, so they connect to me</p>
+<h2 id="Step-3-:-Complete-the-TODO-items-to-generate-score-and-labels.">Step 3 : Complete the TODO items to generate score and labels.<a class="anchor-link" href="#Step-3-:-Complete-the-TODO-items-to-generate-score-and-labels.">&#182;</a></h2><p>Use model.predict on the test data.  Calculate the score.  Then return a tuple of score and label</p>
 
 </div>
 </div>
@@ -13254,16 +13300,27 @@ $ sudo <span class="nb">kill</span> -9 process id
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="c1"># (src, dest, retweets)</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="p">],</span> <span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;dst&quot;</span><span class="p">,</span> <span class="s2">&quot;retweets&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute raw scores on the test set. </span>
+<span class="k">def</span> <span class="nf">get_score_and_labels</span><span class="p">(</span><span class="n">test_data</span><span class="p">):</span>
+<span class="c1">#     TODO : use model.predict to get the score</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="err">?</span><span class="o">??</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">test_data</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
 
-<span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">score_and_labels</span> <span class="o">=</span> <span class="n">testData</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_score_and_labels</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Convert the values to float type</span>
+<span class="n">score_and_labels_in_float</span> <span class="o">=</span> <span class="n">scoreAndLabels</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
 </pre></div>
 
     </div>
@@ -13274,7 +13331,8 @@ $ sudo <span class="nb">kill</span> -9 process id
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Construct-the-graph-from-the-vertices-and-edges">Construct the graph from the vertices and edges<a class="anchor-link" href="#Construct-the-graph-from-the-vertices-and-edges">&#182;</a></h4>
+<h2 id="STEP-4:-Note-the-Area-under-ROC">STEP 4: Note the Area under ROC<a class="anchor-link" href="#STEP-4:-Note-the-Area-under-ROC">&#182;</a></h2><p>We measure our model's performance by measuring the area under the ROC.</p>
+
 </div>
 </div>
 </div>
@@ -13283,160 +13341,9 @@ $ sudo <span class="nb">kill</span> -9 process id
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">GraphFrame</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-2-:-Analyzing-Graph">Step 2 : Analyzing Graph<a class="anchor-link" href="#Step-2-:-Analyzing-Graph">&#182;</a></h2><h4 id="Print-graph">Print graph<a class="anchor-link" href="#Print-graph">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Vertices</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Edges</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># triplets</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">triplets</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-3-:-Query-the-graph">Step 3 : Query the graph<a class="anchor-link" href="#Step-3-:-Query-the-graph">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Filter-out-male-followers">Filter out male followers<a class="anchor-link" href="#Filter-out-male-followers">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;gender != &#39;M&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Find-my-significant-followers">Find my significant followers<a class="anchor-link" href="#Find-my-significant-followers">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;followers &gt; 1000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Find-those-followers-who-do-enough-re-tweeets-for-me">Find those followers who do enough re-tweeets for me<a class="anchor-link" href="#Find-those-followers-who-do-enough-re-tweeets-for-me">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;retweets &gt; 5&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;retweets &gt; 5&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Count-my-male-and-female-followers">Count my male and female followers<a class="anchor-link" href="#Count-my-male-and-female-followers">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_male</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;gender == &#39;M&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="n">num_female</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;gender == &#39;F&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Males </span><span class="si">%d</span><span class="s1">, Females </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_male</span><span class="p">,</span> <span class="n">num_female</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get evaluation metrics</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">BinaryClassificationMetrics</span><span class="p">(</span><span class="n">score_and_labels_in_float</span><span class="p">)</span>
+<span class="n">metrics</span><span class="o">.</span><span class="n">areaUnderROC</span>
 </pre></div>
 
     </div>

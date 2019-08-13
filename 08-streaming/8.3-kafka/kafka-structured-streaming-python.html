@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>7.1-influencer</title>
+<title>kafka-structured-streaming-python</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13116,320 +13116,110 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<link rel='stylesheet' href='../assets/css/main.css'/>
-
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
-<h1 id="7.1-:-Find-Influencers-on-Twitter">7.1 : Find Influencers on Twitter<a class="anchor-link" href="#7.1-:-Find-Influencers-on-Twitter">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Find 'influencers' on Twitter graph</p>
-<h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p>None</p>
-<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>20 mins</p>
-<h3 id="Lab-Setup">Lab Setup<a class="anchor-link" href="#Lab-Setup">&#182;</a></h3><p>This lab uses the GraphFrames spark package.  It is currently NOT part of the default spark framework.</p>
-<p>We use this for two reasons:</p>
-<ol>
-<li><p>GraphFrames likely will be the basis of future graph processing in spark.</p>
-</li>
-<li><p>RDD-based graphx has no python API, whereas GraphFrames does have a python API. <br>As this jupyter notebook is python that makes it required.</p>
-</li>
-</ol>
-<p>So, to run this we have two choices</p>
-<p><strong>option 1 : Jupyter</strong></p>
-<p><strong>Note:</strong> 
-Jupyter lab will be already running on the port 8888.
-So, kill the process first.</p>
-<div class="highlight"><pre><span></span>$ sudo netstat -plnt <span class="p">|</span> grep <span class="m">8888</span>
-The process id will be shown in the output.Replace process id in the <span class="nb">kill</span> <span class="nb">command</span>
-
-$ sudo <span class="nb">kill</span> -9 process id
+<h1 id="Lab-8.3b:-Kafka-Structured-Streaming">Lab 8.3b: Kafka Structured Streaming<a class="anchor-link" href="#Lab-8.3b:-Kafka-Structured-Streaming">&#182;</a></h1><h3 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h3><p>Run a Kafka Structured Streaming job using pyspark</p>
+<h3 id="Depends-On">Depends On<a class="anchor-link" href="#Depends-On">&#182;</a></h3><p><a href="kafka-setup-python.html">Kafka setup</a></p>
+<h3 id="Run-time">Run time<a class="anchor-link" href="#Run-time">&#182;</a></h3><p>1hr - 1.5 hrs</p>
+<h1 id="These-labs-assume-Spark-2.4.3">These labs assume Spark 2.4.3<a class="anchor-link" href="#These-labs-assume-Spark-2.4.3">&#182;</a></h1><ul>
+<li>For a different version of Spark, adjust the libraries</li>
+</ul>
+<h2 id="STEP-1:-Get-Kafka-running">STEP 1: Get Kafka running<a class="anchor-link" href="#STEP-1:-Get-Kafka-running">&#182;</a></h2><p>Follow <a href="kafka-setup-python.html">Kafka setup guide</a> and have kafka running.</p>
+<h2 id="STEP-2:-Running-Kafka-streaming">STEP 2: Running Kafka streaming<a class="anchor-link" href="#STEP-2:-Running-Kafka-streaming">&#182;</a></h2><p>Make sure you have Kafka up and running.  For reference</p>
+<ul>
+<li>Terminal #1  : zookeeper</li>
+<li>Terminal #2  : Kafka broker</li>
+<li>Terminal #3  : Kafka console producer (we will paste data here)</li>
+<li>Terminal #4  : Ran Kafka consumer</li>
+</ul>
+<p>Here is the screen shot (click on image to see full size image)</p>
+<p><a href="../../assets/images/8.3a-streaming-small.png"><img src="../../assets/images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+<p><strong>=&gt; Stop Kafka consumer by hitting <code>Ctrl + C</code> in Terminal #4</strong></p>
+<h2 id="STEP-3:-Run-the-python-file">STEP 3: Run the python file<a class="anchor-link" href="#STEP-3:-Run-the-python-file">&#182;</a></h2><p>Go to the project root directory</p>
+<div class="highlight"><pre><span></span>$ <span class="nb">cd</span> ~/spark-labs/08-streaming/8.3-kafka
 </pre></div>
-<div class="highlight"><pre><span></span>$ <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3 <span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>jupyter <span class="nv">PYSPARK_DRIVER_PYTHON_OPTS</span><span class="o">=</span>notebook ~/spark/bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11
+<p>Run the python file <strong>python/kafka_structured_streaming.py</strong> using spark submit command</p>
+<div class="highlight"><pre><span></span>$   ~/spark/bin/spark-submit  --master local<span class="o">[</span><span class="m">2</span><span class="o">]</span> <span class="se">\</span>
+    --driver-class-path logging/ <span class="se">\</span>
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.3 <span class="se">\</span>
+    python/kafka_structured_streaming.py clickstream
 </pre></div>
-<p><strong>option 2 : PySpark (command line)</strong></p>
-<div class="highlight"><pre><span></span>$ <span class="nv">PYSPARK_PYTHON</span><span class="o">=</span>python3  ~/spark/bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11
+<p>Parameters explained:</p>
+<ul>
+<li><strong>localhost:9092</strong>   - kafka broker</li>
+<li><strong>clickstream</strong> - topic</li>
+</ul>
+<h2 id="STEP-4:-Feed-some-data-into-producer-window-(Terminal-#3)">STEP 4: Feed some data into producer window (Terminal #3)<a class="anchor-link" href="#STEP-4:-Feed-some-data-into-producer-window-(Terminal-#3)">&#182;</a></h2><p><strong>=&gt; Try typing / pasting the following text in terminal #3(producer terminal)</strong></p>
+
+<pre><code>foo
+bar
+baz</code></pre>
+<p><strong>=&gt; Notice the kafka streaming console</strong></p>
+<div class="highlight"><pre><span></span><span class="go">root</span>
+<span class="go"> |-- key: binary (nullable = true)</span>
+<span class="go"> |-- value: binary (nullable = true)</span>
+<span class="go"> |-- topic: string (nullable = true)</span>
+<span class="go"> |-- partition: integer (nullable = true)</span>
+<span class="go"> |-- offset: long (nullable = true)</span>
+<span class="go"> |-- timestamp: timestamp (nullable = true)</span>
+<span class="go"> |-- timestampType: integer (nullable = true)</span>
+
+<span class="go">-------------------------------------------</span>
+<span class="go">Batch: 0</span>
+<span class="go">-------------------------------------------</span>
+<span class="go">+---+-----+-----+---------+------+---------+-------------+</span>
+<span class="go">|key|value|topic|partition|offset|timestamp|timestampType|</span>
+<span class="go">+---+-----+-----+---------+------+---------+-------------+</span>
+<span class="go">+---+-----+-----+---------+------+---------+-------------+</span>
+
+<span class="go">-------------------------------------------</span>
+<span class="go">Batch: 1</span>
+<span class="go">-------------------------------------------</span>
+<span class="go">+----+----------+-----------+---------+------+--------------------+-------------+</span>
+<span class="go">| key|     value|      topic|partition|offset|           timestamp|timestampType|</span>
+<span class="go">+----+----------+-----------+---------+------+--------------------+-------------+</span>
+<span class="go">|null|[66 6F 6F]|clickstream|        0|    32|2019-07-22 12:16:...|            0|</span>
+<span class="go">|null|[62 61 7A]|clickstream|        0|    33|2019-07-22 12:16:...|            0|</span>
+<span class="go">|null|[62 61 72]|clickstream|        1|    31|2019-07-22 12:16:...|            0|</span>
+<span class="go">+----+----------+-----------+---------+------+--------------------+-------------+</span>
 </pre></div>
-<p>Replace the version on graphframes with your latest.</p>
-<p>With that said, let's start:</p>
+<h2 id="STEP-5:-Change-schema">STEP 5: Change schema<a class="anchor-link" href="#STEP-5:-Change-schema">&#182;</a></h2><ul>
+<li>Edit the file python/kafka_structured_streaming.py</li>
+<li>Comment "option 1"</li>
+<li>Uncomment 'option 2' where we specify schema for Kafka</li>
+<li>Save the file</li>
+<li>Run using the spark-submit command</li>
+</ul>
+<p><strong>=&gt; Try typing / pasting the following text in terminal #3(producer terminal)</strong></p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-1:-Build-the-following-twitter-graph">Step 1: Build the following twitter graph<a class="anchor-link" href="#Step-1:-Build-the-following-twitter-graph">&#182;</a></h2><p>Here is some real world data:
-<img src="../assets/images/7.1a.png" style="border: 5px solid grey; max-width:100%;"/></p>
-<p>We are using data from a real Twitter account, if you want, you can use yours</p>
-<h4 id="Import-the-necessary-libraries">Import the necessary libraries<a class="anchor-link" href="#Import-the-necessary-libraries">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># %AddDeps graphframes graphframes 0.7.0-spark2.4-s_2.11</span>
-<span class="c1"># %lsmagic</span>
-</pre></div>
+<pre><code>foo</code></pre>
+<p><strong>=&gt; Notice the kafka streaming console</strong></p>
+<div class="highlight"><pre><span></span><span class="go">root</span>
+<span class="go"> |-- key: string (nullable = true)</span>
+<span class="go"> |-- value: string (nullable = true)</span>
+<span class="go"> |-- topic: string (nullable = true)</span>
+<span class="go"> |-- partition: integer (nullable = true)</span>
+<span class="go"> |-- offset: long (nullable = true)</span>
+<span class="go"> |-- timestamp: timestamp (nullable = true)</span>
 
-    </div>
-</div>
-</div>
+<span class="go">-------------------------------------------</span>
+<span class="go">Batch: 0</span>
+<span class="go">-------------------------------------------</span>
+<span class="go">+---+-----+-----+---------+------+---------+</span>
+<span class="go">|key|value|topic|partition|offset|timestamp|</span>
+<span class="go">+---+-----+-----+---------+------+---------+</span>
+<span class="go">+---+-----+-----+---------+------+---------+</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize Spark Session</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">top_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../&quot;</span><span class="p">))</span>
-<span class="k">if</span> <span class="n">top_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top_dir</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">init_spark</span> <span class="k">import</span> <span class="n">init_spark</span>
-<span class="n">spark</span> <span class="o">=</span> <span class="n">init_spark</span><span class="p">()</span>
-<span class="n">sc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">graphframes</span> <span class="k">import</span> <span class="o">*</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Construct-the-array-of-vertices">Construct the array of vertices<a class="anchor-link" href="#Construct-the-array-of-vertices">&#182;</a></h4><p>Data structure: twitter handle, number of followers, gender of the tweeter</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vertices</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;@markkerzner&quot;</span><span class="p">,</span> <span class="mi">309</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>  <span class="c1"># (Id, Name, no of followers, gender)</span>
-        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;@mjbrender&quot;</span><span class="p">,</span> <span class="mi">3101</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;@dridisahar1&quot;</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;@dez_blanchfield &quot;</span><span class="p">,</span> <span class="mi">38600</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;@ch_doig &quot;</span><span class="p">,</span> <span class="mi">519</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;@Sunitha_Packt &quot;</span><span class="p">,</span> <span class="mi">332</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;@WibiData &quot;</span><span class="p">,</span> <span class="mi">2477</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">)</span>  <span class="c1"># Name here is company, so gender is neutral</span>
-<span class="p">],</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;followers&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">])</span> 
-
-<span class="n">vertices</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">-------------------------------------------</span>
+<span class="go">Batch: 1</span>
+<span class="go">-------------------------------------------</span>
+<span class="go">+----+-----+-----------+---------+------+--------------------+</span>
+<span class="go">| key|value|      topic|partition|offset|           timestamp|</span>
+<span class="go">+----+-----+-----------+---------+------+--------------------+</span>
+<span class="go">|null|  foo|clickstream|        1|    32|2019-07-22 12:19:...|</span>
+<span class="go">+----+-----+-----------+---------+------+--------------------+</span>
 </pre></div>
 
-    </div>
 </div>
 </div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Construct-the-array-of-edges">Construct the array of edges<a class="anchor-link" href="#Construct-the-array-of-edges">&#182;</a></h4><p>On this step, these are all my followers, so they connect to me</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="c1"># (src, dest, retweets)</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="p">],</span> <span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;dst&quot;</span><span class="p">,</span> <span class="s2">&quot;retweets&quot;</span><span class="p">])</span>
-
-<span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Construct-the-graph-from-the-vertices-and-edges">Construct the graph from the vertices and edges<a class="anchor-link" href="#Construct-the-graph-from-the-vertices-and-edges">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">GraphFrame</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-2-:-Analyzing-Graph">Step 2 : Analyzing Graph<a class="anchor-link" href="#Step-2-:-Analyzing-Graph">&#182;</a></h2><h4 id="Print-graph">Print graph<a class="anchor-link" href="#Print-graph">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Vertices</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Edges</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># triplets</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">triplets</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Step-3-:-Query-the-graph">Step 3 : Query the graph<a class="anchor-link" href="#Step-3-:-Query-the-graph">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Filter-out-male-followers">Filter out male followers<a class="anchor-link" href="#Filter-out-male-followers">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;gender != &#39;M&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Find-my-significant-followers">Find my significant followers<a class="anchor-link" href="#Find-my-significant-followers">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;followers &gt; 1000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Find-those-followers-who-do-enough-re-tweeets-for-me">Find those followers who do enough re-tweeets for me<a class="anchor-link" href="#Find-those-followers-who-do-enough-re-tweeets-for-me">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;retweets &gt; 5&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;retweets &gt; 5&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Count-my-male-and-female-followers">Count my male and female followers<a class="anchor-link" href="#Count-my-male-and-female-followers">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_male</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;gender == &#39;M&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="n">num_female</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;gender == &#39;F&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Males </span><span class="si">%d</span><span class="s1">, Females </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_male</span><span class="p">,</span> <span class="n">num_female</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">

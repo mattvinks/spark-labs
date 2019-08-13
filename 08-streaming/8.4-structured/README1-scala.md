@@ -1,9 +1,8 @@
 <link rel='stylesheet' href='../../assets/css/main.css'/>
 
-[<< back to main index](../../README.md)
+[<< back to main index](../../README-scala.md)
 
-Lab 8.4 - Structured Streaming 1
-==================================
+# Lab 8.4 - Structured Streaming 1
 
 ### Overview
 Run a Spark Structured Streaming  job
@@ -59,7 +58,10 @@ Open an terminal and run this command at prompt
     # be in project root directory
     $ cd ~/spark-labs/08-streaming/8.4-structured
 
-    $   ~/spark/bin/spark-submit  --master local[2]   --driver-class-path logging/  --class x.StructuredStreaming  target/scala-2.11/structured-streaming_2.11-1.0.jar
+    $   ~/spark/bin/spark-submit  --master local[2]   \
+        --driver-class-path logging/  \
+        --class x.StructuredStreaming  \
+        target/scala-2.11/structured-streaming_2.11-1.0.jar
 ```
 
 Lets call this Terminal #1

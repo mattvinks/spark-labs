@@ -1,9 +1,5 @@
-<title>
-Spark labs : 8.1 Streaming Over TCP
-</title>
-</head>
 <p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
-<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../../README-scala.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-8.4---structured-streaming-2-json">Lab 8.4 - Structured Streaming 2 (JSON)</h1>
 <h3 id="overview">Overview</h3>
 <p>Run a Spark Structured Streaming job analyzing JSON data</p>
@@ -20,7 +16,7 @@ Spark labs : 8.1 Streaming Over TCP
 Delete /* and */</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1">    <span class="co">// TODO-1</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="co">// figure out clickstream schema using sample file</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="kw">val</span> sample = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;clickstream.json&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="kw">val</span> sample = spark.<span class="fu">read</span>.<span class="fu">json</span>(<span class="st">&quot;file:///data/click-stream/clickstream.json&quot;</span>)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">    sample.<span class="fu">printSchema</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">    <span class="kw">val</span> schema = sample.<span class="fu">schema</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="fu">println</span> (<span class="st">&quot;Clickstream sample schema is : &quot;</span> + schema)</a>
@@ -52,7 +48,7 @@ Delete /* and */</p>
 Clickstream sample schema is : StructType(StructField(action,StringType,true), StructField(campaign,StringType,true), StructField(cost,LongType,true), StructField(domain,StringType,true), StructField(ip,StringType,true), StructField(session,StringType,true), StructField(timestamp,LongType,true), StructField(user,StringType,true))</code></pre>
 <h2 id="step-6-fix-todo-2">Step 6: Fix TODO-2</h2>
 <p>Edit file : <code>src/main/scala/x/JSONStreaming.scala</code>**<br />
-And fix TODO-2. Uncomment to ‘TODO-2’ block</p>
+And fix TODO-2. Uncomment ‘TODO-2’ block</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1">    <span class="co"># be in project root directory</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.4-structured</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"></a>
@@ -64,7 +60,7 @@ And fix TODO-2. Uncomment to ‘TODO-2’ block</p>
 <p>Open another terminal and issue the following commands.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.4-structured</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">    $   <span class="fu">ln</span> clickstream.json    json-input/1.json</a></code></pre></div>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    $   <span class="fu">ln</span> /data/click-stream/clickstream.json json-input/1.json</a></code></pre></div>
 <p>In Spark terminal you should see the first batch output</p>
 <pre class="console"><code>-------------------------------------------
 Batch: 0
@@ -84,7 +80,7 @@ Batch: 0
 <p><strong>=&gt; Hit Ctrl+C on terminal #1 to kill Spark streaming application</strong></p>
 <h2 id="step-7-todo-3-query1">Step 7 : TODO-3 / Query1</h2>
 <p>Edit file : <code>src/main/scala/x/JSONStreaming.scala</code>**<br />
-And fix TODO-2. Uncomment to ‘TODO-3’ block, un commenting the following section</p>
+And fix TODO-3. Uncomment ‘TODO-3’ block,</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">// TODO-3 - query1 : aggregate query</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">val</span> byDomain = clickstream.<span class="fu">groupBy</span>(<span class="st">&quot;domain&quot;</span>).<span class="fu">count</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">val</span> query1 = byDomain.<span class="fu">writeStream</span></a>
@@ -102,8 +98,7 @@ And fix TODO-2. Uncomment to ‘TODO-3’ block, un commenting the following sec
 <a class="sourceLine" id="cb10-7" data-line-number="7">        <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   --driver-class-path logging/  --class x.JSONStreaming  target/scala-2.11/structured-streaming_2.11-1.0.jar</a></code></pre></div>
 <p>Copy files into <code>json-input</code> directory as follows.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.4-structured</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">    $   <span class="fu">ln</span> clickstream.json    json-input/1.json</a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2">    $   <span class="fu">ln</span> /data/click-stream/clickstream.json json-input/1.json</a></code></pre></div>
 <p>Spark will calculate results for query1:</p>
 <pre class="console"><code>-------------------------------------------
 Batch: 0
@@ -137,12 +132,12 @@ Batch: 0
 +-----------------+-----+</code></pre>
 <p>Copy more files and see the <code>domain count</code> change</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">    $   <span class="fu">ln</span> clickstream.json    json-input/2.json</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">    $   <span class="fu">ln</span> clickstream.json    json-input/3.json</a></code></pre></div>
+<a class="sourceLine" id="cb13-2" data-line-number="2">    $   <span class="fu">ln</span> /data/click-stream/clickstream.json  json-input/2.json</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">    $   <span class="fu">ln</span> /data/click-stream/clickstream.json  json-input/3.json</a></code></pre></div>
 <p><strong>=&gt; Hit Ctrl+C on terminal #1 to kill Spark streaming application</strong></p>
 <h2 id="step-8-todo-4-query2">Step 8 : TODO-4 / Query2</h2>
 <p>Edit file : <code>src/main/scala/x/JSONStreaming.scala</code>**<br />
-Uncomment to ‘TODO-4’ block, un-commenting the following section</p>
+Uncomment ‘TODO-4’ block,</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">    <span class="co">// TODO-4 query2 : filter</span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="kw">val</span> blocked = clickstream.<span class="fu">filter</span>(<span class="st">&quot;action == &#39;blocked&#39;&quot;</span>)</a>
@@ -160,10 +155,9 @@ Uncomment to ‘TODO-4’ block, un-commenting the following section</p>
 <a class="sourceLine" id="cb15-6" data-line-number="6">    $   <span class="fu">rm</span> -f json-input/*  <span class="kw">;</span>  </a>
 <a class="sourceLine" id="cb15-7" data-line-number="7">        <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   --driver-class-path logging/  --class x.JSONStreaming  target/scala-2.11/structured-streaming_2.11-1.0.jar</a></code></pre></div>
 <p>Copy files into <code>json-input</code> directory as follows.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.4-structured</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">    $   <span class="fu">ln</span> clickstream.json    json-input/1.json</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">    $   <span class="fu">ln</span> clickstream.json    json-input/2.json</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">    $   <span class="fu">ln</span> clickstream.json    json-input/3.json</a></code></pre></div>
-<p><strong>=&gt; Can you explain how <code>append</code> mode works for query2? </strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1">$ <span class="bu">cd</span> ~/spark-labs/08-streaming/8.4-structured</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">$ <span class="fu">ln</span> /data/click-stream/clickstream.json  json-input/1.json</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">$ <span class="fu">ln</span> /data/click-stream/clickstream.json  json-input/2.json</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">$ <span class="fu">ln</span> /data/click-stream/clickstream.json  json-input/3.json</a></code></pre></div>
+<p><strong>=&gt; Can you explain how <code>append</code> mode works for query2?</strong></p>
 <p><strong>=&gt; Hit Ctrl+C on terminal #1 to kill Spark streaming application</strong></p>

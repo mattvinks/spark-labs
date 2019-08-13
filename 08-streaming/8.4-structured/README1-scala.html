@@ -1,5 +1,5 @@
 <p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
-<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../../README-scala.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-8.4---structured-streaming-1">Lab 8.4 - Structured Streaming 1</h1>
 <h3 id="overview">Overview</h3>
 <p>Run a Spark Structured Streaming job</p>
@@ -29,7 +29,10 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">    <span class="co"># be in project root directory</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">    $ <span class="bu">cd</span> ~/spark-labs/08-streaming/8.4-structured</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">    $   <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   --driver-class-path logging/  --class x.StructuredStreaming  target/scala-2.11/structured-streaming_2.11-1.0.jar</a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    $   <span class="ex">~/spark/bin/spark-submit</span>  --master local[2]   \</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">        --driver-class-path logging/  \</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">        --class x.StructuredStreaming  \</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">        target/scala-2.11/structured-streaming_2.11-1.0.jar</a></code></pre></div>
 <p>Lets call this Terminal #1</p>
 <p>Also note –master url <code>local[2]</code> * We are using a local ‘embedded’ server (quick for development) * And we need at least 2 cpu cores – one for receiver (long running task) and another for our program.<br />
 If only allocated one core <code>local[1]</code> the program will have run-time errors or won’t run!</p>

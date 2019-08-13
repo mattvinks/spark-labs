@@ -21,6 +21,7 @@ Note the outcome variable is simply called "churn".  If the customer leaves,
 churn is 1, if not, 0. The outcome variable happens to be the last variable in the dataset.
 
 The other variables are as follows:
+* 0:"id": Id
 * 1:"state": what state (2 letter abberviation)
 * 2:"account_length":  Length of customer account
 * 3:"area_code" a string containing the area code 
@@ -45,7 +46,7 @@ The other variables are as follows:
 
 
 
-##STEP 2: Prepare the data:
+## STEP 2: Prepare the data:
 MLLib Vectors only accepts numeric data.  This dataset has some non-numeric fields.  Note which fields are non-numeric.
 
 ## STEP 3: Examine the churn_svm.scala
@@ -54,7 +55,7 @@ Examine the file churn_svm.scala
 ## Step 4 : Write function to parse data
 Create a function called parseData to parse the data. It should return
 type Labeledpoint. which should have the outcome variable churn,
-and a Vectors.Dense of all the other variables
+and a Vectors.dense of all the other variables
 
 ```scala
 // ===== Scala =====
@@ -63,7 +64,7 @@ def parseData(vals : RDD[String]) : RDD[LabeledPoint] = {
     //TODO: drop the non-numeric fields, convert the rest to double.
     val parts = ???
 
-    //TODO Return Labeldpoint:  Outcome variable, Vectors.Dense(all other variab
+    //TODO Return Labeldpoint:  Outcome variable, Vectors.dense(all other variab
 les
     LabeledPoint(???, ???)
   }
@@ -91,6 +92,6 @@ val scoreAndLabels = splitTestData.map { point =>
   $   ~/spark/bin/spark-shell -i ./churn_svm.scala
 ```
 
-### STEP 7: Note the Area under ROC
+## STEP 7: Note the Area under ROC
 
 We measure our model's performance by measuring the area under the ROC.
