@@ -18,7 +18,7 @@ object JSONStreaming {
     // TODO-1 figure out the schema, uncomment the following block
     /*
     // figure out clickstream schema using sample file
-    val sample = spark.read.json("clickstream.json")
+    val sample = spark.read.json("file:///data/click-stream/clickstream.json")
     sample.printSchema
     val schema = sample.schema
     println ("Clickstream sample schema is : " + schema)

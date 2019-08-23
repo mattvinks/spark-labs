@@ -1,5 +1,5 @@
 <p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
-<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../../README.html">&lt;&lt; back to main index</a></p>
 <h1 id="kmeans-lab">KMeans Lab</h1>
 <p>In this lab we discuss how to use kmeans clustering in Spark.</p>
 <h2 id="step-1-examine-the-mtcars-dataset">Step 1: Examine the MTCars dataset</h2>
@@ -7,7 +7,7 @@
 <p>This dataset contains some statistics on 1974 Cars from Motor Trends</p>
 <p><img src="../../assets/images/6.1-cars2.png" style="border: 5px solid grey; max-width:100%;" /></p>
 <p>You can also download and view the raw data in Excel : <a href="/data/cars/mtcars_header.csv">cars.csv</a></p>
-<p>Here are the columns: * name - name of the car * mpg - Miles/(US) gallon<br />
+<p>Here are the columns that we are going to use: * name - name of the car * mpg - Miles/(US) gallon<br />
 * cyl - Number of cylinders<br />
 * disp - Displacement (cu.in.)<br />
 * hp - Gross horsepower<br />
@@ -35,7 +35,7 @@ We are going to fix these TODO items and run the script <strong>line-by-line</st
 <a class="sourceLine" id="cb2-2" data-line-number="2">    $ <span class="ex">~/spark/bin/spark-shell</span> -i ~/spark-labs/06-mllib/kmeans/kmeans_mtcars.scala</a></code></pre></div>
 <p><strong>Hint</strong> You can also load a file into scala shell Using</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1">    :load file_name.<span class="fu">scala</span></a></code></pre></div>
-<h2 id="bonus-1-optimiz-script">Bonus 1 : Optimiz Script</h2>
+<h2 id="bonus-1-optimize-script">Bonus 1 : Optimize Script</h2>
 <p>Can we cache the data to speed up computations?<br />
 Try this</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb4-1" data-line-number="1">    dataset.<span class="fu">cache</span></a>
@@ -44,5 +44,5 @@ Try this</p>
 <p>Edit input data file <code>/data/cars/mtcars.csv</code>.<br />
 Add some new rows to the mtcars dataset based on your favorite cars (or just make up some fictitious cars).</p>
 <p>Then run the script again.</p>
-<pre><code>    $ time  ~/spark/bin/spark-shell -i kmeans_mtcars.scala  2&gt; logs</code></pre>
+<pre><code>$ time  ~/spark/bin/spark-shell -i kmeans_mtcars.scala  2&gt; logs</code></pre>
 <p>See how adding this affects the way the data is clustered?</p>

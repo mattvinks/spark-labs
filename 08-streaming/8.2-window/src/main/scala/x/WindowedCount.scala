@@ -41,7 +41,6 @@ object WindowedCount {
     windowedActionCounts.print()
     */
 
-
     ssc.start()
     ssc.awaitTermination()
   }

@@ -54,7 +54,7 @@ drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
 -rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 over-tcp_2.11-1.0.jar
 ```
 
-`over-tcp_2.10-1.0.jar`  is our code compiled.
+`over-tcp_2.11-1.0.jar` is our code compiled.
 
 
 ## Step 4: Run Netcat Server to simulate network traffic
@@ -107,11 +107,11 @@ You should see something similar to this screen shot.
 **=>  Hit Ctrl+C  on terminal #1 to kill Spark streaming application**
 
 ## Step 7 : Filter (TODO-3)
-**==>  Edit file :  `src/main/scala/x/OverTCP.scala`  **  
-** ==> Uncomment block around TODO-2, filter lines that has the word 'blocked'**
+**==> Edit file :  `src/main/scala/x/OverTCP.scala`**  
+**==> Uncomment block around TODO-3, filter lines that has the word 'blocked'**
 
 ```scala
-    // TODO-2 : filter lines that contains 'blocked'
+    // TODO-3 : filter lines that contains 'blocked'
     val blocked = lines.filter(line => line.contains("???"))
     val blocked2 = blocked.map("BLOCKED:" + _) // better print
     blocked2.print

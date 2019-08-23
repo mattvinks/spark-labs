@@ -17,7 +17,7 @@ This dataset contains some statistics on 1974 Cars from Motor Trends
 
 You can also download and view the raw data in Excel : [cars.csv](/data/cars/mtcars_header.csv)
 
-Here are the columns:
+Here are the columns that we are going to use:
 * name   - name of the car
 *  mpg   - Miles/(US) gallon                        
 *  cyl   - Number of cylinders                      
@@ -28,7 +28,6 @@ Here are the columns:
 Are there any natural clusters you can identify from this data?
 
 We are going to use **MPG and CYL** attributes to cluster.
-
 
 ## Step 2: Inspect the script
 Open file [kmeans_mtcars.scala](kmeans_mtcars.scala) and examine it.  
@@ -47,7 +46,6 @@ We are going to fix these TODO items and run the script **line-by-line** in Spar
 **=> Copy paste snippets from text editor into Spark shell.  Watch the execution and the results**  
 
 **==> And record the K vs.  WSSE values in the provided WSSSE-versus-k.xlsx.**  
-
 
 **=> Also keep an eye on Spark web UI (4040)**
 
@@ -71,7 +69,7 @@ You can also load a file into scala shell Using
     :load file_name.scala
 ```
 
-## Bonus 1 : Optimiz Script
+## Bonus 1 : Optimize Script
 Can we cache the data to speed up computations?  
 Try this
 ```scala
@@ -86,7 +84,7 @@ make up some fictitious cars).
 
 Then run the script again.
 ```
-    $ time  ~/spark/bin/spark-shell -i kmeans_mtcars.scala  2> logs
+$ time  ~/spark/bin/spark-shell -i kmeans_mtcars.scala  2> logs
 ```
 
 See how adding this affects the way the data is clustered?

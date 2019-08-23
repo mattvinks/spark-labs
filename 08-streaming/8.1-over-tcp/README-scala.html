@@ -27,7 +27,7 @@ Fix TODO-1 and 2 (only)</p>
 <p>You should see output like follows</p>
 <pre class="console"><code>drwxr-xr-x  3 vsistla  staff   102B Apr 16 09:59 classes/
 -rw-r--r--  1 vsistla  staff    13K Apr 16 09:59 over-tcp_2.11-1.0.jar</code></pre>
-<p><code>over-tcp_2.10-1.0.jar</code> is our code compiled.</p>
+<p><code>over-tcp_2.11-1.0.jar</code> is our code compiled.</p>
 <h2 id="step-4-run-netcat-server-to-simulate-network-traffic">Step 4: Run Netcat Server to simulate network traffic</h2>
 <p>Open another terminal into Spark node (terminal #2)</p>
 <p>Use <code>nc</code> command to move text you type in terminal #2 to port 10000 Open an terminal and run this command at prompt</p>
@@ -52,9 +52,9 @@ b</code></pre>
 <p><a href="../../assets/images/8.1a.png"><img src="../../assets/images/8.1a.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
 <p><strong>=&gt; Hit Ctrl+C on terminal #1 to kill Spark streaming application</strong></p>
 <h2 id="step-7-filter-todo-3">Step 7 : Filter (TODO-3)</h2>
-<p><strong>==&gt; Edit file : <code>src/main/scala/x/OverTCP.scala</code> </strong><br />
-** ==&gt; Uncomment block around TODO-2, filter lines that has the word ‘blocked’**</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">    <span class="co">// TODO-2 : filter lines that contains &#39;blocked&#39;</span></a>
+<p><strong>==&gt; Edit file : <code>src/main/scala/x/OverTCP.scala</code></strong><br />
+<strong>==&gt; Uncomment block around TODO-3, filter lines that has the word ‘blocked’</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb8-1" data-line-number="1">    <span class="co">// TODO-3 : filter lines that contains &#39;blocked&#39;</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">    <span class="kw">val</span> blocked = lines.<span class="fu">filter</span>(line =&gt; line.<span class="fu">contains</span>(<span class="st">&quot;???&quot;</span>))</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="kw">val</span> blocked2 = blocked.<span class="fu">map</span>(<span class="st">&quot;BLOCKED:&quot;</span> + _) <span class="co">// better print</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">    blocked2.<span class="fu">print</span></a></code></pre></div>

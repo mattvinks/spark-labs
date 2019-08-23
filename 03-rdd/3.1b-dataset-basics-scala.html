@@ -1,9 +1,9 @@
 <p><link rel='stylesheet' href='../assets/css/main.css'/></p>
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../README.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-3.1b-dataset-basics-operations">Lab 3.1b : Dataset Basics operations</h1>
 <ul>
-<li><a href="3.1b-dataset-basics.md">Standalone version</a></li>
-<li><a href="3.1H-dataset-hadoop.md">Hadoop version</a></li>
+<li><a href="3.1b-dataset-basics-scala.html">Standalone version</a></li>
+<li><a href="3.1H-rdd-hadoop.html">Hadoop version</a></li>
 </ul>
 <h3 id="overview">Overview</h3>
 <ul>
@@ -35,8 +35,7 @@ Hint : just type <code>f</code> in the shell Here is a possible output</p>
 <a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="co">// short hand version</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="kw">val</span> filtered = f.<span class="fu">filter</span>(_.<span class="fu">contains</span>(<span class="st">&quot;twinkle&quot;</span>))</a></code></pre></div>
 <p>After entering the above in Spark-shell…<br />
-<strong>=&gt; Goto Spark shell UI </strong><br />
-<strong>=&gt; Inspect the ‘Stages’ section in the UI.</strong><br />
+<strong>=&gt; Goto Spark shell UI</strong> <strong>=&gt; Inspect the ‘Stages’ section in the UI.</strong><br />
 <strong>=&gt; How is the filter executed? Can you explain the behavior?</strong></p>
 <p><strong>=&gt; Count how many lines contain the word ‘twinkle’</strong><br />
 hint : apply <code>count()</code> to <code>filtered</code> variable</p>
@@ -97,10 +96,9 @@ Hint : use negative operator !<br />
 <p><strong>=&gt; Notice the time taken for each operation</strong></p>
 <p><strong>=&gt; Try the above with larger data files : 500M.data … 1G.data</strong> - note the times taken - how many tasks?</p>
 <h2 id="step-7-loading-multiple-files">STEP 7: Loading multiple files</h2>
-<p>**=&gt; Load all *.data files under /data/text/twinkle directory**</p>
+<p>**=&gt; Load all ’*.data’ files under /data/text/twinkle directory**</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb14-1" data-line-number="1">    <span class="kw">val</span> f = spark.<span class="fu">read</span>.<span class="fu">textFile</span>(<span class="st">&quot;/data/text/twinkle/*.data&quot;</span>)</a></code></pre></div>
-<p><strong>=&gt; Do a count() on </strong><br />
-Notice the partition count and time taken to execute Verify partition count from Spark-Shell UI</p>
+<p><strong>=&gt; Do a count()</strong> Notice the partition count and time taken to execute Verify partition count from Spark-Shell UI</p>
 <h2 id="step-8-saving-the-dataset">STEP 8: Saving the Dataset</h2>
 <p>Continuing with the big Dataset created on step (5)….</p>
 <p><strong>=&gt; Create a new Dataset by filtering first Dataset for word ‘diamond’</strong></p>

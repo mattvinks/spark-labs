@@ -1,5 +1,5 @@
 <p><link rel='stylesheet' href='../assets/css/main.css'/></p>
-<p><a href="../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../README.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-5.1-first-spark-job-submission">Lab 5.1 First Spark Job Submission</h1>
 <h3 id="overview">Overview</h3>
 <p>Submit a job for Spark</p>
@@ -8,7 +8,7 @@
 <h3 id="run-time">Run time</h3>
 <p>20-30 mins</p>
 <h2 id="step-0-editing-files-on-vm">Step 0 : Editing Files on VM</h2>
-<p>Please follow <a href="../edit-files.md">these instructions</a></p>
+<p>Please follow <a href="../edit-files.html">these instructions</a></p>
 <h2 id="step-1-edit-source-file">STEP 1: Edit source file</h2>
 <p>Go to the project root directory</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1">    $    <span class="bu">cd</span> ~/spark-labs/05-api</a></code></pre></div>
@@ -27,8 +27,8 @@
 <a class="sourceLine" id="cb2-7" data-line-number="7">scalaVersion := <span class="st">&quot;2.11.7&quot;</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">libraryDependencies ++= Seq(</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="st">&quot;org.apache.spark&quot;</span> %% <span class="st">&quot;spark-core&quot;</span> % <span class="st">&quot;2.2.0&quot;</span> % <span class="st">&quot;provided&quot;</span>,</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="st">&quot;org.apache.spark&quot;</span> %% <span class="st">&quot;spark-sql&quot;</span> % <span class="st">&quot;2.2.0&quot;</span> % <span class="st">&quot;provided&quot;</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="st">&quot;org.apache.spark&quot;</span> %% <span class="st">&quot;spark-core&quot;</span> % <span class="st">&quot;2.4.3&quot;</span> % <span class="st">&quot;provided&quot;</span>,</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="st">&quot;org.apache.spark&quot;</span> %% <span class="st">&quot;spark-sql&quot;</span> % <span class="st">&quot;2.4.3&quot;</span> % <span class="st">&quot;provided&quot;</span></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12">)</a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">// for accessing files from S3 or HDFS</span></a>
@@ -52,11 +52,11 @@
 <h2 id="step-3-test-application-in-local-master-mode">STEP 3: Test Application in Local Master Mode</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1">    $  <span class="bu">cd</span>  ~/spark-labs/05-api</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    README.md</a></code></pre></div>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    README.html</a></code></pre></div>
 <p><strong>==&gt; Checkout the Shell UI (4040)</strong></p>
 <p><strong>==&gt; Hit Enter key to terminate the program</strong></p>
 <p><strong>==&gt; Turn off the logs by sending logs by <code>2&gt; logs</code> </strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    README.md  <span class="op">2&gt;</span> logs</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    README.html  <span class="op">2&gt;</span> logs</a></code></pre></div>
 <p><strong>==&gt; Try a few input files </strong></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    /data/text/twinkle/*  <span class="op">2&gt;</span> logs</a></code></pre></div>
 <p>Now let’s submit the application to Spark server</p>
@@ -70,13 +70,13 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1">    $  <span class="bu">cd</span>  ~/spark-labs/05-api</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="co"># single README file</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master MASTER_URL  target/scala-2.11/testapp_2.11-1.0.jar    README.md   <span class="op">2&gt;</span> logs</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master MASTER_URL  target/scala-2.11/testapp_2.11-1.0.jar    README.html   <span class="op">2&gt;</span> logs</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="co"># multiple twinkle files</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master MASTER_URL  target/scala-2.11/testapp_2.11-1.0.jar    /data/text/twinkle/*  <span class="op">2&gt;</span> logs</a></code></pre></div>
 <ul>
 <li>MASTER URL : substitute your spark master url</li>
-<li>for files you can try <code>README.md</code></li>
+<li>for files you can try <code>README.html</code></li>
 </ul>
 <p><strong>=&gt; Watch the console output</strong></p>
 <p>It may look like this</p>
@@ -84,7 +84,7 @@
     ...
     15/04/15 15:41:54 INFO DAGScheduler: Job 0 finished: count at ProcessFiles.scala:42, took 2.156893 s
 
-    ### README.md : count (7) took 2,251.007000 ms</code></pre>
+    ### README.html : count (7) took 2,251.007000 ms</code></pre>
 <p>The lines starting with <code>###</code> are output from our program</p>
 <h2 id="step-6-configuring-logging">STEP 6: Configuring logging</h2>
 <h4 id="to-quickly-turn-off-the-logging">To quickly turn off the logging:</h4>
@@ -115,4 +115,4 @@ log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
 #log4j.logger.x.ProcessFiles=DEBUG</code></pre>
 <p>We provide <code>--driver-class-path logging/</code> to spark-submit to turn off logging</p>
 <p>Here is an example</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  --driver-class-path logging/  target/scala-2.11/testapp_2.11-1.0.jar    README.md</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  --driver-class-path logging/  target/scala-2.11/testapp_2.11-1.0.jar    README.html</a></code></pre></div>

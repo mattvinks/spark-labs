@@ -42,7 +42,7 @@ Here is what the file looks like:
 ```
 
 ### Step 3 : Execute the recommendation script
-We recommend you run the [dating_solution.scala](dating_solution.scala) file step by step to understand what is going on.  This is a complete solution file.
+We recommend you run the **dating_solution.scala** file step by step to understand what is going on.  This is a complete solution file.
 
 [_Optional_] You may choose to edit the file [dating.scala](dating.scala) and complete TODO items and run it as well.
 

@@ -10,11 +10,11 @@ resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/release
 resolvers += "Spark Packages Repo" at "https://dl.bintray.com/spark-packages/maven"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.2.0" % "provided",
-  "org.apache.spark" %% "spark-sql" % "2.2.0" % "provided",
-  "org.apache.spark" %% "spark-streaming" % "2.2.0" % "provided",
-  "org.apache.spark" %% "spark-sql-kafka-0-10" % "2.2.0",
-  "org.apache.spark" % "spark-streaming-kafka-0-10_2.11" % "2.2.0"
+  "org.apache.spark" %% "spark-core" % "2.4.3" % "provided",
+  "org.apache.spark" %% "spark-sql" % "2.4.3" % "provided",
+  "org.apache.spark" %% "spark-streaming" % "2.4.3" % "provided",
+  "org.apache.spark" %% "spark-sql-kafka-0-10" % "2.4.3",
+  "org.apache.spark" % "spark-streaming-kafka-0-10_2.11" % "2.4.3"
 )
 
 

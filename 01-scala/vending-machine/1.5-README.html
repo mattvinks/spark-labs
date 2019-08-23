@@ -1,5 +1,5 @@
 <p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
-<p><a href="../../README.md">&lt;&lt; back to main index</a></p>
+<p><a href="../../README.html">&lt;&lt; back to main index</a></p>
 <h1 id="lab-1.5-implement-a-vending-machine-class-in-scala">Lab 1.5 : Implement A Vending Machine Class In Scala</h1>
 <h3 id="overview">Overview</h3>
 <p>Implement a full fledged Scala class</p>
@@ -7,13 +7,11 @@
 <p>None</p>
 <h3 id="run-time">Run time</h3>
 <p>20 mins</p>
-<h3 id="solution">Solution</h3>
-<p>/es-training/spark/spark-solutions/01-scala/vending-machine-solution</p>
 <h2 id="recommended-setup-in-order-of-preference">Recommended Setup (In order of preference)</h2>
 <ul>
 <li>If you are using an IDE (like IntelliJ) please open the project as an SBT project.</li>
-<li>If you are using a UI editor like ‘Sublime’ open the ‘project root directory’ in editor (so you can navigate to all files easily).</li>
-<li>If using command line, please open 2 terminals - 1 for editing files and other for running commands.</li>
+<li>If you are using a VI editor like ‘Sublime’ open the ‘project root directory’ in editor (so you can navigate to all files easily).</li>
+<li>If you areusing command line, please open 2 terminals - 1 for editing files and other for running commands.</li>
 </ul>
 <h2 id="step-0-instructor">Step 0 : Instructor</h2>
 <ul>
@@ -52,11 +50,11 @@
 <li>Your output may look like this</li>
 </ul>
 <pre class="console"><code>    Stocking &#39;coke&#39;, price = $1, qty = 10
-        coke stock : 0
+        coke stock : 10
     Stocking &#39;m&amp;m&#39;, price = $2, qty = 20
-        m&amp;m stock : 0
+        m&amp;m stock : 20
     Stocking &#39;oreo&#39;, price = $3, qty = 20
-        oreo stock : 0</code></pre>
+        oreo stock : 20</code></pre>
 <p>As you can see, the implementation needs work.</p>
 <h2 id="step-5-vending-machine-implementation">Step 5 : Vending Machine Implementation</h2>
 <ul>
@@ -87,43 +85,40 @@
 <p><img src="../../assets/images/1.5a.png" style="border: 5px solid grey ; max-width:100%;" /></p>
 <h3 id="project-root-directory">Project root directory</h3>
 <p>Make sure you are in the project top level directory.</p>
-<pre><code>    $   cd   ~/spark-labs/01-scala/vending-machine
+<pre><code>    $  cd ~/spark-labs/01-scala/vending-machine
 
     # see the project structure
-    $   find .  | grep -v target</code></pre>
+    $  find .  | grep -v target</code></pre>
 <h3 id="sbt">SBT</h3>
 <p>Using one terminal, launch SBT from project root directory.</p>
-<pre><code>    $   cd   ~/spark-labs/01-scala/vending-machine
-
-    $   sbt
-</code></pre>
+<pre><code>    $   cd  ~/spark-labs/01-scala/vending-machine
+    $   sbt</code></pre>
 <h3 id="running-the-program-in-sbt">Running the program in SBT</h3>
 <p>SBT Commands * compile : will compile the program * run : compile and run the program</p>
 <p>Let’s try this test driver. On your SBT terminal type</p>
-<pre><code>    sbt&gt;
-          run</code></pre>
+<pre><code>sbt&gt;
+    run</code></pre>
 <p>You will see following output from our test driver class.</p>
-<pre class="console"><code>    &gt; run
-    [info] compiling 1 scala source to /users/sujee/elephantscale/spark-labs/01-scala/vending-machine/target/scala-2.11/classes...
-    [info] Running x.QuickTest
-    Stocking &#39;coke&#39;, price = $1, qty = 10
-        coke stock : 0
-    Stocking &#39;m&amp;m&#39;, price = $2, qty = 20
-        m&amp;m stock : 0
-    Stocking &#39;oreo&#39;, price = $3, qty = 20
-        oreo stock : 0
-    stock qty for coke 0
-    price for oreo 0
-    depositing $2
-    trying to buy oreo @ $3 : Success
-    trying to buy coke @ $1 : Success
-    balance : 0
-    [success] Total time: 2 s, completed May 16, 2016 4:00:55 PM
+<pre class="console"><code>&gt; run
+
+[info] Running x.QuickTest
+Stocking &#39;coke&#39;, price = $1, qty = 10
+    coke stock : 10
+Stocking &#39;m&amp;m&#39;, price = $2, qty = 20
+    m&amp;m stock : 20
+Stocking &#39;oreo&#39;, price = $3, qty = 20
+    oreo stock : 30
+stock qty for coke 10
+price for oreo 3
+depositing $2
+trying to buy oreo @ $3 : NotEnoughMoney
+trying to buy coke @ $1 : Success
+balance : 1
 </code></pre>
 <h3 id="once-you-edit-a-file-and-save-it-you-can-run-from-sbt-as-follows">Once you edit a file and save it, you can run from SBT as follows</h3>
 <pre><code>    sbt&gt; 
-            compile
-            run</code></pre>
+       compile
+       run</code></pre>
 <h2 id="sbt-tips">SBT Tips</h2>
 <h3 id="sbt-shell">SBT Shell</h3>
 <p>You can issue sbt commands from shell as follows</p>
@@ -134,6 +129,6 @@
     &gt; compile run
     &gt; run</code></pre>
 <h3 id="specifying-a-main-class-to-run">Specifying A Main Class To Run</h3>
-<pre><code>    $  sbt  &quot;run-main x.Foo&quot;</code></pre>
+<pre><code>    $  sbt  &quot;run-main x.QuickTest&quot;</code></pre>
 <pre><code>    # in sbt shell
-    &gt;   runMain  x.foo</code></pre>
+    &gt;   runMain  x.QuickTest</code></pre>

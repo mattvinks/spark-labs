@@ -65,8 +65,8 @@ The VMs already have data loaded.  This for your own reference.
 
 
 ### 5 - API
-- [5.1 - Submit first application](05.1-api-scala/5.1-submit.md)
-- BONUS :  [5.2 - Mapreduce using API](05.1-api-scala/5.2-mapreduce.md)
+- [5.1 - Submit first application](05-api/5.1-submit.md)
+- BONUS :  [5.2 - Mapreduce using API](05-api/5.2-mapreduce.md)
 
 ### Practice Labs for end of day 2
 - [Practice Lab 1 - Analyze Spark Commit logs](practice-labs/commit-logs-scala.md)
@@ -86,6 +86,9 @@ The VMs already have data loaded.  This for your own reference.
 - [8.1 - Streaming over TCP](08-streaming/8.1-over-tcp/README-scala.md)
 - [8.2 - Windowed Count](08-streaming/8.2-window/README-scala.md)
 - [8.3 - Kafka Streaming](08-streaming/8.3-kafka/README-scala.md)
+    * [8.3a - Kafka-setup](08-streaming/8.3-kafka/kafka-setup-scala.md)
+    * [8.3b - Kafka Direct Streaming](08-streaming/8.3-kafka/kafka-direct-streaming-scala.md)
+    * [8.3c - Kafka Structured Streaming](08-streaming/8.3-kafka/kafka-structured-streaming-scala.md)
 - 8.4 - Structured Streaming
     * [8.4a - Structured Streaming 1](08-streaming/8.4-structured/README1-scala.md)
     * [8.4b - Structured Streaming 2 (JSON)](08-streaming/8.4-structured/README2-scala.md)
@@ -95,9 +98,9 @@ The VMs already have data loaded.  This for your own reference.
 
 ### 10 - Spark and Hadoop (all the Hadoop labs are grouped here)
 - [2.2H - Spark Shell on Hadoop](02-intro/2.2H-spark-shell-hadoop.md)
-- [3.1 - Loading RDDs from HDFS](03-rdd/3.1-rdd-basics.md)
-- [4.2 - Spark SQL on Hadoop](04-dataframe/4.2-sql.md)
-- [4.4H - Spark & Hive](04-dataframe/4.4-spark-and-hive.md)
+- [3.1 - Loading RDDs from HDFS](03-rdd/3.1-rdd-basics-scala.md)
+- [4.2 - Spark SQL on Hadoop](04-dataframe/4.2-sql-scala.md)
+- [4.4H - Spark & Hive](04-dataframe/4.5-spark-and-hive-scala.md)
 
 
 ### Practice Labs

@@ -2,8 +2,7 @@
 
 [<< back to main index](../../README.md)  /  
 
-Lab 8.3b: Kafka Streaming
-=================
+# Lab 8.3c: Kafka Structued Streaming
 
 ### Overview
 Setting up Kafka
@@ -13,7 +12,6 @@ Setting up Kafka
 
 ### Run time
 1hr - 1.5 hrs
-
 
 ## STEP 1: Get Kafka running
 Follow [Kafka Streaming guide](1-kafka-setup.md) and have kafka running.
@@ -32,13 +30,13 @@ We will use `sbt` to build the project.
 
 ** ==> Inspect the `build.sbt` file**
 ```bash
-    $   cd ~/spark-labs/08-streaming/8.3-kafka
+    $  cd ~/spark-labs/08-streaming/8.3-kafka
 
     #  compile
-    $   sbt clean compile
+    $  sbt clean compile
 
     # Create an assembly (fat jar) using
-    $   sbt package
+    $  sbt assembly
 ```
 
 **=> Inspect generated jar files**
@@ -47,7 +45,6 @@ We will use `sbt` to build the project.
 ```
 
 **=> Notice the size difference in both jars.  What accounts for the 'fat jar's size?**   
-
 
 
 ## STEP 4: Running Kafka streaming
@@ -62,10 +59,9 @@ Here is the screen shot (click on image to see full size image)
 <a href="../../assets/images/8.3a-streaming-small.png"><img src="../../assets/images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 
-
 **=> Launch kafka streaming application as follows**  
 ```bash
-  $    ~/spark/bin/spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.2.0      --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming_2.11-1.0.jar  'clickstream'
+  $ ~/spark/bin/spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.3    --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming-assembly-1.0.jar  'clickstream'
 ```
 
 Parameters explained:
@@ -89,15 +85,20 @@ root
  |-- topic: string (nullable = true)
  |-- partition: integer (nullable = true)
  |-- offset: long (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- timestampType: integer (nullable = true)
+
 
 -------------------------------------------
 Batch: 1
 -------------------------------------------
-+----+-----+-----------+---------+------+--------------------+-------------+
-| key|value|      topic|partition|offset|           timestamp|timestampType|
-+----+-----+-----------+---------+------+--------------------+-------------+
-|null| [61]|clickstream|        0|    10|2018-03-28 17:30:...|            0|
-+----+-----+-----------+---------+------+--------------------+-------------+
++----+----------+-----------+---------+------+--------------------+-------------+
+| key|     value|      topic|partition|offset|           timestamp|timestampType|
++----+----------+-----------+---------+------+--------------------+-------------+
+|null|[66 6F 6F]|clickstream|        1|    30|2019-07-29 07:50:...|            0|
+|null|[62 61 7A]|clickstream|        1|    31|2019-07-29 07:50:...|            0|
+|null|[62 61 72]|clickstream|        0|    30|2019-07-29 07:50:...|            0|
++----+----------+-----------+---------+------+--------------------+-------------+
 
 ```
 
@@ -105,18 +106,20 @@ Notice how the value is treated as binary
 
 ## STEP 6 : Change schema
 - Edit the file : `src/main/scala/x/KafkaStructuredStreaming.scala`
-- Choose 'option 2' where we specify schema for Kafka
+- Choose 'option 2' where we specify schema for Kafka and comment the option 1
 - Save the file
 - compile and run as follows
 
 ```bash
-$ sbt clean package
+$ sbt clean compile
 
-$ ~/spark/bin/spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.2.0      --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming_2.11-1.0.jar  'clickstream'
+$ sbt assembly
+
+$ ~/spark/bin/spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.3     --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming-assembly-1.0.jar  'clickstream'
 
 ```
 
-Watch the output;  value shoudl be treated as string now.
+Watch the output;  value should be treated as string now.
 
 ```console
 root
@@ -125,14 +128,17 @@ root
  |-- topic: string (nullable = true)
  |-- partition: integer (nullable = true)
  |-- offset: long (nullable = true)
-
+ |-- timestamp: timestamp (nullable = true)
 -------------------------------------------
 Batch: 1
 -------------------------------------------
-+----+-----+-----------+---------+------+--------------------+-------------+
-| key|value|      topic|partition|offset|           timestamp|timestampType|
-+----+-----+-----------+---------+------+--------------------+-------------+
-|null| foo |clickstream|        0|    10|2018-03-28 17:30:...|            0|
-+----+-----+-----------+---------+------+--------------------+-------------+
+
++----+-----+-----------+---------+------+--------------------+
+| key|value|      topic|partition|offset|           timestamp|
++----+-----+-----------+---------+------+--------------------+
+|null|  foo|clickstream|        0|    28|2019-07-29 07:48:...|
+|null|  baz|clickstream|        0|    29|2019-07-29 07:48:...|
+|null|  bar|clickstream|        1|    29|2019-07-29 07:48:...|
++----+-----+-----------+---------+------+--------------------+
 
 ```

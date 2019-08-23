@@ -1,13 +1,13 @@
 <p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
 <p><a href="../../README.html">&lt;&lt; back to main index</a> /<br />
 <a href="README.html">&lt;&lt; back to kafka streaming index</a></p>
-<h1 id="lab-8.3b-kafka-streaming">Lab 8.3b: Kafka Streaming</h1>
+<h1 id="lab-8.3b-kafka-direct-streaming">Lab 8.3b: Kafka Direct Streaming</h1>
 <h3 id="overview">Overview</h3>
 <p>Setting up Kafka</p>
 <h3 id="depends-on">Depends On</h3>
 <p><a href="1-kafka-setup.html">Kafka setup</a></p>
 <h3 id="run-time">Run time</h3>
-<p>1hr - 1.5 hrs # These labs assume Spark 2.2 * For a different version of Spark, adjust the libraries</p>
+<p>1hr - 1.5 hrs # These labs assume Spark 2.4.3 * For a different version of Spark, adjust the libraries</p>
 <table style="width:42%;">
 <colgroup>
 <col style="width: 41%" />
@@ -30,14 +30,14 @@
 <strong>There are no TODO items to fix at this point</strong></p>
 <h2 id="step-3-build-the-project">STEP 3: Build the project</h2>
 <p>We will use <code>sbt</code> to build the project.</p>
-<p>** ==&gt; Inspect the <code>build.sbt</code> file**</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a>
+<p><strong>==&gt; Inspect the <code>build.sbt</code> file</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $ <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="co">#  compile</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">    $   <span class="ex">sbt</span> clean compile</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    $ <span class="ex">sbt</span> clean compile</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="co"># Create an assembly (fat jar) using</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">    $   <span class="ex">sbt</span> assembly</a></code></pre></div>
+<a class="sourceLine" id="cb2-7" data-line-number="7">    $ <span class="ex">sbt</span> assembly</a></code></pre></div>
 <p><strong>=&gt; Inspect generated jar files</strong></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $ <span class="fu">ls</span> -l   target/scala-2.11/</a></code></pre></div>
 <p>output may look like…</p>
@@ -62,15 +62,13 @@ baz</code></pre>
 <pre class="console"><code>-------------------------------------------
 Time: 1429859630000 ms
 -------------------------------------------
-(null,foo)
-(null,bar)
-(null,hello world)</code></pre>
-<p>Your setup might look like the following picture (click on the image to see full size image)</p>
-<p><a href="../../assets/images/8.3b-streaming-small.png"><img src="../../assets/images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
+foo
+bar
+baz</code></pre>
 <h2 id="step-6-fix-the-todo-items-1">STEP 6: Fix the TODO items 1</h2>
 <ul>
 <li>Edit the file</li>
-<li>build using <code>$   sbt assembly</code></li>
+<li>build using <code>$  sbt assembly</code></li>
 <li>run</li>
 </ul>
 <p>Test with following lines</p>

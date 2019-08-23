@@ -1,6 +1,6 @@
 <p><link rel='stylesheet' href='../../assets/css/main.css'/></p>
 <p><a href="../../README.html">&lt;&lt; back to main index</a> /</p>
-<h1 id="lab-8.3b-kafka-streaming">Lab 8.3b: Kafka Streaming</h1>
+<h1 id="lab-8.3c-kafka-structued-streaming">Lab 8.3c: Kafka Structued Streaming</h1>
 <h3 id="overview">Overview</h3>
 <p>Setting up Kafka</p>
 <h3 id="depends-on">Depends On</h3>
@@ -17,13 +17,13 @@
 <h2 id="step-3-build-the-project">STEP 3: Build the project</h2>
 <p>We will use <code>sbt</code> to build the project.</p>
 <p>** ==&gt; Inspect the <code>build.sbt</code> file**</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $   <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1">    $  <span class="bu">cd</span> ~/spark-labs/08-streaming/8.3-kafka</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="co">#  compile</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">    $   <span class="ex">sbt</span> clean compile</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">    $  <span class="ex">sbt</span> clean compile</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="co"># Create an assembly (fat jar) using</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">    $   <span class="ex">sbt</span> package</a></code></pre></div>
+<a class="sourceLine" id="cb2-7" data-line-number="7">    $  <span class="ex">sbt</span> assembly</a></code></pre></div>
 <p><strong>=&gt; Inspect generated jar files</strong></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1">    $ <span class="fu">ls</span> -l   target/scala-2.11/</a></code></pre></div>
 <p><strong>=&gt; Notice the size difference in both jars. What accounts for the ’fat jar’s size?</strong></p>
@@ -32,7 +32,7 @@
 <p>Here is the screen shot (click on image to see full size image)</p>
 <p><a href="../../assets/images/8.3a-streaming-small.png"><img src="../../assets/images/8.3a-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a></p>
 <p><strong>=&gt; Launch kafka streaming application as follows</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">  $    <span class="ex">~/spark/bin/spark-submit</span>  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.2.0      --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming_2.11-1.0.jar  <span class="st">&#39;clickstream&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">  $ <span class="ex">~/spark/bin/spark-submit</span>  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.3    --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming-assembly-1.0.jar  <span class="st">&#39;clickstream&#39;</span></a></code></pre></div>
 <p>Parameters explained: * <strong>localhost:9092</strong> - kafka broker * <strong>clickstream</strong> - topic</p>
 <h2 id="step-5-feed-some-data-into-producer-window-terminal-3">STEP 5: Feed some data into producer window (Terminal #3)</h2>
 <p><strong>=&gt; Try typing / pasting the following text in terminal #3</strong></p>
@@ -47,41 +47,51 @@ root
  |-- topic: string (nullable = true)
  |-- partition: integer (nullable = true)
  |-- offset: long (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- timestampType: integer (nullable = true)
+
 
 -------------------------------------------
 Batch: 1
 -------------------------------------------
-+----+-----+-----------+---------+------+--------------------+-------------+
-| key|value|      topic|partition|offset|           timestamp|timestampType|
-+----+-----+-----------+---------+------+--------------------+-------------+
-|null| [61]|clickstream|        0|    10|2018-03-28 17:30:...|            0|
-+----+-----+-----------+---------+------+--------------------+-------------+
++----+----------+-----------+---------+------+--------------------+-------------+
+| key|     value|      topic|partition|offset|           timestamp|timestampType|
++----+----------+-----------+---------+------+--------------------+-------------+
+|null|[66 6F 6F]|clickstream|        1|    30|2019-07-29 07:50:...|            0|
+|null|[62 61 7A]|clickstream|        1|    31|2019-07-29 07:50:...|            0|
+|null|[62 61 72]|clickstream|        0|    30|2019-07-29 07:50:...|            0|
++----+----------+-----------+---------+------+--------------------+-------------+
 </code></pre>
 <p>Notice how the value is treated as binary</p>
 <h2 id="step-6-change-schema">STEP 6 : Change schema</h2>
 <ul>
 <li>Edit the file : <code>src/main/scala/x/KafkaStructuredStreaming.scala</code></li>
-<li>Choose ‘option 2’ where we specify schema for Kafka</li>
+<li>Choose ‘option 2’ where we specify schema for Kafka and comment the option 1</li>
 <li>Save the file</li>
 <li>compile and run as follows</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">$ <span class="ex">sbt</span> clean package</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">$ <span class="ex">sbt</span> clean compile</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">$ <span class="ex">~/spark/bin/spark-submit</span>  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.2.0      --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming_2.11-1.0.jar  <span class="st">&#39;clickstream&#39;</span></a></code></pre></div>
-<p>Watch the output; value shoudl be treated as string now.</p>
+<a class="sourceLine" id="cb7-3" data-line-number="3">$ <span class="ex">sbt</span> assembly</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">$ <span class="ex">~/spark/bin/spark-submit</span>  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.3     --master local[2]   --driver-class-path logging/        --class x.KafkaStructuredStreaming  target/scala-2.11/kafka-streaming-assembly-1.0.jar  <span class="st">&#39;clickstream&#39;</span></a></code></pre></div>
+<p>Watch the output; value should be treated as string now.</p>
 <pre class="console"><code>root
  |-- key: string (nullable = true)
  |-- value: string (nullable = true)
  |-- topic: string (nullable = true)
  |-- partition: integer (nullable = true)
  |-- offset: long (nullable = true)
-
+ |-- timestamp: timestamp (nullable = true)
 -------------------------------------------
 Batch: 1
 -------------------------------------------
-+----+-----+-----------+---------+------+--------------------+-------------+
-| key|value|      topic|partition|offset|           timestamp|timestampType|
-+----+-----+-----------+---------+------+--------------------+-------------+
-|null| foo |clickstream|        0|    10|2018-03-28 17:30:...|            0|
-+----+-----+-----------+---------+------+--------------------+-------------+
+
++----+-----+-----------+---------+------+--------------------+
+| key|value|      topic|partition|offset|           timestamp|
++----+-----+-----------+---------+------+--------------------+
+|null|  foo|clickstream|        0|    28|2019-07-29 07:48:...|
+|null|  baz|clickstream|        0|    29|2019-07-29 07:48:...|
+|null|  bar|clickstream|        1|    29|2019-07-29 07:48:...|
++----+-----+-----------+---------+------+--------------------+
 </code></pre>

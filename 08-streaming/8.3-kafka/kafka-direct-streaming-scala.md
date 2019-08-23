@@ -3,20 +3,18 @@
 [<< back to main index](../../README.md)  /  
 [<< back to kafka streaming index](README.md)  
 
-Lab 8.3b: Kafka Streaming
-=================
+# Lab 8.3b: Kafka Direct Streaming
 
 ### Overview
 Setting up Kafka
 
-### Depends On 
+### Depends On
 [Kafka setup](1-kafka-setup.md)
 
 ### Run time
 1hr - 1.5 hrs
-# These labs assume Spark 2.2
+# These labs assume Spark  2.4.3
 * For a different version of Spark, adjust the libraries
-
 
 -----------------------------
 STEP 1: Get Kafka running
@@ -37,15 +35,15 @@ Go to the project root directory
 ## STEP 3: Build the project
 We will use `sbt` to build the project.  
 
-** ==> Inspect the `build.sbt` file**
+**==> Inspect the `build.sbt` file**
 ```bash
-    $   cd ~/spark-labs/08-streaming/8.3-kafka
+    $ cd ~/spark-labs/08-streaming/8.3-kafka
 
     #  compile
-    $   sbt clean compile
+    $ sbt clean compile
 
     # Create an assembly (fat jar) using
-    $   sbt assembly
+    $ sbt assembly
 ```
 
 **=> Inspect generated jar files**
@@ -62,7 +60,6 @@ drwxr-xr-x 3 sujee staff 102 Jan 20 22:31 classes/
 **=> Notice the size difference in both jars.  What accounts for the 'fat jar's size?**   
 
 We are going to use the assembly jar to run Kafka streaming.
-
 
 ## STEP 4: Running Kafka streaming
 Make sure you have Kafka up and running.  For reference
@@ -100,20 +97,16 @@ baz
 -------------------------------------------
 Time: 1429859630000 ms
 -------------------------------------------
-(null,foo)
-(null,bar)
-(null,hello world)
+foo
+bar
+baz
 ```
 
-Your setup might look like the following picture
-(click on the image to see full size image)
-
-<a href="../../assets/images/8.3b-streaming-small.png"><img src="../../assets/images/8.3b-streaming-small.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
 ## STEP 6: Fix the TODO items 1
 
 * Edit the file
-* build using `$   sbt assembly`
+* build using `$  sbt assembly`
 * run
 
 Test with following lines

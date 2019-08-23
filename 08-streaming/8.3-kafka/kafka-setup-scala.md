@@ -15,17 +15,15 @@ None
 ### Run time
 30-40 mins
 
-
 ## STEP 1: Untar Kafka
 For this it is recommended that you have 3-4 terminal sessions open
 
 ```bash
-$    cd  #  cd to home dir
-$    tar xvf files/kafka_2.11-0.11.0.0.tgz
-$    mv kafka_2.11-0.11.0.0/ kafka
+$  cd  #  cd to home dir
+$  tar xvf files/kafka_2.12-2.3.0.tgz
+$  mv kafka_2.12-2.3.0/ kafka
 ```
-Now Kafka is in   ~/kafka directory
-
+Now Kafka is in ~/kafka directory
 
 ## Step 2 :  Start zookeeper (in terminal 1)
 ```bash
@@ -51,7 +49,7 @@ $   ~/kafka/bin/kafka-server-start.sh   -daemon  ~/kafka/config/server.propertie
 
 This will start Kafka server in the background.
 
-Do `jps` again make sure we ses both Kafka and zookeeper running
+Do `jps` again and make sure both Kafka and zookeeper running
 
 ```bash
 $ jps
@@ -74,17 +72,17 @@ Read through the parameters.. most are self explanatory
 
 You should see output like this...
 ```
-Created topic "clickstream".
+Created topic clickstream.
 ```
 
-** ==>  Verify topic created**
+**==>  Verify topic created**
 ```bash
 $   ~/kafka/bin/kafka-topics.sh --list --zookeeper localhost:2181
 
 # should see 'clickstream' in output
 ```
 
-** ==> Describe topic**
+**==> Describe topic**
 ```bash
 $   ~/kafka/bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic clickstream
 ```
@@ -95,18 +93,17 @@ Topic:clickstream    PartitionCount:1    ReplicationFactor:1 Configs:
     Topic: clickstream  Partition: 0    Leader: 0   Replicas: 0 Isr: 0
 ```
 
-
-## STEP 5: Testing Kafka
+## STEP 5 : Testing Kafka
 Now that Kafka is running and configured, let's send some test messages through.
 
-** ==> Start a Kafka console producer (terminal-3)**
+**==> Start a Kafka console producer (terminal-3)**
 ```bash
 $    ~/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic clickstream
 ```
 
 Now what ever we type in this terminal will be stored in Kafka.
 
-** ==> Start a Kafka console consumer (terminal-4)**   
+**==> Start a Kafka console consumer (terminal-4)**   
 Open another terminal and start the consumer application
 ```bash
 $   ~/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic clickstream
@@ -116,7 +113,7 @@ You should have a setup like this screen shot.  (Click on the image  to see the 
 
 <a href="../../assets/images/8.3-kafka1.png"><img src="../../assets/images/8.3-kafka1.png" style="border: 5px solid grey; max-width:100%;"/></a>
 
-** ==> Feed some data into Kafka producer terminal,  and see it will show up in consumer terminal**  
+**==> Feed some data into Kafka producer terminal,  and see it will show up in consumer terminal**  
 Try pasting the following
 ```
 a
