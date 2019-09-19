@@ -52,13 +52,22 @@
 <h2 id="step-3-test-application-in-local-master-mode">STEP 3: Test Application in Local Master Mode</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1">    $  <span class="bu">cd</span>  ~/spark-labs/05-api</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    README.html</a></code></pre></div>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    $   <span class="ex">~/spark/bin/spark-submit</span> --master local[*]  \</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">          --class <span class="st">&#39;x.ProcessFiles&#39;</span> \</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">          target/scala-2.11/testapp_2.11-1.0.jar    \</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">          README.html</a></code></pre></div>
 <p><strong>==&gt; Checkout the Shell UI (4040)</strong></p>
 <p><strong>==&gt; Hit Enter key to terminate the program</strong></p>
-<p><strong>==&gt; Turn off the logs by sending logs by <code>2&gt; logs</code> </strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    README.html  <span class="op">2&gt;</span> logs</a></code></pre></div>
-<p><strong>==&gt; Try a few input files </strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  target/scala-2.11/testapp_2.11-1.0.jar    /data/text/twinkle/*  <span class="op">2&gt;</span> logs</a></code></pre></div>
+<p><strong>==&gt; Turn off the logs by sending logs by <code>2&gt; logs</code></strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --master local[*] \</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">          --class <span class="st">&#39;x.ProcessFiles&#39;</span> \</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">          target/scala-2.11/testapp_2.11-1.0.jar \</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">           README.html  <span class="op">2&gt;</span> logs </a></code></pre></div>
+<p><strong>==&gt; Try a few input files</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --master local[*]  \</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">          --class <span class="st">&#39;x.ProcessFiles&#39;</span> \</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">          target/scala-2.11/testapp_2.11-1.0.jar \</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">          /data/text/twinkle/*  <span class="op">2&gt;</span> logs</a></code></pre></div>
 <p>Now let’s submit the application to Spark server</p>
 <h2 id="step-4-start-spark-server">STEP 4: Start Spark Server</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1">    $  <span class="ex">~/spark/sbin/start-all.sh</span></a></code></pre></div>
@@ -70,10 +79,18 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1">    $  <span class="bu">cd</span>  ~/spark-labs/05-api</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="co"># single README file</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master MASTER_URL  target/scala-2.11/testapp_2.11-1.0.jar    README.html   <span class="op">2&gt;</span> logs</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="co"># multiple twinkle files</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master MASTER_URL  target/scala-2.11/testapp_2.11-1.0.jar    /data/text/twinkle/*  <span class="op">2&gt;</span> logs</a></code></pre></div>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    $   <span class="ex">~/spark/bin/spark-submit</span> \</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">           --master MASTER_URL \</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">           --class <span class="st">&#39;x.ProcessFiles&#39;</span> \</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">           target/scala-2.11/testapp_2.11-1.0.jar \</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">            README.html   <span class="op">2&gt;</span> logs</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">    <span class="co"># multiple twinkle files</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">    $   <span class="ex">~/spark/bin/spark-submit</span> </a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">            <span class="ex">--master</span> MASTER_URL \</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">            --class <span class="st">&#39;x.ProcessFiles&#39;</span> \</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">            target/scala-2.11/testapp_2.11-1.0.jar \</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15">            /data/text/twinkle/*  <span class="op">2&gt;</span> logs</a></code></pre></div>
 <ul>
 <li>MASTER URL : substitute your spark master url</li>
 <li>for files you can try <code>README.html</code></li>
@@ -90,7 +107,10 @@
 <h4 id="to-quickly-turn-off-the-logging">To quickly turn off the logging:</h4>
 <p>Redirect the logs as follows <code>2&gt; logs</code>.<br />
 All logs will be sent to <code>logs</code> file.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1">    $  <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master MASTER_URL  target/scala-2.11/testapp_2.11-1.0.jar    <span class="op">&lt;</span>files to process<span class="op">&gt;</span>    <span class="op">2&gt;</span>  logs</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1">    $  <span class="ex">~/spark/bin/spark-submit</span> \</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">        --master MASTER_URL \</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">        --class <span class="st">&#39;x.ProcessFiles&#39;</span>  target/scala-2.11/testapp_2.11-1.0.jar    \</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">        <span class="op">&lt;</span>files to process<span class="op">&gt;</span>    <span class="op">2&gt;</span>  logs</a></code></pre></div>
 <h4 id="using-log4j-config">Using log4j config</h4>
 <p>Spark by default logs at INFO level. While there is a lot of useful information there, it can be quite verbose.</p>
 <p>We have a <code>logging/log4j.properties</code> file. Inspect this file</p>
@@ -115,4 +135,9 @@ log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
 #log4j.logger.x.ProcessFiles=DEBUG</code></pre>
 <p>We provide <code>--driver-class-path logging/</code> to spark-submit to turn off logging</p>
 <p>Here is an example</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> --class <span class="st">&#39;x.ProcessFiles&#39;</span> --master local[*]  --driver-class-path logging/  target/scala-2.11/testapp_2.11-1.0.jar    README.html</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1">    $   <span class="ex">~/spark/bin/spark-submit</span> \</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">         --master local[*] </a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">         <span class="ex">--driver-class-path</span> logging/   \</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">         --class <span class="st">&#39;x.ProcessFiles&#39;</span> \</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">         target/scala-2.11/testapp_2.11-1.0.jar \</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">         README.html</a></code></pre></div>
