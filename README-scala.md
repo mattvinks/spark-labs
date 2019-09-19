@@ -74,7 +74,7 @@ The VMs already have data loaded.  This for your own reference.
 
 
 ### 6 - MLLib
-- [6.1 - Kmeans](06-mllib/kmeans/README.md)
+- [6.1 - Kmeans](06-mllib/kmeans/kmeans-scala.md)
 - [6.2 - Recommendations](06-mllib/recs/README.md)
 - [6.3 - Classification](06-mllib/classification/README.md)
 

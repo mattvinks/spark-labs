@@ -1,0 +1,10 @@
+- fix logging path in 8.1 TCP
+
+- kafka streaming labs, kafka install instruction is wrong
+
+	cd 
+	wget https://elephantscale-public.s3.amazonaws.com/downloads/kafka_2.11-2.3.0.tgz
+	tar xvf kafka_2.11-2.3.0.tgz
+	mv kafka_2.11-2.3.0  kafka
+
+
