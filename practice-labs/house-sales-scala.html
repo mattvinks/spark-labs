@@ -21,9 +21,22 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">house_sales.<span class="fu">printSchema</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">house_sales.<span class="fu">show</span></a></code></pre></div>
+<h2 id="step-3-check-schema">Step 3: Check Schema</h2>
+<ul>
+<li>Inspect the output from printSchema above.<br />
+</li>
+<li>Are the numbers columns <code>SalePrice, Bedrooms, Bathrooms, SqFtTotLiving, SqFtLot, YrBuilt</code> properly inferred as numbers?</li>
+<li>If they are read in as Strings, we need to fix it first.</li>
+</ul>
+<h3 id="option-1-cast-these-as-numbers">Option 1 : Cast these as Numbers</h3>
+<p>Do some searching around to find the answer :-)</p>
+<h3 id="option-2-supply-your-own-schema">Option 2 : Supply your own schema</h3>
+<p>In the <a href="../04-dataframe/4.3-dataset-scala.html">4.3 Dataset lab, Step-4</a> you will an example of supplying our own schema.</p>
+<p>Come up with a schema for house sales data</p>
+<h2 id="step-4-register-as-sql-table">Step 4: Register as SQL table</h2>
 <p>Register as temptable for SQL queries</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1">house_sales.<span class="fu">createOrReplaceTempView</span>(<span class="st">&quot;house_sales&quot;</span>)</a></code></pre></div>
-<h2 id="step-3-calculate-sale-numbers-per-bedrooms">Step 3: Calculate sale numbers per bedrooms</h2>
+<h2 id="step-5-calculate-sale-numbers-per-bedrooms">Step 5: Calculate sale numbers per bedrooms</h2>
 <p>sample output (not actual numbers)</p>
 <pre><code>    bedrooms    count
         1        100
@@ -31,9 +44,9 @@
         3        200</code></pre>
 <p>Hint 1 : <code>groupby</code><br />
 Hint 2 : or use SQL :-)</p>
-<h2 id="step-4-get-a-sense-of-data">Step 4: Get a ‘sense’ of data</h2>
+<h2 id="step-6-get-a-sense-of-data">Step 6: Get a ‘sense’ of data</h2>
 <p>We use <code>describe</code></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb5-1" data-line-number="1">house_sales.<span class="fu">describe</span>(<span class="st">&quot;SalePrice&quot;</span>, <span class="st">&quot;Bedrooms&quot;</span>).<span class="fu">show</span>()</a></code></pre></div>
-<h2 id="step-5-find-prices-per-bedrooms">Step 5 : Find prices per bedrooms</h2>
+<h2 id="step-7-find-prices-per-bedrooms">Step 7 : Find prices per bedrooms</h2>
 <p>Find avg, min, max prices for each bedrooms</p>
-<h2 id="step-6-find-the-most-expensive-zip-code">Step 6 : Find the most expensive zip code</h2>
+<h2 id="step-8-find-the-most-expensive-zip-code">Step 8 : Find the most expensive zip code</h2>

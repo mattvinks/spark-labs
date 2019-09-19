@@ -32,6 +32,22 @@ house_sales.printSchema
 house_sales.show
 ```
 
+## Step 3: Check Schema 
+- Inspect the output from printSchema above.  
+- Are the numbers columns `SalePrice, Bedrooms, Bathrooms, SqFtTotLiving, SqFtLot, YrBuilt`  properly inferred as numbers?
+- If they are read in as Strings, we need to fix it first.
+
+### Option 1 : Cast these as Numbers 
+Do some searching around to find the answer :-)
+
+### Option 2 : Supply your own schema 
+In the [4.3 Dataset lab,  Step-4](../04-dataframe/4.3-dataset-scala.md) you will an example of supplying our own schema. 
+
+Come up with a schema for house sales data 
+
+
+## Step 4: Register as SQL table 
+
 Register as temptable for SQL queries  
 
 ```scala
@@ -39,7 +55,7 @@ house_sales.createOrReplaceTempView("house_sales")
 ```
 
 
-## Step 3: Calculate sale numbers per bedrooms
+## Step 5: Calculate sale numbers per bedrooms
 sample output (not actual numbers)
 ```
     bedrooms    count
@@ -51,14 +67,14 @@ sample output (not actual numbers)
 Hint 1  : `groupby`  
 Hint 2  : or use SQL :-)
 
-## Step 4: Get a 'sense' of data
+## Step 6: Get a 'sense' of data
 We use `describe`
 
 ```scala
 house_sales.describe("SalePrice", "Bedrooms").show()
 ```
 
-## Step 5 : Find prices per bedrooms
+## Step 7 : Find prices per bedrooms
 Find avg, min, max prices for each bedrooms
 
-## Step 6 : Find the most expensive zip code
+## Step 8 : Find the most expensive zip code
