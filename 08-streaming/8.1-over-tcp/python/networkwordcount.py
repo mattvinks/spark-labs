@@ -8,7 +8,7 @@ sc = SparkContext("local[2]", "NetworkWordCount")
 ssc = StreamingContext(sc, 10)
 
 ## TODO-1: listen on port 10000, only cache it local memory
-lines = ssc.socketTextStream("localhost", ???)
+lines = ssc.socketTextStream("localhost", 10000)
 lines.pprint()
 
 words = lines.flatMap(lambda x: x.split(" "))

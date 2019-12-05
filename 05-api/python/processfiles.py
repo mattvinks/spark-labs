@@ -17,17 +17,17 @@ if len(sys.argv) < 2:
     sys.exit("need file(s) to load")
 
 ## TODO 1: Give a name
-spark = SparkSession.builder.appName("Process Files -- MYNAME").getOrCreate()
+spark = SparkSession.builder.appName("Process Files -- Matt").getOrCreate()
 
 for file in sys.argv[1:]:
     ## TODO-2 : read a file as dataset
     ## hint : spark.read.text(file)
-    #f = ???(file)
+    f = spark.read.text(file)
 
     t1 = time.perf_counter()
     ## TODO-3 : Count the number of lines
     ## Hint : count
-    count = f.???()
+    count = f.count()
     t2 = time.perf_counter()
 
     print("### {}: count:  {} ,  time took:  {:,.2f} ms".format(file, count, (t2-t1)*1000))

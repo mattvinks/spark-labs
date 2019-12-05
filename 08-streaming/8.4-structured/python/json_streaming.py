@@ -10,7 +10,7 @@ spark = SparkSession \
 # Set loglevel to Error
 spark.sparkContext.setLogLevel("ERROR")
 
-"""
+
 # TODO-1 :	
 sample_data = spark.read.json("file:///data/click-stream/clickstream.json")
 sample_data.printSchema()
@@ -18,9 +18,9 @@ sample_data.printSchema()
 schema = sample_data.schema
 print("ClickStream sample schema is : " , schema)	
 # ----- end-TODO-1
-"""
 
-"""
+
+
 # TODO-2 :
 click_stream = spark.readStream.schema(schema).option("inferSchema", "true").json("../json-input/")
 query = click_stream \
@@ -29,7 +29,7 @@ query = click_stream \
     .format("console") \
     .start()
 # ----- end-TODO-2
-"""
+
 
 """
 # TODO-3 :
